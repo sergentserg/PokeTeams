@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>PokeTeams</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top">
+      <a href="#" class="navbar-brand">PokeTeams</a>
+      <button
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="navbarNav" class="navbar-collapse collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="#" class="nav-link">About</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+              <i class="far fa-user-circle"></i> Jose
+            </a>
+            <div class="dropdown-menu">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-user"></i> Profile
+              </a>
+              <a href="login.html" class="dropdown-item"
+                ><i class="fas fa-sign-out-alt"></i> Logout</a
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- <div class="row">
+      <div class="col-md-2">
+        <aside class="bg-danger">
+          <a href="pokedex.html">Pokedex</a>
+          <a href="moves.html">Moves</a>
+          <a href="items.html">Items</a>
+          <a href="teams.html">Teams</a>
+        </aside>
+      </div>
+      <div class="col-md-10">
+        <h3>Pokedex</h3>
+      </div>
+    </div> -->
+    <aside id="pkSidenav" class="side-nav bg-secondary text-white">
+      <div id="shrinkSideIcons" class="px-2">
+        <a href="javascript:void(0)" id="shrinkBtn" onclick="shrinkSidenav()"
+          >&#60;</a
+        >
+        <a href="javascript:void(0)" id="expandBtn" onclick="openSidenav()"
+          >&#62;</a
+        >
+      </div>
+
+      <a class="my-4 d-flex align-items-center" href="pokedex.html"
+        ><i class="fas fa-book"></i>
+        <span class="ml-3 side-menu-text">Pokedex</span>
+      </a>
+      <a class="my-4 d-flex align-items-center" href="moves.html"
+        ><i class="fas fa-book"></i>
+        <span class="ml-3 side-menu-text">Moves</span></a
+      >
+      <a class="my-4 d-flex align-items-center" href="items.html"
+        ><i class="fas fa-book"></i>
+        <span class="ml-3 side-menu-text">Items</span></a
+      >
+      <a class="my-4 d-flex align-items-center" href="teams.html"
+        ><i class="fas fa-book"></i>
+        <span class="ml-3 side-menu-text">Teams</span></a
+      >
+    </aside>
+
+    <div id="main">
+      <h3>Pokedex</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
+        laborum quos quibusdam labore minus voluptates repellat neque rem harum
+        saepe numquam debitis magnam, architecto beatae esse in cumque omnis
+        laboriosam sequi voluptatem voluptatibus! Repudiandae voluptates natus
+        minus temporibus culpa possimus iusto ducimus dolorem, reprehenderit
+        fuga quo facilis quos fugit ab cumque modi alias, qui incidunt, cum
+        pariatur dolores! Aliquid officia animi labore cupiditate non, a totam
+        sequi est quos voluptate numquam dolor perspiciatis magni deserunt
+        doloremque alias eveniet. Odit facere dignissimos dolore adipisci ipsam
+        quos aut commodi id nemo deserunt possimus iure corrupti laboriosam ab
+        cum quam numquam, voluptatibus eaque quo excepturi officia! Assumenda
+        quaerat aspernatur maiores ipsum, dolore corporis pariatur repudiandae
+        laborum nulla fugit eligendi unde esse, enim dicta necessitatibus
+        provident porro debitis eos placeat repellendus? Doloribus voluptatibus
+        provident repellendus, earum, illum nobis expedita praesentium sit
+        asperiores dicta quasi, non ad quaerat? Soluta sapiente, veritatis
+        assumenda tempore, corrupti quo fugit animi natus iste aperiam in neque
+        quia numquam alias illum ratione. Unde ipsa similique, id numquam nobis
+        ducimus voluptatum voluptatibus doloremque enim. Id nesciunt alias,
+        corporis molestiae laboriosam laudantium velit delectus consectetur
+        accusantium quo eveniet harum! Placeat quisquam autem in quas debitis
+        eveniet iusto, corrupti, quae molestias amet neque, odio aperiam ab quia
+        esse cupiditate consectetur excepturi illum culpa? Doloribus provident
+        inventore dolorum at placeat praesentium recusandae laborum sint,
+        distinctio dolor rem molestias pariatur. Nobis debitis impedit quam
+        perferendis, fugiat quidem vel tempore ut laudantium? Sapiente repellat
+        vel quam dolores alias voluptas odit nesciunt aut quos porro
+        reprehenderit officia ullam minima blanditiis cupiditate deleniti
+        incidunt, quod doloribus non tempore qui nam deserunt eos. Non officiis
+        beatae totam rerum quidem nam, cumque tempora, commodi quibusdam eius
+        assumenda animi provident excepturi, eveniet sunt reiciendis accusantium
+        officia consectetur facere maiores quam error mollitia dignissimos? Ut
+        quaerat, quae dignissimos autem debitis corporis ipsum tempore eos
+        voluptatem doloremque iusto rerum similique necessitatibus error quam
+        provident. Repellendus vel velit ab quos id recusandae blanditiis ipsam
+        optio dolore error? Labore, sit ex ab atque assumenda error nostrum, eos
+        hic cum quam, illo est eveniet perspiciatis nisi velit quod reiciendis!
+        Sapiente quisquam eligendi, tempora accusamus molestiae in consequuntur
+        porro quos eum inventore! Dolore optio asperiores id, iure explicabo
+        maiores rerum! Cum alias animi enim fugiat rerum nemo adipisci quis aut
+        sapiente vel, aperiam voluptatum obcaecati est quibusdam ea omnis
+        tenetur libero doloremque unde quod natus magnam. Aliquid fugit amet
+        temporibus nam est maxime voluptas, nesciunt laboriosam deleniti,
+        assumenda aliquam necessitatibus et earum molestiae voluptates
+        consectetur magni delectus, voluptatibus quae iste odit sapiente dolor
+        nihil. Repellendus porro tempore pariatur ipsam esse velit, fugit
+        assumenda saepe commodi voluptas quidem iusto impedit quasi magni totam
+        nemo libero nostrum beatae expedita! Doloribus minima ut neque, a magni
+        tempore cupiditate enim, iure dolor quam explicabo perferendis ullam
+        quibusdam nisi, soluta reprehenderit inventore illo est? Labore maiores
+        deleniti laudantium possimus doloribus, quasi, sint omnis vitae laborum
+        distinctio quaerat eligendi officia voluptatum. Excepturi magni eum a
+        soluta, odit blanditiis quod tenetur accusamus alias ipsum aut id
+        similique, dignissimos quaerat aliquid ex recusandae perspiciatis
+        aspernatur nemo. Voluptatem quisquam quo vero temporibus cum odit nobis
+        animi suscipit doloribus, maxime officia, officiis explicabo aut
+        doloremque esse debitis libero! Nostrum commodi eligendi impedit at
+        magni ratione! Unde sint hic tenetur illum molestias eligendi dolorem
+        non asperiores esse consequuntur enim quis magnam quibusdam saepe, earum
+        dolorum perferendis quam vero tempore distinctio laboriosam delectus,
+        culpa modi doloribus. Magnam, deserunt? Debitis asperiores ipsa officia
+        veritatis necessitatibus perspiciatis vitae eaque temporibus nesciunt.
+        Doloribus blanditiis, laboriosam praesentium architecto magnam impedit
+        est voluptatum consectetur quis ad eaque labore ipsam vel, id nihil
+        illum! Eos deleniti in asperiores a dolores laudantium, modi minus sed
+        omnis?
+      </p>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/a465367bb1.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/script.js"></script>
+  </body>
+</html>
