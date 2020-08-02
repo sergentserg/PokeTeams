@@ -1,3 +1,33 @@
 .bg-primary-pk {
   background-color: $primary-color;
 }
+
+.current {
+  background: #000;
+}
+
+.side-nav {
+  height: 100%;
+  position: fixed;
+  left: 0;
+
+  a:hover {
+    background: #000;
+  }
+
+  .shrink-side-icons {
+    display: none;
+
+    & ~ a {
+      padding: 0 4rem;
+    }
+  }
+}
+
+.main-content {
+  margin-left: 14.5625rem;
+  padding: 1rem;
+  margin-top: 3.5rem;
+  overflow: auto;
+  max-height: 100vh;
+}

@@ -1,5 +1,15 @@
+/* ========================================================================== */
+/* IMPORTS */
+/* ========================================================================== */
 @import "variables";
 @import "utilities";
+
+/* ========================================================================== */
+/* Global Styling */
+/* ========================================================================== */
+body {
+  overflow: hidden;
+}
 
 a {
   color: inherit;
@@ -11,39 +21,9 @@ a {
   }
 }
 
-body {
-  overflow: hidden;
-}
-
-#shrinkSideIcons {
-  display: none;
-
-  & ~ a {
-    padding: 0 4rem;
-  }
-}
-
-.side-nav {
-  height: 100%;
-  position: fixed;
-  left: 0;
-  // overflow-x: hidden;
-
-  a {
-    .side-menu-text {
-      line-height: 1rem;
-    }
-  }
-}
-
-#main {
-  margin-left: 13.575rem;
-  padding: 1rem;
-  margin-top: 3.5rem;
-  overflow: auto;
-  max-height: 100vh;
-}
-
+/* ========================================================================== */
+/* Login Page */
+/* ========================================================================== */
 #login {
   background: $primary-color;
   height: 100vh;
@@ -54,39 +34,52 @@ body {
   }
 }
 
+/* ========================================================================== */
+/* Pokedex Page */
+/* ========================================================================== */
+// #pokedex {
+// }
+
+/* -------------------------------------------------------------------------- */
+/* MEDIA QUERIES */
+/* -------------------------------------------------------------------------- */
 @media (max-width: 576px) {
   .side-nav {
     z-index: 1;
     transition: width 0.5s;
-  }
 
-  #shrinkSideIcons {
-    display: flex;
-    flex-direction: column;
+    .shrink-side-icons {
+      display: flex;
+      flex-direction: column;
 
-    #shrinkBtn {
-      align-self: flex-end;
-      font-size: 1.5rem;
-      display: none;
+      .shrink-btn {
+        align-self: flex-end;
+        font-size: 1.5rem;
+        display: none;
+      }
+
+      .expand-btn {
+        margin: auto;
+        font-size: 1.5rem;
+      }
+
+      & ~ a {
+        font-size: 1.25rem;
+        padding: 0 1rem;
+
+        img {
+          height: 36px;
+        }
+
+        .side-menu-text {
+          display: none;
+        }
+      }
     }
-
-    #expandBtn {
-      margin: auto;
-      font-size: 1.5rem;
-    }
   }
 
-  #shrinkSideIcons ~ a {
-    font-size: 1.5rem;
-    padding: 0 1rem;
-  }
-
-  #main {
-    margin-left: 3.3125rem;
+  .main-content {
+    margin-left: 4.25rem;
     transition: all 0.5s;
-  }
-
-  .side-menu-text {
-    display: none;
   }
 }

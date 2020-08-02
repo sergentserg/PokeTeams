@@ -1,10 +1,11 @@
 shrinkSidenav = () => {
-  const shrinkBtn = document.getElementById("shrinkBtn");
-  const expandBtn = document.getElementById("expandBtn");
-  const pkSidenav = document.getElementById("pkSidenav");
-  const mainPage = document.getElementById("main");
+  const shrinkBtn = document.querySelector(".shrink-btn");
+  const expandBtn = document.querySelector(".expand-btn");
+  // const pkSidenav = document.querySelector(".side-nav");
+  const sideNavText = document.querySelectorAll(".side-menu-text");
+  const mainPage = document.querySelector(".main-content");
 
-  document.querySelectorAll(".side-menu-text").forEach((text) => {
+  sideNavText.forEach((text) => {
     text.style.display = "none";
   });
 
@@ -12,17 +13,18 @@ shrinkSidenav = () => {
   // mainPage.style.marginLeft = "15vw";
   shrinkBtn.style.display = "none";
   expandBtn.style.display = "inline";
-  // document.querySelector("#main").style.backgroundColor = "rgba(0,0,0,0)";
-  document.querySelector("#main").style.opacity = "1";
+  // mainPage.style.backgroundColor = "rgba(0,0,0,0)";
+  mainPage.style.opacity = "1";
 };
 
 openSidenav = () => {
-  const shrinkBtn = document.getElementById("shrinkBtn");
-  const expandBtn = document.getElementById("expandBtn");
-  const pkSidenav = document.getElementById("pkSidenav");
-  const mainPage = document.getElementById("main");
+  const shrinkBtn = document.querySelector(".shrink-btn");
+  const expandBtn = document.querySelector(".expand-btn");
+  // const pkSidenav = document.querySelector(".side-nav");
+  const sideNavText = document.querySelectorAll(".side-menu-text");
+  const mainPage = document.querySelector(".main-content");
 
-  document.querySelectorAll(".side-menu-text").forEach((text) => {
+  sideNavText.forEach((text) => {
     text.style.display = "inline";
   });
 
@@ -30,6 +32,6 @@ openSidenav = () => {
   // mainPage.style.marginLeft = "40vw";
   shrinkBtn.style.display = "inline";
   expandBtn.style.display = "none";
-  // document.querySelector("#main").style.backgroundColor = "rgba(0,0,0,0.1)";
-  document.querySelector("#main").style.opacity = "0.2";
+  // mainPage.style.backgroundColor = "rgba(0,0,0,0.1)";
+  mainPage.style.opacity = "0.2";
 };
