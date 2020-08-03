@@ -25,6 +25,18 @@
   overflow: auto;
   max-height: 100vh; }
 
+.type-grass {
+  padding: 0.25rem 0.5rem;
+  color: #fff;
+  background: limegreen;
+  border-radius: 10px; }
+
+.type-poison {
+  padding: 0.25rem 0.5rem;
+  color: #fff;
+  background: purple;
+  border-radius: 10px; }
+
 /* ========================================================================== */
 /* Global Styling */
 /* ========================================================================== */
@@ -51,6 +63,19 @@ a {
 /* ========================================================================== */
 /* Pokedex Page */
 /* ========================================================================== */
+#pokedex #pokeSearchResults {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 1rem; }
+  #pokedex #pokeSearchResults .pokemon-card {
+    border-radius: 0.25rem; }
+    #pokedex #pokeSearchResults .pokemon-card .poke-img {
+      position: relative; }
+      #pokedex #pokeSearchResults .pokemon-card .poke-img .poke-card-buttons {
+        position: absolute;
+        width: 100%;
+        bottom: 0; }
+
 /* -------------------------------------------------------------------------- */
 /* MEDIA QUERIES */
 /* -------------------------------------------------------------------------- */
@@ -77,4 +102,6 @@ a {
           display: none; }
   .main-content {
     margin-left: 4.25rem;
-    transition: all 0.5s; } }
+    transition: all 0.5s; }
+  #pokedex #pokeSearchResults {
+    grid-template-columns: 1fr; } }

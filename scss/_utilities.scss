@@ -31,3 +31,19 @@
   overflow: auto;
   max-height: 100vh;
 }
+
+.type {
+  &-grass {
+    padding: 0.25rem 0.5rem;
+    color: #fff;
+    background: limegreen;
+    border-radius: 10px;
+  }
+
+  &-poison {
+    padding: 0.25rem 0.5rem;
+    color: #fff;
+    background: purple;
+    border-radius: 10px;
+  }
+}
