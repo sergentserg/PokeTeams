@@ -71,7 +71,7 @@ nav .dropdown-menu {
     #pokedex #pokeSearchResults .pokemon-card .poke-img {
       position: relative; }
       #pokedex #pokeSearchResults .pokemon-card .poke-img img {
-        width: 100px; }
+        height: 100px; }
       #pokedex #pokeSearchResults .pokemon-card .poke-img .poke-card-buttons {
         position: absolute;
         width: 100%;

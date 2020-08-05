@@ -5,7 +5,12 @@
 
 const MAX_DEX_ID = 807;
 const POKE_PER_PAGE = 20;
+const PAGINATION_LIMIT = 5;
 window.addEventListener("load", (e) => {
+  // Clear current results from session storage.
+  if (sessionStorage.getItem("currentResults")) {
+    sessionStorage.removeItem("currentResults");
+  }
   // Do not request again on refresh; save result once to storage.
   if (!localStorage.getItem("allPokemon")) {
     getAsync(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_DEX_ID}`).then(
@@ -15,7 +20,7 @@ window.addEventListener("load", (e) => {
         for (let i = 0; i < POKE_PER_PAGE; i++) {
           displayPokemonCard(allPokemon.results[i]);
         }
-        // Display the pagination.
+        // Display the pagination, starting at page 1.
         createPagination(allPokemon.results);
       }
     );
@@ -106,10 +111,7 @@ const displayPokemonCard = (pokemon) => {
       class="poke-img d-flex justify-content-center align-content-center py-4"
     >
       <img
-        src="https://pokeres.bastionbot.org/images/pokemon/${parseInt(
-          pokemon.dexID
-        )}.png"
-        alt="${pokemon.name}"
+        src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemon.dexID}.png"
       />
       <div class="poke-card-buttons d-flex justify-content-between">
         <button class="btn poke-add-btn">
@@ -128,118 +130,197 @@ const displayPokemonCard = (pokemon) => {
   </div>`;
 };
 
-// If numberPages == 1, pagination is not needed
-const createPagination = (results) => {
-  // Calculate total number of pages needed
-  const numberPages = Math.ceil(results.length / POKE_PER_PAGE);
-
+// If totalPages == 1, pagination is not needed
+// Default active page is page 1
+const createPagination = (
+  results,
+  newFirstPageNum = 1,
+  newActivePageNum = 1
+) => {
+  // --------------------------- RESET PAGINATION ------------------------------------
   // Pagination ul element.
   const pagination = document.querySelector(".pagination");
-  const firstBtn = pagination.firstElementChild;
-  const lastBtn = pagination.lastElementChild;
-  const prevBtn = firstBtn.nextElementSibling;
-  const nextBtn = lastBtn.previousElementSibling;
+  const firstLi = pagination.firstElementChild;
+  const lastLi = pagination.lastElementChild;
+  const prevLi = firstLi.nextElementSibling;
+  const nextLi = lastLi.previousElementSibling;
 
-  // Show only next and previous.
-  // while (
-  //   pagination.firstElementChild.nextElementSibling !==
-  //   pagination.lastElementChild
-  // ) {
-  //   pagination.firstElementChild.nextElementSibling.remove();
-  // }
-  while (prevBtn.nextElementSibling !== nextBtn) {
-    prevBtn.nextElementSibling.remove();
+  while (prevLi.nextElementSibling !== nextLi) {
+    prevLi.nextElementSibling.remove();
   }
 
+  // ----------------------------- CREATE PAGINATION ELEMENTS ------------------------
+  // Calculate total number of pages needed
+  const totalPages = Math.ceil(results.length / POKE_PER_PAGE);
   if (results.length <= POKE_PER_PAGE) {
-    firstBtn.classList.add("disabled");
-    lastBtn.classList.remove("disabled");
     pagination.parentElement.classList.add("d-none");
   } else {
     // Display up to 5 page links in pagination.
-    for (let pageNum = 1; pageNum <= Math.min(numberPages, 5); pageNum++) {
+    for (
+      let offset = 0;
+      offset < Math.min(totalPages, PAGINATION_LIMIT);
+      offset++
+    ) {
       // Create the pagination element.
       const li = document.createElement("li");
-      li.classList.add("page-item", `pagination-${pageNum}`);
-      li.innerHTML = `<button href="#" class="page-link">${pageNum}</button>`;
+      // i.e. 1+0, 1+1 ... 1+4  OR  37+0, 37+1 ... 37+4
+      li.classList.add("page-item");
+      li.setAttribute(`data-page-num`, `${newFirstPageNum + offset}`);
+      li.innerHTML = `<button href="#" class="page-link">${
+        newFirstPageNum + offset
+      }</button>`;
 
       // Insert it before next.
-      pagination.insertBefore(li, nextBtn);
+      pagination.insertBefore(li, nextLi);
     }
 
-    pagination.children[2].classList.add("active");
-    pagination.children[2].style.pointerEvents = "none";
+    // ------------------------------------- ACTIVE --------------------------------------
+    // Make active li unclickable.
+    const allPageLis = Array.from(
+      document.querySelectorAll(`[data-page-num="${newActivePageNum}"]`)
+    );
+    const activeLi = allPageLis.filter(
+      (li) => li.getAttribute("data-page-num") === `${newActivePageNum}`
+    )[0];
+    activeLi.classList.add("active");
+    activeLi.style.pointerEvents = "none";
 
-    // Display the elipsis.
-    if (numberPages > 5) {
-      // Create the pagination element.
+    // Active Page is in between 1 and LAST
+    if (newActivePageNum > 1 && newActivePageNum < totalPages) {
+      firstLi.classList.remove("disabled");
+      prevLi.classList.remove("disabled");
+      nextLi.classList.remove("disabled");
+      lastLi.classList.remove("disabled");
+    } else if (newActivePageNum === 1) {
+      firstLi.classList.add("disabled");
+      prevLi.classList.add("disabled");
+      nextLi.classList.remove("disabled");
+      lastLi.classList.remove("disabled");
+    } else if (newActivePageNum === totalPages) {
+      firstLi.classList.remove("disabled");
+      prevLi.classList.remove("disabled");
+      nextLi.classList.add("disabled");
+      lastLi.classList.add("disabled");
+    }
+
+    // ------------------------------ DISPLAY ELLIPSIS -------------------------------------
+    // Need at least 5 pages for ellipses.
+    if (totalPages > PAGINATION_LIMIT) {
+      // Create ellipses element.
       const li = document.createElement("li");
-      li.classList.add("page-item", "pagination-ellipsis", "disabled");
+      li.classList.add("page-item", "disabled");
+      li.setAttribute("data-page-num", "ellipsis");
       li.innerHTML = `<button href="#" class="page-link">...</button>`;
 
-      // Insert it before next.
-      pagination.insertBefore(li, nextBtn);
+      // Ellipsis on the left.
+      if (totalPages - newFirstPageNum < PAGINATION_LIMIT) {
+        const newFirstPageLi = prevLi.nextElementSibling;
+        pagination.insertBefore(li, newFirstPageLi);
+      } else {
+        // Ellipsis on right.
+        pagination.insertBefore(li, nextLi);
+      }
     }
-
-    // Add event listeners for all.
-    // console.log(Array.from(pagination.children));
-    Array.from(pagination.children).forEach((li) => {
-      li.firstElementChild.addEventListener("click", displayNewPage);
-    });
 
     // Display it in the UI.
     pagination.parentElement.classList.remove("d-none");
+
+    // Add event listeners for all.
+    Array.from(pagination.children).forEach((li) => {
+      li.firstElementChild.addEventListener("click", displayNewPage);
+    });
   }
 };
 
 const displayNewPage = (event) => {
   console.log(event.target.innerHTML);
+  updatePagination(event);
+  const results = getResultsArray();
+  // Clean out old Search results
+  const resultsContainer = document.querySelector("#pokeSearchResults");
+  while (resultsContainer.firstElementChild) {
+    resultsContainer.firstElementChild.remove();
+  }
+
+  const activePageNum = parseInt(
+    document.querySelector(".pagination .active button").innerHTML
+  );
+  const offset = POKE_PER_PAGE * (activePageNum - 1);
+  // Display filtered Pokemon cards.
+  for (
+    let i = offset;
+    i < Math.min(results.length, offset + POKE_PER_PAGE);
+    i++
+  ) {
+    displayPokemonCard(results[i]);
+  }
+};
+
+const getResultsArray = () => {
+  const currentResults = JSON.parse(sessionStorage.getItem("currentResults"));
+  // pokemonData is the entire pokedex array or a filtered array.
+  if (currentResults) {
+    // Compute totalPages and pokemonData from current results
+    return currentResults.results;
+  } else {
+    // Compute totalPages and pokemonData from original results
+    return JSON.parse(localStorage.getItem("allPokemon")).results;
+  }
 };
 
 const updatePagination = (event) => {
-  const buttonContent = event.target.innerHTML;
-  // First ; Prev ; an integer ; Next ; Last
+  const buttonClickText = event.target.innerHTML;
 
-  // First ; recreate the pagination
+  // pokemonData is the entire pokedex array or a filtered array.
+  const pokemonData = getResultsArray();
+  const totalPages = Math.ceil(pokemonData.length / POKE_PER_PAGE);
 
-  // Last
-  // assume totalPageNum > 5
-  // create ..., then create pageNum - 4, pageNum - 3, pageNum - 2, pageNum - 1, [pageNum]
-  // if less than or equal to 5
-  // just create as usual, but make last page the current page. 1 2 3 4 [5]
-
-  // Next
-  // Cases of distance
-  // Case 1: 5 pages or less: [1] 2 3 4 5 -> 1 [2] 3 4 5
-  // Case 2: 6 pages exactly: [1] 2 3 4 5 ... -> ... [2] 3 4 5 6
-  // Case 3: more than 6 pages: [1] 2 3 4 5 ... ->  [2] 3 4 5 6 ...
-  // totalPageNum - currentPageNum < 5 -> just move active element by 1
-  // totalPageNum - currentPageNum === 5 -> move ellipses to front
-  // totalPageNum - currentPageNum >=  5 -> offset integers by 1.
-
-  // Prev
-  // Cases of distance
-  // Case 1: 5 pages or less: 1 2 3 4 [5] -> 1 2 3 [4] 5
-  // Case 2: 6 pages exactly: ... [2] 3 4 5 6 -> ... 2 3 4 5 6
-  // Case 3: More than 6 pages: [2] 3 4 5 6 ... -> [1] 2 3 4 5 ...
-
-  // Case 1: 1 2 3 4 [5] -> 1 2 3 [4] 5 OR   ... 2 [3] 4 5 6 -> ... [2] 3 4 5 6
-  // (totalPageNum - currentPageNum) < (5-1) -> just move active element by 1
-  // Case 2: ... [2] 3 4 5 6 -> [1] 2 3 4 5 ...
-  // (totalPageNum - currentPageNum) === (5-1) -> move ellipses to end
-  // Case 3: More than 6 pages: [10] 11 12 13 14 ... -> [9] 10 11 12 13 ...
-  // (totalPageNum - currentPageNum) >= (5-1) -> offset integers by -1
-
-  //  [45] 46 48 49 50 ...
-
-  // if(< 5) {
-
-  // } else {
-  //   if (=== 5){
-  //     // shift ellipses
-  //   }
-  //   // offset.
-  // }
+  // Determine updated values for the active page number, and the new first in the pagination.
+  let newFirstPageNum = 1,
+    newActivePageNum = 1;
+  if (buttonClickText == "Last") {
+    // More than 5 pages? Start at offset, otherwise Start at 1
+    newFirstPageNum =
+      totalPages > PAGINATION_LIMIT ? totalPages - (PAGINATION_LIMIT - 1) : 1;
+    newActivePageNum = totalPages;
+  } else if (buttonClickText === "&gt;&gt;") {
+    // (Next >>)
+    const currentPageNum = parseInt(
+      document.querySelector(".pagination .active button").innerHTML
+    );
+    if (totalPages > PAGINATION_LIMIT) {
+      if (totalPages - currentPageNum < PAGINATION_LIMIT) {
+        newFirstPageNum = totalPages - (PAGINATION_LIMIT - 1);
+      } else {
+        newFirstPageNum = currentPageNum + 1;
+      }
+    }
+    newActivePageNum = currentPageNum + 1;
+  } else if (buttonClickText === "&lt;&lt;") {
+    const currentPageNum = parseInt(
+      document.querySelector(".pagination .active button").innerHTML
+    );
+    if (totalPages > PAGINATION_LIMIT) {
+      if (totalPages - currentPageNum < PAGINATION_LIMIT - 1) {
+        newFirstPageNum = totalPages - (PAGINATION_LIMIT - 1);
+      } else {
+        newFirstPageNum = currentPageNum - 1;
+      }
+    }
+    newActivePageNum = currentPageNum - 1;
+  } else if (!isNaN(buttonClickText)) {
+    // Clicked number in pagination.
+    newActivePageNum = parseInt(buttonClickText);
+    if (totalPages > PAGINATION_LIMIT) {
+      if (totalPages - newActivePageNum < PAGINATION_LIMIT) {
+        newFirstPageNum = totalPages - (PAGINATION_LIMIT - 1);
+      } else {
+        newFirstPageNum = newActivePageNum;
+      }
+    }
+  }
+  // Re-create pagination with defined parameters
+  createPagination(pokemonData, newFirstPageNum, newActivePageNum);
 };
 
 const getPokemon = (pokemon) => {
