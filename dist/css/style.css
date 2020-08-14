@@ -7,6 +7,12 @@
 .current {
   background: #000; }
 
+.view-item {
+  background-color: #dfe5eb; }
+
+.flex-even {
+  flex: 1; }
+
 .side-nav {
   height: 100%;
   position: fixed;
@@ -24,21 +30,77 @@
   margin-top: 3.5rem;
   max-height: 100vh; }
 
-.type-grass {
-  padding: 0.25rem 0.5rem;
+.filter-list {
+  position: absolute; }
+
+.type-normal, .type-fire, .type-fighting, .type-water, .type-flying, .type-grass, .type-poison, .type-electric, .type-ground, .type-psychic, .type-rock, .type-ice, .type-bug, .type-dragon, .type-ghost, .type-dark, .type-steel, .type-fairy {
+  padding: 0.5rem 1.5rem;
   color: #fff;
-  background: limegreen;
-  border-radius: 10px; }
+  border-radius: 10px;
+  line-height: 1;
+  width: 5rem;
+  text-align: center; }
+
+.type-normal {
+  background: #a8a878; }
+
+.type-fire {
+  background: #f08030; }
+
+.type-fighting {
+  background: #c03028; }
+
+.type-water {
+  background: #6890f0; }
+
+.type-flying {
+  background: #a890f0; }
+
+.type-grass {
+  background: #78c850; }
 
 .type-poison {
-  padding: 0.25rem 0.5rem;
-  color: #fff;
-  background: purple;
-  border-radius: 10px; }
+  background: #a040a0; }
+
+.type-electric {
+  background: #f8d030; }
+
+.type-ground {
+  background: #e0c068; }
+
+.type-psychic {
+  background: #f85888; }
+
+.type-rock {
+  background: #b8a038; }
+
+.type-ice {
+  background: #98d8d8; }
+
+.type-bug {
+  background: #a8b820; }
+
+.type-dragon {
+  background: #7038f8; }
+
+.type-ghost {
+  background: #705898; }
+
+.type-dark {
+  background: #705848; }
+
+.type-steel {
+  background: #b8b8d0; }
+
+.type-fairy {
+  background: #ee99ac; }
 
 /* ========================================================================== */
 /* Global Styling */
 /* ========================================================================== */
+* {
+  box-sizing: border-box; }
+
 a {
   color: inherit;
   text-decoration: none; }
@@ -84,9 +146,61 @@ nav .dropdown-menu {
     #pokedex #pokeSearchResults .pokemon-card .poke-details-btn i {
       font-size: 0.75rem; }
 
+/* ========================================================================== */
+/* Pokemon Details */
+/* ========================================================================== */
+#pokemonDetails #detailsBio .details-card i {
+  font-size: 1.5rem; }
+
+#pokemonDetails #detailsBio .details-card img {
+  width: 215px; }
+
+#pokemonDetails #detailsBio #detailsAccordion #stats .progress {
+  height: 1.5rem; }
+
+#pokemonDetails #detailsBio #detailsAccordion #stats .stat-hp {
+  transition: all 0.5s; }
+  #pokemonDetails #detailsBio #detailsAccordion #stats .stat-hp:hover {
+    background-color: rgba(255, 0, 0, 0.75); }
+
+#pokemonDetails #detailsBio #detailsAccordion #stats .stat-atk {
+  transition: all 0.5s; }
+  #pokemonDetails #detailsBio #detailsAccordion #stats .stat-atk:hover {
+    background-color: rgba(255, 166, 0, 0.75); }
+
+#pokemonDetails #detailsBio #detailsAccordion #stats .stat-def {
+  transition: all 0.5s; }
+  #pokemonDetails #detailsBio #detailsAccordion #stats .stat-def:hover {
+    background-color: rgba(0, 184, 6, 0.564); }
+
+#pokemonDetails #detailsBio #detailsAccordion #stats .stat-spatk {
+  transition: all 0.5s; }
+  #pokemonDetails #detailsBio #detailsAccordion #stats .stat-spatk:hover {
+    background-color: rgba(128, 0, 128, 0.75); }
+
+#pokemonDetails #detailsBio #detailsAccordion #stats .stat-spdef {
+  transition: all 0.5s; }
+  #pokemonDetails #detailsBio #detailsAccordion #stats .stat-spdef:hover {
+    background-color: rgba(250, 128, 114, 0.75); }
+
+#pokemonDetails #detailsBio #detailsAccordion #stats .stat-spd {
+  transition: all 0.5s; }
+  #pokemonDetails #detailsBio #detailsAccordion #stats .stat-spd:hover {
+    background-color: rgba(7, 203, 224, 0.714); }
+
+#pokemonDetails #detailsBio #detailsAccordion #abilities .view-item {
+  background: white; }
+
+#pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye, #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye-slash {
+  display: none; }
+
 /* -------------------------------------------------------------------------- */
 /* MEDIA QUERIES */
 /* -------------------------------------------------------------------------- */
+@media (max-height: 768px) {
+  #pokedex #pokeSearchResults {
+    grid-template-columns: repeat(4, 1fr); } }
+
 @media (max-width: 576px) {
   .side-nav {
     z-index: 1;
@@ -104,12 +218,15 @@ nav .dropdown-menu {
       .side-nav .shrink-side-icons ~ a {
         font-size: 1.25rem;
         padding: 0 1rem; }
-        .side-nav .shrink-side-icons ~ a img {
-          height: 36px; }
         .side-nav .shrink-side-icons ~ a .side-menu-text {
           display: none; }
   .main-content {
     margin-left: 4.25rem;
-    transition: all 0.5s; }
+    transition: all 0.5s;
+    padding: 1rem; }
   #pokedex #pokeSearchResults {
-    grid-template-columns: 1fr; } }
+    grid-template-columns: 1fr; }
+  #pokemonDetails #detailsBio #detailsAccordion #abilities .view-item {
+    background-color: #dfe5eb; }
+  #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye, #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye-slash {
+    display: inline; } }

@@ -6,6 +6,14 @@
   background: #000;
 }
 
+.view-item {
+  background-color: #dfe5eb;
+}
+
+.flex-even {
+  flex: 1;
+}
+
 .side-nav {
   height: 100%;
   position: fixed;
@@ -31,18 +39,89 @@
   max-height: 100vh;
 }
 
-.type {
-  &-grass {
-    padding: 0.25rem 0.5rem;
-    color: #fff;
-    background: limegreen;
-    border-radius: 10px;
-  }
+.filter-list {
+  position: absolute;
+}
 
+%type-shared {
+  padding: 0.5rem 1.5rem;
+  color: #fff;
+  border-radius: 10px;
+  line-height: 1;
+  width: 5rem;
+  text-align: center;
+}
+.type {
+  &-normal {
+    @extend %type-shared;
+    background: #a8a878;
+  }
+  &-fire {
+    @extend %type-shared;
+    background: #f08030;
+  }
+  &-fighting {
+    @extend %type-shared;
+    background: #c03028;
+  }
+  &-water {
+    @extend %type-shared;
+    background: #6890f0;
+  }
+  &-flying {
+    @extend %type-shared;
+    background: #a890f0;
+  }
+  &-grass {
+    @extend %type-shared;
+    background: #78c850;
+  }
   &-poison {
-    padding: 0.25rem 0.5rem;
-    color: #fff;
-    background: purple;
-    border-radius: 10px;
+    @extend %type-shared;
+    background: #a040a0;
+  }
+  &-electric {
+    @extend %type-shared;
+    background: #f8d030;
+  }
+  &-ground {
+    @extend %type-shared;
+    background: #e0c068;
+  }
+  &-psychic {
+    @extend %type-shared;
+    background: #f85888;
+  }
+  &-rock {
+    @extend %type-shared;
+    background: #b8a038;
+  }
+  &-ice {
+    @extend %type-shared;
+    background: #98d8d8;
+  }
+  &-bug {
+    @extend %type-shared;
+    background: #a8b820;
+  }
+  &-dragon {
+    @extend %type-shared;
+    background: #7038f8;
+  }
+  &-ghost {
+    @extend %type-shared;
+    background: #705898;
+  }
+  &-dark {
+    @extend %type-shared;
+    background: #705848;
+  }
+  &-steel {
+    @extend %type-shared;
+    background: #b8b8d0;
+  }
+  &-fairy {
+    @extend %type-shared;
+    background: #ee99ac;
   }
 }

@@ -7,6 +7,11 @@
 /* ========================================================================== */
 /* Global Styling */
 /* ========================================================================== */
+
+* {
+  box-sizing: border-box;
+
+}
 // body {
 //   // overflow: hidden;
 // }
@@ -83,9 +88,98 @@ nav {
   }
 }
 
+/* ========================================================================== */
+/* Pokemon Details */
+/* ========================================================================== */
+#pokemonDetails {
+  #detailsBio {
+    
+    .details-card {
+      // width: 30%;
+      
+      i {
+        font-size: 1.5rem;
+      }
+  
+      img {
+        width: 215px;
+      }
+    }
+
+    #detailsAccordion {
+      #stats {
+        .progress {
+          height: 1.5rem;
+        }
+        .stat-hp {
+          transition: all 0.5s;
+          &:hover {
+            background-color: rgba(255, 0, 0, 0.75);
+          }
+        }
+
+        .stat-atk {
+          transition: all 0.5s;
+          &:hover {
+            background-color: rgba(255, 166, 0, 0.75);
+          }
+        }
+        
+        .stat-def {
+          transition: all 0.5s;
+          &:hover {
+            background-color: rgba(0, 184, 6, 0.564);
+          }
+        }
+
+        .stat-spatk {
+          transition: all 0.5s;
+          &:hover {
+            background-color: rgba(128, 0, 128, 0.75);
+          }
+        }
+
+        .stat-spdef {
+          transition: all 0.5s;
+          &:hover {
+            background-color: rgba(250, 128, 114, 0.75);
+          }
+        }
+
+        .stat-spd {
+          transition: all 0.5s;
+          &:hover {
+            background-color: rgba(7, 203, 224, 0.714);
+          }
+        }
+      }
+
+      #abilities {
+        .view-item {
+          background: white;
+        }
+        .fa-eye, .fa-eye-slash {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 /* -------------------------------------------------------------------------- */
 /* MEDIA QUERIES */
 /* -------------------------------------------------------------------------- */
+// Fiddling with media queries
+@media (max-height: 768px) {
+  #pokedex {
+    #pokeSearchResults {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  
+}
+
 @media (max-width: 576px) {
   .side-nav {
     z-index: 1;
@@ -110,10 +204,6 @@ nav {
         font-size: 1.25rem;
         padding: 0 1rem;
 
-        img {
-          height: 36px;
-        }
-
         .side-menu-text {
           display: none;
         }
@@ -124,11 +214,27 @@ nav {
   .main-content {
     margin-left: 4.25rem;
     transition: all 0.5s;
+    padding: 1rem;
   }
 
   #pokedex {
     #pokeSearchResults {
       grid-template-columns: 1fr;
+    }
+  }
+
+  #pokemonDetails {
+    #detailsBio {
+      #detailsAccordion {
+        #abilities {
+          .view-item {
+            background-color: #dfe5eb;
+          }
+          .fa-eye, .fa-eye-slash {
+            display: inline;
+          }
+        }
+      }
     }
   }
 }
