@@ -12,8 +12,7 @@ let PAGINATION_LIMIT = 5;
 const mobileMediaQuery = window.matchMedia("(max-width: 576px)");
 if (mobileMediaQuery.matches) {
   PAGINATION_LIMIT = 1;
-}
-else {
+} else {
   PAGINATION_LIMIT = 5;
 }
 
@@ -60,29 +59,20 @@ openSidenav = () => {
 // =============================================================================
 const capitalizeWord = (word) => {
   return word[0].toUpperCase() + word.slice(1);
-}
-
-async function getAsync(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw Error(`Failed to get response from ${url}.`);
-    }
-    return await response.json();
-  } catch (e) {
-    console.log(e);
-  }
-}
+};
 
 const getGen7Moves = (pokemonMoves) => {
-  const egg = [], machine = [], levelUp = [];
+  const egg = [],
+    machine = [],
+    levelUp = [];
 
-  pokemonMoves.forEach(moveData => {
+  pokemonMoves.forEach((moveData) => {
     const versions = moveData.version_group_details;
 
     // Determine if the move is available in gen 7.
-    const gen7Move = versions.filter(version =>
-      version.version_group.name === "ultra-sun-ultra-moon");
+    const gen7Move = versions.filter(
+      (version) => version.version_group.name === "ultra-sun-ultra-moon"
+    );
 
     if (gen7Move.length > 0) {
       const method = gen7Move[0].move_learn_method.name;
@@ -95,15 +85,19 @@ const getGen7Moves = (pokemonMoves) => {
           machine.push({ ...move, method });
           break;
         case "level-up":
-          levelUp.push({ ...move, method, level: gen7Move[0].level_learned_at });
+          levelUp.push({
+            ...move,
+            method,
+            level: gen7Move[0].level_learned_at,
+          });
           break;
       }
     }
-  })
+  });
   return { egg, machine, levelUp };
-}
+};
 
-const getPokemon = (pokeIndex) => {
+const getPokemon = async (pokeIndex) => {
   const allPokemon = JSON.parse(localStorage.getItem("allPokemon"));
   const currentPokemon = allPokemon.results[pokeIndex];
 
@@ -112,8 +106,8 @@ const getPokemon = (pokeIndex) => {
     next = {
       name: allPokemon.results[pokeIndex + 1].name,
       dexID: allPokemon.results[pokeIndex + 1].dexID,
-      url: allPokemon.results[pokeIndex + 1].url
-    }
+      url: allPokemon.results[pokeIndex + 1].url,
+    };
   }
 
   let previous = null;
@@ -121,29 +115,28 @@ const getPokemon = (pokeIndex) => {
     previous = {
       name: allPokemon.results[pokeIndex - 1].name,
       dexID: allPokemon.results[pokeIndex - 1].dexID,
-      url: allPokemon.results[pokeIndex - 1].url
-    }
-  }
-
-  getAsync(currentPokemon.url).then((pokemonData) => {
-    const { abilities, height, id, sprites, stats, types, weight } = pokemonData;
-
-    const data = {
-      // base_experience: pokemonData.base_experience,
-      abilities,
-      height: height / 10,
-      id,
-      dexID: currentPokemon.dexID,
-      moves: getGen7Moves(pokemonData.moves),
-      name: currentPokemon.name,
-      sprites,
-      stats,
-      types,
-      weight: weight / 10,
-      next,
-      previous
+      url: allPokemon.results[pokeIndex - 1].url,
     };
-    localStorage.setItem('currentPokemon', JSON.stringify(data));
-    window.location.href = "pokemon.html"
-  });
+  }
+  const response = await fetch(currentPokemon.url);
+  const pokemonData = await response.json();
+  const { abilities, height, id, sprites, stats, types, weight } = pokemonData;
+
+  const data = {
+    // base_experience: pokemonData.base_experience,
+    abilities,
+    height: height / 10,
+    id,
+    dexID: currentPokemon.dexID,
+    moves: getGen7Moves(pokemonData.moves),
+    name: currentPokemon.name,
+    sprites,
+    stats,
+    types,
+    weight: weight / 10,
+    next,
+    previous,
+  };
+  localStorage.setItem("currentPokemon", JSON.stringify(data));
+  window.location.href = "pokemon.html";
 };

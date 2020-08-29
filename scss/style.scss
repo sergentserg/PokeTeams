@@ -10,7 +10,6 @@
 
 * {
   box-sizing: border-box;
-
 }
 // body {
 //   // overflow: hidden;
@@ -93,14 +92,13 @@ nav {
 /* ========================================================================== */
 #pokemonDetails {
   #detailsBio {
-    
     .details-card {
       // width: 30%;
-      
+
       i {
         font-size: 1.5rem;
       }
-  
+
       img {
         width: 215px;
       }
@@ -124,7 +122,7 @@ nav {
             background-color: rgba(255, 166, 0, 0.75);
           }
         }
-        
+
         .stat-def {
           transition: all 0.5s;
           &:hover {
@@ -158,7 +156,8 @@ nav {
         .view-item {
           background: white;
         }
-        .fa-eye, .fa-eye-slash {
+        .fa-eye,
+        .fa-eye-slash {
           display: none;
         }
       }
@@ -176,8 +175,6 @@ nav {
       grid-template-columns: repeat(4, 1fr);
     }
   }
-
-  
 }
 
 @media (max-width: 576px) {
@@ -230,7 +227,8 @@ nav {
           .view-item {
             background-color: #dfe5eb;
           }
-          .fa-eye, .fa-eye-slash {
+          .fa-eye,
+          .fa-eye-slash {
             display: inline;
           }
         }

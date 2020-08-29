@@ -1,8 +1,10 @@
 // capitalizeWord and getPokemon from index.js
 
-window.addEventListener("load", e => {
-  const pokemon = JSON.parse(localStorage.getItem('currentPokemon'));
-  document.querySelector("#breadcrumbCurrent").innerHTML = `#${pokemon.dexID} ${pokemon.name}`;
+window.addEventListener("load", (e) => {
+  const pokemon = JSON.parse(localStorage.getItem("currentPokemon"));
+  document.querySelector(
+    "#breadcrumbCurrent"
+  ).innerHTML = `#${pokemon.dexID} ${pokemon.name}`;
   document.querySelector("#pokedexID").innerHTML = `${pokemon.dexID}`;
   document.querySelector("#pokeName").innerHTML = `${pokemon.name}`;
   document.querySelector("#pokeImgContainer").innerHTML = `
@@ -29,7 +31,7 @@ window.addEventListener("load", e => {
   const allStats = [hpBar, atkBar, defBar, spatkBar, spdefBar, spdBar];
   for (let i = 0; i < allStats.length; i++) {
     allStats[i].style.width = `${(100 * pokemon.stats[i].base_stat) / 255}%`;
-    allStats[i].setAttribute('aria-valuenow', `${pokemon.stats[i].base_stat}`);
+    allStats[i].setAttribute("aria-valuenow", `${pokemon.stats[i].base_stat}`);
     allStats[i].innerHTML = `${pokemon.stats[i].base_stat}`;
   }
 
@@ -38,29 +40,26 @@ window.addEventListener("load", e => {
 
   // Enable move filters.
   const lvFilter = document.querySelector("#lvFilter");
-  lvFilter.addEventListener('click', (e) => {
-    displayMoves(pokemon.moves.levelUp, lvFilter)
-    // e.preventDefault();
-  })
+  lvFilter.addEventListener("click", (e) => {
+    displayMoves(pokemon.moves.levelUp, lvFilter);
+  });
 
   const eggFilter = document.querySelector("#eggFilter");
-  eggFilter.addEventListener('click', (e) => {
-    displayMoves(pokemon.moves.egg, eggFilter)
-    // e.preventDefault();
-  })
+  eggFilter.addEventListener("click", (e) => {
+    displayMoves(pokemon.moves.egg, eggFilter);
+  });
 
   const tmFilter = document.querySelector("#tmFilter");
-  tmFilter.addEventListener('click', (e) => {
-    displayMoves(pokemon.moves.machine, tmFilter)
-    // e.preventDefault();
-  })
+  tmFilter.addEventListener("click", (e) => {
+    displayMoves(pokemon.moves.machine, tmFilter);
+  });
 
   // Display the level up moves by default.
   displayMoves(pokemon.moves.levelUp, lvFilter);
 
   // Display the navigation buttons
   createNavButtons(pokemon.previous, pokemon.next);
-})
+});
 
 const displayTypes = (types) => {
   const pokemonTypeContainer = document.querySelector("#pokeType");
@@ -70,60 +69,79 @@ const displayTypes = (types) => {
     const typeName = capitalizeWord(type);
 
     // Insert type badge.
-    const pokemonTypeData = document.createElement('small');
-    pokemonTypeData.classList.add(`type-${type}`, 'mx-1');
+    const pokemonTypeData = document.createElement("small");
+    pokemonTypeData.classList.add(`type-${type}`, "mx-1");
     pokemonTypeData.innerHTML = `${typeName}`;
     pokemonTypeContainer.appendChild(pokemonTypeData);
-  })
-}
+  });
+};
 
 const displayAbilities = (abilities) => {
   const pokemonAbilityContainer = document.querySelector("#pokeAbilities");
 
   // Pokemon vary between 1 - 3 abilities, usually 1 hidden
-  abilities.forEach((slot) => {
+  abilities.forEach(async (slot) => {
+    const response = await fetch(slot.ability.url);
+    const abilityDetails = await response.json();
+
     const abilityName = capitalizeWord(slot.ability.name);
 
-    const pokemonAbilityLi = document.createElement('li');
-    pokemonAbilityLi.classList.add('list-group-item');
-    getAsync(slot.ability.url).then((abilityDetails) => {
-      const englishAbility = abilityDetails.effect_entries.filter(effectEntry => effectEntry.language.name === 'en')
-      const abilityEffect = englishAbility[0].short_effect;
+    const pokemonAbilityLi = document.createElement("li");
+    pokemonAbilityLi.classList.add("list-group-item");
 
-      pokemonAbilityLi.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center">
-          <strong>${abilityName}</strong>
-          <i class="far fa-eye"></i>
-        </div>
-        ${(slot.is_hidden) ? '<small class="text-success">Hidden Ability</small><br>' : ""}
-        <small class="text-muted">${abilityEffect}</small>`;
+    const englishAbility = abilityDetails.effect_entries.filter(
+      (effectEntry) => effectEntry.language.name === "en"
+    );
+    const abilityEffect = englishAbility[0].short_effect;
 
-      pokemonAbilityContainer.appendChild(pokemonAbilityLi);
-    })
-  })
-}
+    pokemonAbilityLi.innerHTML = `
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>${abilityName}</strong>
+        <i class="far fa-eye"></i>
+      </div>
+      ${
+        slot.is_hidden
+          ? '<small class="text-success">Hidden Ability</small><br>'
+          : ""
+      }
+      <small class="text-muted">${abilityEffect}</small>`;
+
+    pokemonAbilityContainer.appendChild(pokemonAbilityLi);
+  });
+};
 
 const displayMoves = (moves, filterElement) => {
   document.querySelector("#moves .view-item").classList.remove("view-item");
   filterElement.classList.add("view-item");
 
+  // Empty out current moves.
   const moveContainer = document.querySelector("#moveNames");
-  // // Empty out current moves.
   while (moveContainer.firstElementChild) {
     moveContainer.firstElementChild.remove();
   }
 
-  // // Display the relevant moves.
-  moves.forEach(move => {
+  // Display the relevant moves.
+  moves.forEach((move) => {
     const moveName = capitalizeWord(move.name);
-    const moveLink = document.createElement('a');
-    moveLink.classList.add("btn", "text-primary", "bg-light", "border", "rounded", "p-1", "mb-1", "mr-1");
-    const level = move.level ? `<span class="text-success">Lv. ${move.level}</span>` : ``;
+    const moveLink = document.createElement("a");
+    moveLink.classList.add(
+      "btn",
+      "text-primary",
+      "bg-light",
+      "border",
+      "rounded",
+      "p-1",
+      "mb-1",
+      "mr-1"
+    );
+    const level = move.level
+      ? `<span class="text-success">Lv. ${move.level}</span>`
+      : ``;
     moveLink.innerHTML = `<small>${level} ${moveName}</small>`;
     moveLink.addEventListener("click", showMovePage);
     moveContainer.appendChild(moveLink);
   });
-}
+};
 
 // Generate navigation buttons on pokemon page.
 const createNavButtons = (previous, next) => {
@@ -137,7 +155,7 @@ const createNavButtons = (previous, next) => {
     prevLi.classList.add("page-item");
     prevLi.innerHTML = `
       <button href="#" class="page-link">&#8592; #${previous.dexID} ${previous.name}</button>`;
-    prevLi.firstElementChild.addEventListener("click", e => {
+    prevLi.firstElementChild.addEventListener("click", (e) => {
       // updateDisplayedPokemon(previous);
       getPokemon(parseInt(previous.dexID) - 1);
     });
@@ -151,17 +169,17 @@ const createNavButtons = (previous, next) => {
     nextLi.classList.add("page-item");
     nextLi.innerHTML = `
       <button href="#" class="page-link">&#8594; #${next.dexID} ${next.name}</button>`;
-    nextLi.firstElementChild.addEventListener("click", e => {
+    nextLi.firstElementChild.addEventListener("click", (e) => {
       // updateDisplayedPokemon(next);
       getPokemon(parseInt(next.dexID) - 1);
     });
   }
   navContainer.appendChild(prevLi);
   navContainer.appendChild(nextLi);
-}
+};
 
 const showMovePage = (e) => {
   // Determine which move anchor tag was clicked.
   // Make call to API.
   // Redirect user to the move page.
-}
+};

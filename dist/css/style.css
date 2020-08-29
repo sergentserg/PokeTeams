@@ -191,7 +191,8 @@ nav .dropdown-menu {
 #pokemonDetails #detailsBio #detailsAccordion #abilities .view-item {
   background: white; }
 
-#pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye, #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye-slash {
+#pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye,
+#pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye-slash {
   display: none; }
 
 /* -------------------------------------------------------------------------- */
@@ -228,5 +229,6 @@ nav .dropdown-menu {
     grid-template-columns: 1fr; }
   #pokemonDetails #detailsBio #detailsAccordion #abilities .view-item {
     background-color: #dfe5eb; }
-  #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye, #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye-slash {
+  #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye,
+  #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye-slash {
     display: inline; } }

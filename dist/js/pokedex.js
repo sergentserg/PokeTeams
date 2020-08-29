@@ -1,121 +1,121 @@
-window.addEventListener("load", (e) => {
+window.addEventListener("load", async (e) => {
   if (!localStorage.getItem("allPokemon")) {
-    getAsync(`https://pokeapi.co/api/v2/pokemon?limit=${MAX_DEX_ID}`).then(
-      (allPokemon) => {
-        // Update name and dexID for all pokemon.
-        allPokemon.results.forEach((pokemon, index) => {
-          pokemon.dexID = pokemon.url.split("/")[6];
-          pokemon.dexID = ("000" + pokemon.dexID).substr(-3, 3);
-          pokemon.name = capitalizeWord(pokemon.name);
-        })
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon?limit=${MAX_DEX_ID}`
+    );
+    const allPokemon = await response.json();
 
-        // Display the first 20 pokemon.
-        for (let i = 0; i < POKE_PER_PAGE; i++) {
-          displayPokemonCard(allPokemon.results[i]);
-        }
+    // Update name and dexID for all pokemon.
+    allPokemon.results.forEach((pokemon, index) => {
+      pokemon.dexID = pokemon.url.split("/")[6];
+      pokemon.dexID = ("000" + pokemon.dexID).substr(-3, 3);
+      pokemon.name = capitalizeWord(pokemon.name);
+    });
 
-        // Display the pagination.
-        createPagination(allPokemon.results);
-
-        // Save 'Pokedex' to local storage.
-        localStorage.setItem("allPokemon", JSON.stringify(allPokemon));
-      });
-  } else {
-    // Some results are already in storage; retrieve them.
-    const results = getResultsArray();
-    const searchQuery = getResultsQuery();
-
-    for (let i = 0; i < Math.min(results.length, POKE_PER_PAGE); i++) {
-      displayPokemonCard(results[i]);
-    }
-
-    // Display the pagination.
-    createPagination(results);
-
-    if (searchQuery) {
-      // Render search query as a visible button
-      const filterContainer = document.querySelector(".filter-list");
-      filterContainer.innerHTML = `
-    <button class="mt-1 btn btn-dark filter-tag">"${searchQuery}" <i class="fas fa-times-circle fa-xs"></i>
-    </button>`
-      filterContainer.querySelector(".filter-tag").addEventListener("click", removeFilter);
-    }
+    // Save 'Pokedex' to local storage.
+    localStorage.setItem("allPokemon", JSON.stringify(allPokemon));
   }
+
+  document
+    .querySelector("#pokemonSearchBtn")
+    .addEventListener("click", searchPokemon);
+
+  populateResults();
 });
 
-// async function getAsync(url) {
-//   try {
-//     const response = await fetch(url);
-//     if (!response.ok) {
-//       throw Error(`Failed to get response from ${url}.`);
-//     }
-//     return await response.json();
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
-
 const searchPokemon = (event) => {
-  // console.log("Search Pokemon Function has run.")
   // Search Filter!
-  const searchQuery = document.querySelector("#pokemonSearchInput").value.toLowerCase();
-  const allPokemon = JSON.parse(localStorage.getItem("allPokemon"));
-  const resultsContainer = document.querySelector("#pokeSearchResults");
+  // Grab user search query
+  const searchQuery = document
+    .querySelector("#pokemonSearchInput")
+    .value.toLowerCase();
+
   if (searchQuery !== "") {
-    // Clear current results from session storage.
-    if (sessionStorage.getItem("currentResults")) {
-      sessionStorage.removeItem("currentResults");
-    }
+    // Store or overwrite search query
+    sessionStorage.setItem("searchQuery", searchQuery);
 
-    // Get list of Pokemon matching search query.
-    const results = allPokemon.results.filter(
-      (pokemon) => pokemon.name.toLowerCase().indexOf(searchQuery) != -1
-    );
-
-    // Save results to session storage.
-    const currentResults = {
-      searchQuery,
-      results,
-    };
-    sessionStorage.setItem("currentResults", JSON.stringify(currentResults));
-
-    // Clean out old Search results
-    while (resultsContainer.firstElementChild) {
-      resultsContainer.firstElementChild.remove();
-    }
-
-    // Display filtered Pokemon cards.
-    for (let i = 0; i < Math.min(results.length, POKE_PER_PAGE); i++) {
-      displayPokemonCard(results[i]);
-    }
-
-    createPagination(results);
-
-    // Render search query as a visible button
-    const filterContainer = document.querySelector(".filter-list");
-    // Clear filter container
-    while (filterContainer.firstElementChild) {
-      filterContainer.firstElementChild.remove();
-    }
-    filterContainer.innerHTML = `
-    <button class="mt-1 btn btn-dark filter-tag">"${searchQuery}" <i class="fas fa-times-circle fa-xs"></i>
-    </button>`
-    filterContainer.querySelector(".filter-tag").addEventListener("click", removeFilter);
-    // const filterTag = document.createElement('button');
-    // filterTag.classList.add('mt-1', 'btn', 'btn-dark', 'filter-tag');
-    // filterTag.innerHTML = `"${searchQuery}" <i class="fas fa-times-circle fa-xs"></i>`;
-    // filterTag.addEventListener("click", removeFilter);
-    // filterContainer.appendChild(filterTag);
+    // Populate those damn results
+    populateResults();
 
     // Do not reload page.
     event.preventDefault();
   }
 };
 
-const displayPokemonCard = (pokemon) => {
+const getPokemonQuery = () => {
+  // Get list of Pokemon matching search query.
+  const allPokemon = JSON.parse(localStorage.getItem("allPokemon"));
+  const searchQuery = sessionStorage.getItem("searchQuery");
+
+  // the entire pokedex array or a filtered array.
+  if (searchQuery) {
+    const results = allPokemon.results.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchQuery)
+    );
+    return results;
+  } else {
+    return allPokemon.results;
+  }
+};
+
+const populateResults = (newFirstPageNum = 1, newActivePageNum = 1) => {
+  const resultsContainer = document.querySelector("#pokeSearchResults");
+  while (resultsContainer.firstElementChild) {
+    resultsContainer.firstElementChild.remove();
+  }
+
+  const results = getPokemonQuery();
+  const offset = POKE_PER_PAGE * (newActivePageNum - 1);
+  // Display filtered Pokemon cards.
+  for (
+    let i = offset;
+    i < Math.min(results.length, offset + POKE_PER_PAGE);
+    i++
+  ) {
+    createPokemonCard(results[i]);
+  }
+
+  createPagination(results, newFirstPageNum, newActivePageNum);
+
+  const searchQuery = sessionStorage.getItem("searchQuery");
+  if (searchQuery) {
+    createFilterBtn(searchQuery);
+  }
+};
+
+const createFilterBtn = (searchQuery) => {
+  // Render search query as a visible button
+  const filterContainer = document.querySelector(".filter-list");
+  // Clear filter container
+  if (filterContainer.firstElementChild) {
+    filterContainer.firstElementChild.remove();
+  }
+
+  filterContainer.innerHTML = `
+ <button class="btn btn-dark filter-tag">"${searchQuery}" <i class="fas fa-times-circle fa-xs"></i>
+ </button>`;
+  filterContainer
+    .querySelector(".filter-tag")
+    .addEventListener("click", removeFilter);
+};
+
+const removeFilter = (event) => {
+  // Reset search form
+  document.querySelector(".search-form").reset();
+  // Remove filter tag button element
+  document.querySelector(".filter-tag").remove();
+  // Clear current results from session storage.
+  if (sessionStorage.getItem("searchQuery")) {
+    sessionStorage.removeItem("searchQuery");
+  }
+
+  populateResults();
+};
+
+const createPokemonCard = (pokemon) => {
   // Create pokemon card.
-  const pokemonCard = document.createElement('div');
-  pokemonCard.classList.add('pokemon-card', 'border');
+  const pokemonCard = document.createElement("div");
+  pokemonCard.classList.add("pokemon-card", "border");
   pokemonCard.innerHTML = `
   <select class="form-control" name="teamSelect">
       <option selected disabled hidden>Choose a team</option>
@@ -127,7 +127,9 @@ const displayPokemonCard = (pokemon) => {
       class="poke-img d-flex justify-content-center align-content-center py-4"
     >
       <img
-        src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemon.dexID}.png" alt="${pokemon.name}"
+        src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${
+          pokemon.dexID
+        }.png" alt="${pokemon.name}"
       />
       <div class="poke-card-buttons d-flex justify-content-between">
         <button class="btn poke-add-btn">
@@ -139,21 +141,23 @@ const displayPokemonCard = (pokemon) => {
       </div>
     </div>
 
-    <button class="btn btn-block btn-dark poke-details-btn" data-poke-id="${parseInt(pokemon.dexID)}">
+    <button class="btn btn-block btn-dark poke-details-btn" data-poke-id="${parseInt(
+      pokemon.dexID
+    )}">
       #${pokemon.dexID} ${pokemon.name}
       <i class="fas fa-eye"></i>
     </button>`;
-  pokemonCard.querySelector('.poke-details-btn').addEventListener("click", () => {
-    // Passing in json index of pokemon
-    getPokemon(parseInt(pokemon.dexID) - 1);
-  });
+  pokemonCard
+    .querySelector(".poke-details-btn")
+    .addEventListener("click", () => {
+      // Passing in json index of pokemon
+      getPokemon(parseInt(pokemon.dexID) - 1);
+    });
 
   const resultsContainer = document.querySelector("#pokeSearchResults");
   resultsContainer.appendChild(pokemonCard);
 };
 
-// If totalPages == 1, pagination is not needed
-// Default active page is page 1
 const createPagination = (
   results,
   newFirstPageNum = 1,
@@ -190,7 +194,7 @@ const createPagination = (
       li.setAttribute(`data-page-num`, `${newFirstPageNum + offset}`);
       li.innerHTML = `<button href="#" class="page-link">${
         newFirstPageNum + offset
-        }</button>`;
+      }</button>`;
 
       // Insert it before next.
       pagination.insertBefore(li, nextLi);
@@ -255,53 +259,16 @@ const createPagination = (
 };
 
 const displayNewPage = (event) => {
-  updatePagination(event);
-  const results = getResultsArray();
-  // Clean out old Search results
-  const resultsContainer = document.querySelector("#pokeSearchResults");
-  while (resultsContainer.firstElementChild) {
-    resultsContainer.firstElementChild.remove();
-  }
-
-  const activePageNum = parseInt(
-    document.querySelector(".pagination .active button").innerHTML
-  );
-  const offset = POKE_PER_PAGE * (activePageNum - 1);
-  // Display filtered Pokemon cards.
-  for (
-    let i = offset;
-    i < Math.min(results.length, offset + POKE_PER_PAGE);
-    i++
-  ) {
-    displayPokemonCard(results[i]);
-  }
-};
-
-const getResultsArray = () => {
-  const currentResults = JSON.parse(sessionStorage.getItem("currentResults"));
-  // the entire pokedex array or a filtered array.
-  if (currentResults) {
-    return currentResults.results;
-  } else {
-    return JSON.parse(localStorage.getItem("allPokemon")).results;
-  }
-};
-
-const getResultsQuery = () => {
-  const currentResults = JSON.parse(sessionStorage.getItem("currentResults"));
-  if (currentResults) {
-    return currentResults.searchQuery;
-  } else {
-    return null;
-  }
+  const { newFirstPageNum, newActivePageNum } = updatePagination(event);
+  populateResults(newFirstPageNum, newActivePageNum);
 };
 
 const updatePagination = (event) => {
   const buttonClickText = event.target.innerHTML;
 
   // pokemonData is the entire pokedex array or a filtered array.
-  const pokemonData = getResultsArray();
-  const totalPages = Math.ceil(pokemonData.length / POKE_PER_PAGE);
+  const results = getPokemonQuery();
+  const totalPages = Math.ceil(results.length / POKE_PER_PAGE);
 
   // Determine updated values for the active page number, and the new first in the pagination.
   let newFirstPageNum = 1,
@@ -347,74 +314,10 @@ const updatePagination = (event) => {
       }
     }
   }
+  return {
+    newFirstPageNum,
+    newActivePageNum,
+  };
   // Re-create pagination with defined parameters
-  createPagination(pokemonData, newFirstPageNum, newActivePageNum);
+  // createPagination(results, newFirstPageNum, newActivePageNum);
 };
-
-// const getPokemon = (event) => {
-//   let btn = event.target;
-//   while (!btn.classList.contains('poke-details-btn'))
-//     btn = btn.parentElement;
-
-//   const pokedexID = parseInt(btn.getAttribute("data-poke-id"));
-//   const pokeIndex = pokedexID - 1;
-
-//   const allPokemon = JSON.parse(localStorage.getItem('allPokemon'));
-//   const currentPokemon = allPokemon.results[pokeIndex];
-
-//   // Provide access to next/previous pokemon from current.
-
-//   const next = pokedexID < MAX_DEX_ID ? allPokemon.results[pokeIndex + 1] : null;
-//   const previous = pokedexID > 1 ? allPokemon.results[pokeIndex - 1] : null;
-
-//   getAsync(currentPokemon.url).then((pokemonData) => {
-//     const { abilities, height, id, sprites, stats, types, weight } = pokemonData;
-
-//     const data = {
-//       // base_experience: pokemonData.base_experience,
-//       abilities,
-//       height: height / 10,
-//       id,
-//       dexID: currentPokemon.dexID,
-//       moves: getGen7Moves(pokemonData.moves), // Three arrays into property object
-//       name: currentPokemon.name,
-//       sprites,
-//       stats,
-//       types,
-//       weight: weight / 10,
-//       next: next,
-//       previous: previous
-//     };
-//     localStorage.setItem('currentPokemon', JSON.stringify(data));
-//     window.location.href = "pokemon.html"
-//   });
-// };
-
-
-const removeFilter = (event) => {
-  // Clear current results from session storage.
-  if (sessionStorage.getItem("currentResults")) {
-    sessionStorage.removeItem("currentResults");
-  }
-  const results = getResultsArray(); // ATM returns allPokemon results
-  const resultsContainer = document.querySelector("#pokeSearchResults");
-  // Reset search form
-  document.querySelector(".search-form").reset();
-  // Remove filter tag button element
-  document.querySelector(".filter-tag").remove();
-
-  // Clean out old Search results
-  while (resultsContainer.firstElementChild) {
-    resultsContainer.firstElementChild.remove();
-  }
-  // Display Pokemon cards
-  for (let i = 0; i < Math.min(results.length, POKE_PER_PAGE); i++) {
-    displayPokemonCard(results[i]);
-  }
-  // Display the pagination.
-  createPagination(results);
-}
-
-document
-  .querySelector("#pokemonSearchBtn")
-  .addEventListener("click", searchPokemon);

@@ -1,82 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>PokéTeams</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-  <link rel="stylesheet" href="./css/style.css" />
-  <title>PokéTeams</title>
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top">
-    <a href="pokedex.html" class="navbar-brand">PokéTeams</a>
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div id="navbarNav" class="navbar-collapse collapse">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a href="index.html" class="nav-link">About</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-            <i class="far fa-user-circle"></i> Jose
-          </a>
-          <div class="dropdown-menu">
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-user"></i> Profile
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top">
+      <a href="pokedex.html" class="navbar-brand">PokéTeams</a>
+      <button
+        class="navbar-toggler"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="navbarNav" class="navbar-collapse collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">About</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+              <i class="far fa-user-circle"></i> Jose
             </a>
-            <a href="login.html" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <aside class="side-nav bg-secondary text-white">
-    <div class="shrink-side-icons px-2">
-      <a href="javascript:void(0)" class="shrink-btn" onclick="shrinkSidenav()"><i class="fas fa-times"></i></a>
-      <a href="javascript:void(0)" class="expand-btn" onclick="openSidenav()"><i class="fas fa-list"></i></a>
-    </div>
-
-    <a class="py-3 d-flex align-items-center current" href="pokedex.html">
-      <i class="fas fa-book"></i>
-      <span class="ml-3 side-menu-text">Pokédex</span>
-    </a>
-    <a class="py-3 d-flex align-items-center" href="moves.html">
-      <i class="fas fa-compact-disc"></i>
-      <span class="ml-3 side-menu-text">Moves</span></a>
-    <a class="py-3 d-flex align-items-center" href="items.html">
-      <i class="fas fa-boxes"></i>
-      <span class="ml-3 side-menu-text">Items</span></a>
-    <a class="py-3 d-flex align-items-center" href="teams.html">
-      <i class="fas fa-users"></i>
-      <span class="ml-3 side-menu-text">Teams</span></a>
-  </aside>
-
-  <div id="pokedex" class="main-content">
-    <h3>Pokédex</h3>
-    <form class="search-form">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <button id="pokemonSearchBtn" class="btn btn-light border" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-        <input class="form-control bg-light" type="text" name="pokemonSearch" id="pokemonSearchInput"
-          placeholder="Search Pokémon..." required />
+            <div class="dropdown-menu">
+              <a href="#" class="dropdown-item">
+                <i class="fas fa-user"></i> Profile
+              </a>
+              <a href="login.html" class="dropdown-item"
+                ><i class="fas fa-sign-out-alt"></i> Logout</a
+              >
+            </div>
+          </li>
+        </ul>
       </div>
-    </form>
-    <div class="filter-list">
-      <!-- <button class="mt-1 btn btn-dark">"filter" <i class="fas fa-times-circle fa-xs"></i></button> -->
-    </div>
+    </nav>
 
-    <!-- Pokémon Card -->
-    <div id="pokeSearchResults" class="my-5">
-      <!-- <div class="pokemon-card border">
+    <aside class="side-nav bg-secondary text-white">
+      <div class="shrink-side-icons px-2">
+        <a
+          href="javascript:void(0)"
+          class="shrink-btn"
+          onclick="shrinkSidenav()"
+          ><i class="fas fa-times"></i
+        ></a>
+        <a href="javascript:void(0)" class="expand-btn" onclick="openSidenav()"
+          ><i class="fas fa-list"></i
+        ></a>
+      </div>
+
+      <a class="py-3 d-flex align-items-center current" href="pokedex.html">
+        <i class="fas fa-book"></i>
+        <span class="ml-3 side-menu-text">Pokédex</span>
+      </a>
+      <a class="py-3 d-flex align-items-center" href="moves.html">
+        <i class="fas fa-compact-disc"></i>
+        <span class="ml-3 side-menu-text">Moves</span></a
+      >
+      <a class="py-3 d-flex align-items-center" href="items.html">
+        <i class="fas fa-boxes"></i>
+        <span class="ml-3 side-menu-text">Items</span></a
+      >
+      <a class="py-3 d-flex align-items-center" href="teams.html">
+        <i class="fas fa-users"></i>
+        <span class="ml-3 side-menu-text">Teams</span></a
+      >
+    </aside>
+
+    <div id="pokedex" class="main-content">
+      <h3>Pokédex</h3>
+      <form class="search-form">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <button
+              id="pokemonSearchBtn"
+              class="btn btn-light border"
+              type="submit"
+            >
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <input
+            class="form-control bg-light"
+            type="text"
+            name="pokemonSearch"
+            id="pokemonSearchInput"
+            placeholder="Search Pokémon..."
+            required
+          />
+        </div>
+      </form>
+      <div class="filter-list mt-1">
+        <!-- <button class="btn btn-dark">"filter" <i class="fas fa-times-circle fa-xs"></i></button> -->
+      </div>
+
+      <!-- Pokémon Card -->
+      <div id="pokeSearchResults" class="my-5">
+        <!-- <div class="pokemon-card border">
           <select class="form-control" name="teamSelect">
             <option selected disabled hidden>Choose a team</option>
             <option value="teamA">Team A</option>
@@ -105,38 +134,46 @@
             <i class="fas fa-eye"></i>
           </button>
         </div> -->
+      </div>
+      <!-- PAGINATION -->
+      <nav class="d-none" aria-label="Search results pages">
+        <ul class="pagination justify-content-center">
+          <li class="page-item pagination-first disabled">
+            <button href="#" class="page-link">First</button>
+          </li>
+          <li class="page-item pagination-prev disabled">
+            <button href="#" class="page-link">&lt;&lt;</button>
+          </li>
+          <li class="page-item pagination-next">
+            <button href="#" class="page-link">&gt;&gt;</button>
+          </li>
+          <li class="page-item pagination-last">
+            <button href="#" class="page-link">Last</button>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <!-- PAGINATION -->
-    <nav class="d-none" aria-label="Search results pages">
-      <ul class="pagination justify-content-center">
-        <li class="page-item pagination-first disabled">
-          <button href="#" class="page-link">First</button>
-        </li>
-        <li class="page-item pagination-prev disabled">
-          <button href="#" class="page-link">&lt;&lt;</button>
-        </li>
-        <li class="page-item pagination-next">
-          <button href="#" class="page-link">&gt;&gt;</button>
-        </li>
-        <li class="page-item pagination-last">
-          <button href="#" class="page-link">Last</button>
-        </li>
-      </ul>
-    </nav>
-  </div>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/a465367bb1.js" crossorigin="anonymous"></script>
-  <script src="./js/script.js"></script>
-  <script src="./js/pokedex.js"></script>
-</body>
-
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/a465367bb1.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/pokedex.js"></script>
+  </body>
 </html>
