@@ -165,7 +165,76 @@ nav {
   }
 }
 
-/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+/* MOVES */
+/* ========================================================================== */
+
+#moves {
+  // form,
+  // .move-info-container,
+  // #descriptionContainer,
+  // #effectContainer {
+  //   // max-width: 400px;
+  // }
+  form {
+    position: relative;
+
+    #moveList {
+      max-height: 250px;
+      overflow-y: scroll;
+      width: 100%;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 2;
+      box-shadow: 1px 3px 5px #ccc, -1px 0px 5px #ccc;
+
+      li:hover {
+        background-color: #ddd;
+        cursor: pointer;
+      }
+    }
+  }
+
+  #moveSearchResults {
+    .move-info-container {
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+    }
+
+    #moveTypeCompare {
+      height: 400px;
+
+      #superVS,
+      #weakVS,
+      #noEffectVS {
+        flex: 1;
+        border-radius: 5px;
+      }
+
+      #superVS {
+        // bootstrap's success color.
+        background-color: rgba(40, 167, 69, 0.5);
+      }
+
+      #weakVS {
+        // bootstrap's secondary color.
+        background-color: rgba(255, 193, 7, 0.5);
+      }
+
+      #noEffectVS {
+        // bootstrap's danger color.
+        background-color: rgba(220, 53, 69, 0.5);
+      }
+    }
+
+    #priorityMarkers {
+      li {
+        text-align: center;
+      }
+    }
+  }
+}
 /* MEDIA QUERIES */
 /* -------------------------------------------------------------------------- */
 // Fiddling with media queries

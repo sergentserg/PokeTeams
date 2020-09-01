@@ -195,7 +195,45 @@ nav .dropdown-menu {
 #pokemonDetails #detailsBio #detailsAccordion #abilities .fa-eye-slash {
   display: none; }
 
-/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+/* MOVES */
+/* ========================================================================== */
+#moves form {
+  position: relative; }
+  #moves form #moveList {
+    max-height: 250px;
+    overflow-y: scroll;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    box-shadow: 1px 3px 5px #ccc, -1px 0px 5px #ccc; }
+    #moves form #moveList li:hover {
+      background-color: #ddd;
+      cursor: pointer; }
+
+#moves #moveSearchResults .move-info-container {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr); }
+
+#moves #moveSearchResults #moveTypeCompare {
+  height: 400px; }
+  #moves #moveSearchResults #moveTypeCompare #superVS,
+  #moves #moveSearchResults #moveTypeCompare #weakVS,
+  #moves #moveSearchResults #moveTypeCompare #noEffectVS {
+    flex: 1;
+    border-radius: 5px; }
+  #moves #moveSearchResults #moveTypeCompare #superVS {
+    background-color: rgba(40, 167, 69, 0.5); }
+  #moves #moveSearchResults #moveTypeCompare #weakVS {
+    background-color: rgba(255, 193, 7, 0.5); }
+  #moves #moveSearchResults #moveTypeCompare #noEffectVS {
+    background-color: rgba(220, 53, 69, 0.5); }
+
+#moves #moveSearchResults #priorityMarkers li {
+  text-align: center; }
+
 /* MEDIA QUERIES */
 /* -------------------------------------------------------------------------- */
 @media (max-height: 768px) {
