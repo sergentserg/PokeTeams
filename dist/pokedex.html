@@ -99,8 +99,10 @@
           />
         </div>
       </form>
-      <div class="filter-list mt-1">
-        <!-- <button class="btn btn-dark">"filter" <i class="fas fa-times-circle fa-xs"></i></button> -->
+      <div class="mt-1 filter-list">
+        <button id="filterBtn" class="btn btn-dark d-none">
+          "<span></span>" <i class="fas fa-times-circle fa-xs"></i>
+        </button>
       </div>
 
       <!-- Pokémon Card -->
@@ -138,10 +140,10 @@
       <!-- PAGINATION -->
       <nav class="d-none" aria-label="Search results pages">
         <ul class="pagination justify-content-center">
-          <li class="page-item pagination-first disabled">
+          <li class="page-item pagination-first">
             <button href="#" class="page-link">First</button>
           </li>
-          <li class="page-item pagination-prev disabled">
+          <li class="page-item pagination-prev">
             <button href="#" class="page-link">&lt;&lt;</button>
           </li>
           <li class="page-item pagination-next">
@@ -174,6 +176,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="./js/script.js"></script>
-    <script src="./js/pokedex.js"></script>
+    <script src="./js/pokedex2.js"></script>
   </body>
 </html>

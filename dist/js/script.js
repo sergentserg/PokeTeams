@@ -5,11 +5,12 @@
 
 const MAX_DEX_ID = 807;
 const POKE_PER_PAGE = 20;
+const POKE_API_URL = `https://pokeapi.co/api/v2/pokemon?limit=${MAX_DEX_ID}`;
 // Temporarily switched to let
 let PAGINATION_LIMIT = 5;
 
 // Testing media query in JS
-const mobileMediaQuery = window.matchMedia("(max-width: 576px)");
+const mobileMediaQuery = window.matchMedia('(max-width: 576px)');
 if (mobileMediaQuery.matches) {
   PAGINATION_LIMIT = 1;
 } else {
@@ -17,41 +18,41 @@ if (mobileMediaQuery.matches) {
 }
 
 shrinkSidenav = () => {
-  const shrinkBtn = document.querySelector(".shrink-btn");
-  const expandBtn = document.querySelector(".expand-btn");
+  const shrinkBtn = document.querySelector('.shrink-btn');
+  const expandBtn = document.querySelector('.expand-btn');
   // const pkSidenav = document.querySelector(".side-nav");
-  const sideNavText = document.querySelectorAll(".side-menu-text");
-  const mainPage = document.querySelector(".main-content");
+  const sideNavText = document.querySelectorAll('.side-menu-text');
+  const mainPage = document.querySelector('.main-content');
 
   sideNavText.forEach((text) => {
-    text.style.display = "none";
+    text.style.display = 'none';
   });
 
   // pkSidenav.style.width = "15vw";
   // mainPage.style.marginLeft = "15vw";
-  shrinkBtn.style.display = "none";
-  expandBtn.style.display = "inline";
+  shrinkBtn.style.display = 'none';
+  expandBtn.style.display = 'inline';
   // mainPage.style.backgroundColor = "rgba(0,0,0,0)";
-  mainPage.style.opacity = "1";
+  mainPage.style.opacity = '1';
 };
 
 openSidenav = () => {
-  const shrinkBtn = document.querySelector(".shrink-btn");
-  const expandBtn = document.querySelector(".expand-btn");
+  const shrinkBtn = document.querySelector('.shrink-btn');
+  const expandBtn = document.querySelector('.expand-btn');
   // const pkSidenav = document.querySelector(".side-nav");
-  const sideNavText = document.querySelectorAll(".side-menu-text");
-  const mainPage = document.querySelector(".main-content");
+  const sideNavText = document.querySelectorAll('.side-menu-text');
+  const mainPage = document.querySelector('.main-content');
 
   sideNavText.forEach((text) => {
-    text.style.display = "inline";
+    text.style.display = 'inline';
   });
 
   // pkSidenav.style.width = "40vw";
   // mainPage.style.marginLeft = "40vw";
-  shrinkBtn.style.display = "inline";
-  expandBtn.style.display = "none";
+  shrinkBtn.style.display = 'inline';
+  expandBtn.style.display = 'none';
   // mainPage.style.backgroundColor = "rgba(0,0,0,0.1)";
-  mainPage.style.opacity = "0.2";
+  mainPage.style.opacity = '0.2';
 };
 
 // =============================================================================
@@ -71,20 +72,20 @@ const getGen7Moves = (pokemonMoves) => {
 
     // Determine if the move is available in gen 7.
     const gen7Move = versions.filter(
-      (version) => version.version_group.name === "ultra-sun-ultra-moon"
+      (version) => version.version_group.name === 'ultra-sun-ultra-moon'
     );
 
     if (gen7Move.length > 0) {
       const method = gen7Move[0].move_learn_method.name;
       const move = moveData.move;
       switch (method) {
-        case "egg":
+        case 'egg':
           egg.push({ ...move, method });
           break;
-        case "machine":
+        case 'machine':
           machine.push({ ...move, method });
           break;
-        case "level-up":
+        case 'level-up':
           levelUp.push({
             ...move,
             method,
@@ -98,7 +99,7 @@ const getGen7Moves = (pokemonMoves) => {
 };
 
 const getPokemon = async (pokeIndex) => {
-  const allPokemon = JSON.parse(localStorage.getItem("allPokemon"));
+  const allPokemon = JSON.parse(localStorage.getItem('allPokemon'));
   const currentPokemon = allPokemon.results[pokeIndex];
 
   let next = null;
@@ -137,6 +138,6 @@ const getPokemon = async (pokeIndex) => {
     next,
     previous,
   };
-  localStorage.setItem("currentPokemon", JSON.stringify(data));
-  window.location.href = "pokemon.html";
+  localStorage.setItem('currentPokemon', JSON.stringify(data));
+  window.location.href = 'pokemon.html';
 };
