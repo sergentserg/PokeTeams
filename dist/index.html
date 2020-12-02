@@ -9,91 +9,225 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
     <title>PokeTeams</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top">
-      <a href="#" class="navbar-brand"> PokeTeams</a>
-      <button
-        class="navbar-toggler"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbarNav" class="navbar-collapse collapse">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="index.html" class="nav-link">About</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <i class="far fa-user-circle"></i> Jose
-            </a>
-            <div class="dropdown-menu">
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-user"></i> Profile
-              </a>
-              <a href="login.html" class="dropdown-item"
-                ><i class="fas fa-sign-out-alt"></i> Logout</a
+      <div class="container">
+        <a href="index.html" class="navbar-brand">PokéTeams</a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbarNav" class="navbar-collapse collapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a href="index.html" class="nav-link"
+                ><i class="fas fa-home"></i> Home</a
               >
-            </div>
-          </li>
-        </ul>
+            </li>
+            <li class="nav-item">
+              <a href="signin.html" class="nav-link"
+                ><i class="fas fa-sign-in-alt"></i> Sign In</a
+              >
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
+    <header class="jumbotron text-center">
+      <div class="container">
+        <p class="display-4">Welcome to PokeTeams</p>
 
-    <aside class="side-nav bg-secondary text-white">
-      <div class="px-2 shrink-side-icons">
-        <a
-          href="javascript:void(0)"
-          class="shrink-btn"
-          onclick="shrinkSidenav()"
-          ><i class="fas fa-times"></i
-        ></a>
-        <a href="javascript:void(0)" class="expand-btn" onclick="openSidenav()"
-          ><i class="fas fa-list"></i
-        ></a>
+        <p class="lead">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet cumque
+          maiores dolor quidem? Placeat, cum dolores laboriosam eum magni
+          dolore.
+        </p>
+
+        <button
+          class="btn btn-dark"
+          data-toggle="modal"
+          data-target="#signupModal"
+        >
+          Sign Up
+        </button>
       </div>
 
-      <a class="py-3 d-flex align-items-center" href="pokedex.html"
-        ><img
-          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/rule-book.png"
-          alt="Rule Book"
-        />
-        <span class="ml-3 side-menu-text">Pokedex</span>
-      </a>
-      <a class="py-3 d-flex align-items-center" href="moves.html"
-        ><img
-          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/tm-normal.png"
-          alt="TM01"
-        />
-        <span class="ml-3 side-menu-text">Moves</span></a
+      <!-- <div
+        id="signIn"
+        class="d-flex flex-column justify-content-center align-items-center"
       >
-      <a class="py-3 d-flex align-items-center" href="items.html"
-        ><img
-          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/potion.png"
-          alt="Potion"
-        />
-        <span class="ml-3 side-menu-text">Items</span></a
-      >
-      <a class="py-3 d-flex align-items-center" href="teams.html"
-        ><img
-          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png"
-          alt="Ultra Ball"
-        />
-        <span class="ml-3 side-menu-text">Teams</span></a
-      >
-    </aside>
+        <div class="bg-white p-4 border">
+          <h2 class="text-center">Login</h2>
+          <p class="text-muted text-center">
+            An easier way to keep track of what you eat.
+          </p>
+          <form class="">
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input
+                class="form-control"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="myemail@email.com"
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                class="form-control"
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Enter Password"
+              />
+              <small class="d-block text-right mt-1"
+                ><a id="forgot" href="#">Forgot Password?</a></small
+              >
+            </div>
+            <input
+              id="signInInput"
+              class="btn btn-info btn-block mt-4"
+              type="submit"
+              value="Sign In"
+            />
+          </form>
+          <p class="text-muted text-center mt-2">or</p>
+          <div class="google-signin-container">
+            <div>
+              <i class="fab fa-google text-white"></i>
+            </div>
+            <button id="googleSignIn" class="btn btn-danger btn-block mt-2">
+              Login with Google
+            </button>
+          </div>
 
-    <div class="main-content">
-      <h3>About</h3>
+          <small class="d-block mt-3 text-center"
+            >New around here?
+            <a id="register" href="#">Register for free!</a></small
+          >
+        </div>
+      </div> -->
+    </header>
+
+    <div class="container">
+      <h2>What is this landing page about?</h2>
       <p>
-        Application for making pokemon teams.
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus dolorem
+        animi obcaecati porro blanditiis enim ab voluptatibus, odio vero
+        praesentium tenetur. Amet quia minima voluptatibus ab obcaecati impedit
+        consequatur eveniet?
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. A molestias
+        fugit reprehenderit fugiat omnis repudiandae minima vel ad aperiam
+        quaerat!
+      </p>
+
+      <h2>Tell Me More</h2>
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid esse
+        illo nihil minima accusamus. Deserunt non animi iste eius aut, rem
+        tempora, quas incidunt, nam officia temporibus quos laboriosam id
+        facilis vitae in maiores et corrupti quia ipsum earum ad!
+      </p>
+
+      <h2>Benefits</h2>
+
+      <ul>
+        <li>Life Time Access</li>
+        <li>30 Day Money Back</li>
+        <li>Tailored Customer Support</li>
+      </ul>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
+        consequatur nulla ut rem perspiciatis laboriosam vitae, architecto harum
+        incidunt dolores voluptas quisquam, error molestias veritatis numquam
+        cumque aspernatur laudantium, autem atque dignissimos suscipit beatae
+        iure necessitatibus qui. Impedit possimus tempore minima rem molestiae
+        ullam, sequi ipsa quaerat vitae et omnis eius libero! Blanditiis, ipsum
+        qui minima provident iure quo unde. Inventore, distinctio ea? Excepturi
+        unde quibusdam itaque, voluptatem omnis eius.
       </p>
     </div>
 
+    <!-- Sign Up Modal -->
+    <div id="signupModal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content p-4">
+          <!-- <div class="modal-header">
+            <h5 class="modal-title">PokeTeams Sign Up</h5>
+          </div> -->
+          <div class="modal-body">
+            <div class="d-flex justify-content-center">
+              <img
+                style="height: 50px; width: 50px"
+                src="https://cdn3.iconfinder.com/data/icons/movies-3/32/pokemon-movie-cinema-ball-512.png"
+                alt="Pokeball"
+              />
+            </div>
+            <h4 class="text-center my-4">PokeTeams Sign Up</h4>
+
+            <form>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                  class="form-control"
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="myemail@domain.com"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Rest assured, you won't be spammed.</small
+                >
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="At least 8 characters"
+                  required
+                />
+                <small class="form-text text-muted"
+                  >Must have mixed case, numbers, and symbols.</small
+                >
+              </div>
+              <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input
+                  class="form-control"
+                  type="password"
+                  name="password2"
+                  id="password2"
+                  placeholder="Re-enter Password"
+                  required
+                />
+              </div>
+              <input
+                id="signUpSubmit"
+                class="btn btn-danger btn-block mt-4"
+                type="submit"
+                value="Sign Up"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- SCRIPTS -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -113,6 +247,6 @@
       src="https://kit.fontawesome.com/a465367bb1.js"
       crossorigin="anonymous"
     ></script>
-    <script src="./js/script.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>

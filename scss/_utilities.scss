@@ -1,47 +1,47 @@
-.bg-primary-pk {
-  background-color: $primary-color;
-}
+// .bg-primary-pk {
+//   background-color: $primary-color;
+// }
 
-.current {
-  background: #000;
-}
+// .current {
+//   background: #000;
+// }
 
-.view-item {
-  background-color: #dfe5eb;
-}
+// .view-item {
+//   background-color: #dfe5eb;
+// }
 
-.flex-even {
-  flex: 1;
-}
+// .flex-even {
+//   flex: 1;
+// }
 
-.side-nav {
-  height: 100%;
-  position: fixed;
-  left: 0;
+// .side-nav {
+//   height: 100%;
+//   position: fixed;
+//   left: 0;
 
-  a:hover {
-    background: #000;
-  }
+//   a:hover {
+//     background: #000;
+//   }
 
-  .shrink-side-icons {
-    display: none;
+//   .shrink-side-icons {
+//     display: none;
 
-    & ~ a {
-      padding: 0 4rem;
-    }
-  }
-}
+//     & ~ a {
+//       padding: 0 4rem;
+//     }
+//   }
+// }
 
-.main-content {
-  margin-left: 14.5625rem;
-  padding: 1rem 3rem;
-  margin-top: 3.5rem;
-  max-height: 100vh;
-}
+// .main-content {
+//   margin-left: 14.5625rem;
+//   padding: 1rem 3rem;
+//   margin-top: 3.5rem;
+//   max-height: 100vh;
+// }
 
-.filter-list {
-  position: absolute;
-}
+// .filter-list {
+//   position: absolute;
+// }
 
 %type-shared {
   padding: 0.5rem 1.5rem;

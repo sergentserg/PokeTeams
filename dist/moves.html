@@ -9,74 +9,44 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./css/style.css" />
-    <title>PokéTeams</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <title>PokeTeams</title>
   </head>
-
-  <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-danger fixed-top">
-      <a href="pokedex.html" class="navbar-brand">PokéTeams</a>
-      <button
-        class="navbar-toggler"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div id="navbarNav" class="navbar-collapse collapse">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="index.html" class="nav-link">About</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-              <i class="far fa-user-circle"></i> Jose
-            </a>
-            <div class="dropdown-menu">
-              <a href="#" class="dropdown-item">
-                <i class="fas fa-user"></i> Profile
-              </a>
-              <a href="login.html" class="dropdown-item"
-                ><i class="fas fa-sign-out-alt"></i> Logout</a
-              >
-            </div>
-          </li>
-        </ul>
+  <body class="d-flex">
+    <nav class="side-nav bg-danger">
+      <div class="profile-area">
+        <img src="./curly_serg.jpg" alt="Profile Photo" />
       </div>
+      <ul class="nav flex-column text-white">
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fas fa-user"></i> <span>Profile</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="pokedex.html"
+            ><i class="fas fa-book"></i> <span>Pokedex</span></a
+          >
+        </li>
+        <li class="nav-item bg-dark">
+          <a class="nav-link" href="moves.html"
+            ><i class="fas fa-compact-disc"></i> <span>Moves</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fas fa-boxes"></i> <span>Items</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fas fa-sign-out-alt"></i> <span>SignOut</span></a
+          >
+        </li>
+      </ul>
     </nav>
 
-    <aside class="side-nav bg-secondary text-white">
-      <div class="shrink-side-icons px-2">
-        <a
-          href="javascript:void(0)"
-          class="shrink-btn"
-          onclick="shrinkSidenav()"
-          ><i class="fas fa-times"></i
-        ></a>
-        <a href="javascript:void(0)" class="expand-btn" onclick="openSidenav()"
-          ><i class="fas fa-list"></i
-        ></a>
-      </div>
-
-      <a class="py-3 d-flex align-items-center" href="pokedex.html">
-        <i class="fas fa-book"></i>
-        <span class="ml-3 side-menu-text">Pokédex</span>
-      </a>
-      <a class="py-3 d-flex align-items-center current" href="moves.html">
-        <i class="fas fa-compact-disc"></i>
-        <span class="ml-3 side-menu-text">Moves</span></a
-      >
-      <a class="py-3 d-flex align-items-center" href="items.html">
-        <i class="fas fa-boxes"></i>
-        <span class="ml-3 side-menu-text">Items</span></a
-      >
-      <a class="py-3 d-flex align-items-center" href="teams.html">
-        <i class="fas fa-users"></i>
-        <span class="ml-3 side-menu-text">Teams</span></a
-      >
-    </aside>
-
-    <div id="moves" class="main-content">
+    <section id="moves" class="main p-4">
       <h3>Moves</h3>
       <div class="row">
         <div class="col-md-4">
@@ -276,8 +246,9 @@
           ></div>
         </div>
       </div>
-    </div>
+    </section>
 
+    <!-- SCRIPTS -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -297,7 +268,8 @@
       src="https://kit.fontawesome.com/a465367bb1.js"
       crossorigin="anonymous"
     ></script>
-    <script src="./js/script.js"></script>
-    <!-- <script src=""></script> -->
+    <script src="./js/index.js"></script>
+
+    <!-- <script src="./js/pokedex.js"></script> -->
   </body>
 </html>
