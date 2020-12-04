@@ -12,241 +12,268 @@
     <link rel="stylesheet" href="./css/styles.css" />
     <title>PokeTeams</title>
   </head>
-  <body class="d-flex">
-    <nav class="side-nav bg-danger">
-      <div class="profile-area">
-        <img src="./curly_serg.jpg" alt="Profile Photo" />
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-danger border-bottom">
+      <div
+        class="navbar-brand d-flex align-items-center justify-content-center"
+      >
+        <i id="sidenavToggler" class="fas fa-bars"></i>
+        <a href="index.html">
+          <img
+            height="50px"
+            ;
+            width="50px"
+            ;
+            src="https://cdn3.iconfinder.com/data/icons/movies-3/32/pokemon-movie-cinema-ball-512.png"
+            alt="Logo"
+          />
+
+          <span id="brandName">PokeTeams</span>
+        </a>
       </div>
-      <ul class="nav flex-column text-white">
+
+      <ul class="navbar-nav ml-auto flex-row">
         <li class="nav-item">
-          <a class="nav-link" href="#"
-            ><i class="fas fa-user"></i> <span>Profile</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pokedex.html"
-            ><i class="fas fa-book"></i> <span>Pokedex</span></a
-          >
-        </li>
-        <li class="nav-item bg-dark">
-          <a class="nav-link" href="moves.html"
-            ><i class="fas fa-compact-disc"></i> <span>Moves</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"
-            ><i class="fas fa-boxes"></i> <span>Items</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"
-            ><i class="fas fa-sign-out-alt"></i> <span>SignOut</span></a
+          <a href="signin.html" class="nav-link"
+            ><i class="fas fa-sign-in-alt"></i> Sign Out</a
           >
         </li>
       </ul>
     </nav>
-
-    <section id="moves" class="main p-4">
-      <h3>Moves</h3>
-      <div class="row">
-        <div class="col-md-4">
-          <form class="search-form mb-4">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span
-                  class="input-group-text bg-light"
-                  style="border-right: none"
-                >
-                  <i class="fas fa-search"></i>
-                </span>
-              </div>
-              <input
-                class="form-control bg-light"
-                style="border-left: none"
-                type="text"
-                name="moveSearch"
-                id="moveSearchInputs"
-                placeholder="Search Moves..."
-              />
-              <ul id="moveList" class="border bg-white list-unstyled d-none">
-                <li class="px-4 py-2"><small>Growl</small></li>
-                <li class="px-4 py-2"><small>Tackle</small></li>
-                <li class="px-4 py-2"><small>Confuse Ray</small></li>
-                <li class="px-4 py-2"><small>Earthquake</small></li>
-                <li class="px-4 py-2"><small>Solar Beam</small></li>
-                <li class="px-4 py-2"><small>Psybeam</small></li>
-                <li class="px-4 py-2"><small>Ice Beam</small></li>
-              </ul>
-            </div>
-          </form>
+    <div id="appWrap">
+      <nav class="side-nav bg-danger">
+        <div class="profile-area">
+          <img src="./curly_serg.jpg" alt="Profile Photo" />
         </div>
-      </div>
-
-      <!-- Move Details -->
-      <div id="moveSearchResults">
-        <div class="row">
-          <div id="moveDetails" class="col-md-4">
-            <h2 id="moveName" class="text-secondary mb-3">Growl</h2>
-            <div id="descriptionContainer" class="bg-light p-2 mb-2">
-              <small class="text-muted">Description</small>
-              <p id="moveDescription">
-                The user growls in an endearing way, making opposing Pokémon
-                less wary. This lowers their Attack stat.
-              </p>
-            </div>
-
-            <div class="move-info-container">
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>Category</strong>
-                </div>
-                <span id="moveCategory" class="m-2 text-center flex-even">
-                  <i class="text-muted fas fa-adjust fa-lg"></i>
-                </span>
-              </div>
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>Power</strong>
-                </div>
-                <span id="movePower" class="m-2 text-center flex-even">
-                  <strong>---</strong>
-                </span>
-              </div>
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>Accuracy</strong>
-                </div>
-                <span id="moveAccuracy" class="m-2 text-center flex-even">
-                  <strong class="text-danger">100</strong>
-                </span>
-              </div>
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>Type</strong>
-                </div>
-                <span id="moveType" class="m-2 text-center flex-even">
-                  <small class="type-normal">Normal</small>
-                </span>
-              </div>
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>PP</strong>
-                </div>
-                <span id="movePP" class="m-2 text-center flex-even">
-                  <strong>40</strong>
-                </span>
-              </div>
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>Effect Chance</strong>
-                </div>
-                <span id="moveEffectChance" class="m-2 text-center flex-even">
-                  <strong>100</strong>
-                </span>
-              </div>
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>Target</strong>
-                </div>
-                <span id="moveTarget" class="m-2 text-center flex-even">
-                  <strong>All Opponents</strong>
-                </span>
-              </div>
-              <div class="border d-flex">
-                <div
-                  class="p-2 border-right flex-even bg-danger text-white text-center"
-                >
-                  <strong>Introduced</strong>
-                </div>
-                <span id="moveIntroduced" class="m-2 text-center flex-even">
-                  <strong>Generation 1</strong>
-                </span>
-              </div>
-            </div>
-            <div id="effectContainer" class="bg-light py-1 px-2 mt-2 mb-5">
-              <small class="text-muted">Effect</small>
-              <p id="effectEntry" class="text-primary">
-                Lowers the target's Attack by one stage.
-              </p>
-            </div>
-          </div>
-          <div
-            id="moveTypeCompare"
-            class="offset-md-2 col-md-4 d-flex flex-column"
-          >
-            <div id="superVS" class="mb-4 px-2">
-              <h6 class="text-white text-center mt-1 font-weight-bold">
-                Super Effective Against
-              </h6>
-              <div id="superTypes" class="d-flex justify-content-center"></div>
-            </div>
-            <div id="weakVS" class="mb-4 px-2">
-              <h6 class="text-white text-center mt-1 font-weight-bold">
-                Not Very Effective Against
-              </h6>
-              <div id="weakTypes" class="d-flex justify-content-center">
-                <small class="type-fighting px-2 mx-2">Fighting</small>
-                <small class="type-steel px-2 mx-2">Steel</small>
-              </div>
-            </div>
-            <div id="noEffectVS" class="mb-4 px-2">
-              <h6 class="text-white text-center mt-1 font-weight-bold">
-                Ineffective Against
-              </h6>
-              <div id="noEffectTypes" class="d-flex justify-content-center">
-                <small class="type-ghost px-2 mx-2">Ghost</small>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- For Mobile, consider only displaying move's priority level -->
-        <h3 class="text-center">Priority</h3>
-        <ul
-          id="priorityMarkers"
-          class="list-unstyled d-flex justify-content-center"
-        >
-          <li class="flex-even font-weight-bold">-7</li>
-          <li class="flex-even font-weight-bold">-6</li>
-          <li class="flex-even font-weight-bold">-5</li>
-          <li class="flex-even font-weight-bold">-4</li>
-          <li class="flex-even font-weight-bold">-3</li>
-          <li class="flex-even font-weight-bold">-2</li>
-          <li class="flex-even font-weight-bold">-1</li>
-          <li class="flex-even font-weight-bold">0</li>
-          <li class="flex-even font-weight-bold">1</li>
-          <li class="flex-even font-weight-bold">2</li>
-          <li class="flex-even font-weight-bold">3</li>
-          <li class="flex-even font-weight-bold">4</li>
-          <li class="flex-even font-weight-bold">5</li>
+        <ul class="nav flex-column text-white">
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pokedex.html"
+              ><i class="fas fa-book"></i> <span>Pokedex</span></a
+            >
+          </li>
+          <li class="nav-item bg-dark">
+            <a class="nav-link" href="moves.html"
+              ><i class="fas fa-compact-disc"></i> <span>Moves</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="fas fa-boxes"></i> <span>Items</span></a
+            >
+          </li>
         </ul>
-        <div class="progress mb-5" style="height: 2rem; width: 100%">
-          <div
-            id="priorityBar"
-            class="progress-bar progress-bar-striped progress-bar-animated bg-secondary"
-            role="progressbar"
-            aria-valuemin="0"
-            aria-valuemax="12"
-            aria-valuenow="7"
-            style="width: 58%"
-          ></div>
+      </nav>
+
+      <section id="moves" class="main p-4">
+        <h3>Moves</h3>
+        <div class="row">
+          <div class="col-md-4">
+            <form class="search-form mb-4">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span
+                    class="input-group-text bg-light"
+                    style="border-right: none"
+                  >
+                    <i class="fas fa-search"></i>
+                  </span>
+                </div>
+                <input
+                  class="form-control bg-light"
+                  style="border-left: none"
+                  type="text"
+                  name="moveSearch"
+                  id="moveSearchInputs"
+                  placeholder="Search Moves..."
+                />
+                <ul id="moveList" class="border bg-white list-unstyled d-none">
+                  <li class="px-4 py-2"><small>Growl</small></li>
+                  <li class="px-4 py-2"><small>Tackle</small></li>
+                  <li class="px-4 py-2"><small>Confuse Ray</small></li>
+                  <li class="px-4 py-2"><small>Earthquake</small></li>
+                  <li class="px-4 py-2"><small>Solar Beam</small></li>
+                  <li class="px-4 py-2"><small>Psybeam</small></li>
+                  <li class="px-4 py-2"><small>Ice Beam</small></li>
+                </ul>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </section>
+
+        <!-- Move Details -->
+        <div id="moveSearchResults">
+          <div class="row">
+            <div id="moveDetails" class="col-md-4">
+              <h2 id="moveName" class="text-secondary mb-3">Growl</h2>
+              <div id="descriptionContainer" class="bg-light p-2 mb-2">
+                <small class="text-muted">Description</small>
+                <p id="moveDescription">
+                  The user growls in an endearing way, making opposing Pokémon
+                  less wary. This lowers their Attack stat.
+                </p>
+              </div>
+
+              <div class="move-info-container">
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>Category</strong>
+                  </div>
+                  <span id="moveCategory" class="m-2 text-center flex-even">
+                    <i class="text-muted fas fa-adjust fa-lg"></i>
+                  </span>
+                </div>
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>Power</strong>
+                  </div>
+                  <span id="movePower" class="m-2 text-center flex-even">
+                    <strong>---</strong>
+                  </span>
+                </div>
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>Accuracy</strong>
+                  </div>
+                  <span id="moveAccuracy" class="m-2 text-center flex-even">
+                    <strong class="text-danger">100</strong>
+                  </span>
+                </div>
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>Type</strong>
+                  </div>
+                  <span id="moveType" class="m-2 text-center flex-even">
+                    <small class="type-normal">Normal</small>
+                  </span>
+                </div>
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>PP</strong>
+                  </div>
+                  <span id="movePP" class="m-2 text-center flex-even">
+                    <strong>40</strong>
+                  </span>
+                </div>
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>Effect Chance</strong>
+                  </div>
+                  <span id="moveEffectChance" class="m-2 text-center flex-even">
+                    <strong>100</strong>
+                  </span>
+                </div>
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>Target</strong>
+                  </div>
+                  <span id="moveTarget" class="m-2 text-center flex-even">
+                    <strong>All Opponents</strong>
+                  </span>
+                </div>
+                <div class="border d-flex">
+                  <div
+                    class="p-2 border-right flex-even bg-danger text-white text-center"
+                  >
+                    <strong>Introduced</strong>
+                  </div>
+                  <span id="moveIntroduced" class="m-2 text-center flex-even">
+                    <strong>Generation 1</strong>
+                  </span>
+                </div>
+              </div>
+              <div id="effectContainer" class="bg-light py-1 px-2 mt-2 mb-5">
+                <small class="text-muted">Effect</small>
+                <p id="effectEntry" class="text-primary">
+                  Lowers the target's Attack by one stage.
+                </p>
+              </div>
+            </div>
+            <div
+              id="moveTypeCompare"
+              class="offset-md-2 col-md-4 d-flex flex-column"
+            >
+              <div id="superVS" class="mb-4 px-2">
+                <h6 class="text-white text-center mt-1 font-weight-bold">
+                  Super Effective Against
+                </h6>
+                <div
+                  id="superTypes"
+                  class="d-flex justify-content-center"
+                ></div>
+              </div>
+              <div id="weakVS" class="mb-4 px-2">
+                <h6 class="text-white text-center mt-1 font-weight-bold">
+                  Not Very Effective Against
+                </h6>
+                <div id="weakTypes" class="d-flex justify-content-center">
+                  <small class="type-fighting px-2 mx-2">Fighting</small>
+                  <small class="type-steel px-2 mx-2">Steel</small>
+                </div>
+              </div>
+              <div id="noEffectVS" class="mb-4 px-2">
+                <h6 class="text-white text-center mt-1 font-weight-bold">
+                  Ineffective Against
+                </h6>
+                <div id="noEffectTypes" class="d-flex justify-content-center">
+                  <small class="type-ghost px-2 mx-2">Ghost</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- For Mobile, consider only displaying move's priority level -->
+          <h3 class="text-center">Priority</h3>
+          <ul
+            id="priorityMarkers"
+            class="list-unstyled d-flex justify-content-center"
+          >
+            <li class="flex-even font-weight-bold">-7</li>
+            <li class="flex-even font-weight-bold">-6</li>
+            <li class="flex-even font-weight-bold">-5</li>
+            <li class="flex-even font-weight-bold">-4</li>
+            <li class="flex-even font-weight-bold">-3</li>
+            <li class="flex-even font-weight-bold">-2</li>
+            <li class="flex-even font-weight-bold">-1</li>
+            <li class="flex-even font-weight-bold">0</li>
+            <li class="flex-even font-weight-bold">1</li>
+            <li class="flex-even font-weight-bold">2</li>
+            <li class="flex-even font-weight-bold">3</li>
+            <li class="flex-even font-weight-bold">4</li>
+            <li class="flex-even font-weight-bold">5</li>
+          </ul>
+          <div class="progress mb-5" style="height: 2rem; width: 100%">
+            <div
+              id="priorityBar"
+              class="progress-bar progress-bar-striped progress-bar-animated bg-secondary"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="12"
+              aria-valuenow="7"
+              style="width: 58%"
+            ></div>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <!-- SCRIPTS -->
     <script
@@ -269,7 +296,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="./js/index.js"></script>
-
-    <!-- <script src="./js/pokedex.js"></script> -->
   </body>
 </html>

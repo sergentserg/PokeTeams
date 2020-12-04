@@ -89,3 +89,7 @@ async function getPokemon(dexID) {
     previous: +dexID > 1 ? dexIDFromID(+dexID - 1) : null,
   };
 }
+
+document.querySelector('#sidenavToggler').addEventListener('click', () => {
+  document.querySelector('.side-nav').classList.toggle('show-sidenav');
+});

@@ -67,11 +67,8 @@ html {
   height: 100%; }
 
 body {
-  height: 100%;
-  overflow: hidden;
-  transition: transform 0.3s ease, width 0.3s; }
-  body.show-nav {
-    transform: translateX(250px); }
+  height: 100vh;
+  overflow: hidden; }
 
 a {
   color: inherit;
@@ -79,11 +76,34 @@ a {
   a:hover {
     color: inherit; }
 
+header {
+  transform: translateY(77px); }
+
+#sidenavToggler {
+  display: none;
+  font-size: 45px;
+  height: 45px;
+  width: 45px;
+  margin: 0 10px;
+  color: #444; }
+
+.navbar-brand a {
+  text-decoration: none; }
+
+#appWrap {
+  display: flex; }
+
 .side-nav {
   border-right: 2px solid rgba(200, 200, 200, 0.1);
   height: 100vh;
   width: 250px;
-  z-index: 100; }
+  z-index: 100;
+  transition: max-width 0.3s ease-in-out;
+  overflow: hidden;
+  max-width: 250px;
+  display: block; }
+  .side-nav.show-sidenav {
+    max-width: 0; }
   .side-nav .profile-area {
     display: flex;
     align-items: center;
@@ -106,9 +126,15 @@ a {
 
 .main {
   overflow-y: scroll;
+  height: 95vh;
+  padding: 3rem 2rem;
   flex: 1; }
 
+#homeMain {
+  transform: translate(0, 77px); }
+
 #signIn {
+  transform: translate(0, 77px);
   height: 75vh;
   width: 100vw; }
   #signIn .signin-container {
@@ -185,8 +211,14 @@ a {
   background-color: #dfe5eb; }
 
 @media (max-width: 576px) {
+  #sidenavToggler {
+    display: inline-block; }
+  #brandName {
+    display: none; }
+  .navbar-brand a {
+    text-decoration: none; }
   .side-nav {
-    flex: 0; }
+    width: 5rem; }
     .side-nav .nav .nav-item .nav-link {
       font-size: 14px;
       padding: 0.5rem 1rem;
