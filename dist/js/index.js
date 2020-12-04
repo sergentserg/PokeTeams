@@ -86,6 +86,6 @@ async function getPokemon(dexID) {
     abilities,
     moves: parseMoves(pokemonData.moves),
     next: +dexID < MAX_DEX_ID ? dexIDFromID(+dexID + 1) : null,
-    previous: +dexID > 1 ? dexIDFromID(+dexID + 1) : null,
+    previous: +dexID > 1 ? dexIDFromID(+dexID - 1) : null,
   };
 }

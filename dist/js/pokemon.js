@@ -19,6 +19,7 @@ const UICtrl = (function () {
     eggBtn: '#egg',
     machineBtn: '#machine',
     lvlBtn: '#levelUp',
+    nav: '.pagination',
   };
 
   function displayCard(pokemon) {
@@ -103,6 +104,29 @@ const UICtrl = (function () {
     moveContainer.innerHTML = movesContent;
   }
 
+  // Allows navigation to previous and next pokemon, if one exists.
+  function displayPokeNav(previous, next) {
+    let navContent = '';
+    if (previous !== null) {
+      navContent += `
+        <li class="page-item mr-auto">
+          <a href="#" class="page-link" data-dexID="${previous}">&#8592; No. ${previous}</a>
+        </li>
+      `;
+      // <!-- <li id="previousMon" class="page-item">
+      //         <button href="#" class="page-link d-none">&#8592; #001 Bulbasaur</button>
+      //       </li>
+    }
+    if (next !== null) {
+      navContent += `
+        <li class="page-item ml-auto">
+          <a href="#" class="page-link" data-dexID="${next}">No. ${next}&#8594;</a>
+        </li>
+      `;
+    }
+    document.querySelector(UISelectors.nav).innerHTML = navContent;
+  }
+
   return {
     UISelectors,
     displayMoves: displayMoves,
@@ -112,6 +136,7 @@ const UICtrl = (function () {
       displayAbilities(pokemon.abilities);
       // Display level up moves by default.
       displayMoves(pokemon.moves.levelUp);
+      displayPokeNav(pokemon.previous, pokemon.next);
     },
   };
 })();
@@ -120,10 +145,11 @@ const AppCtrl = (function (UICtrl) {
   let pokemon;
 
   function loadEventListeners() {
-    const { lvlBtn, eggBtn, machineBtn } = UICtrl.UISelectors;
+    const { lvlBtn, eggBtn, machineBtn, nav } = UICtrl.UISelectors;
     document.querySelector(lvlBtn).addEventListener('click', filterMoves);
     document.querySelector(eggBtn).addEventListener('click', filterMoves);
     document.querySelector(machineBtn).addEventListener('click', filterMoves);
+    document.querySelector(nav).addEventListener('click', loadNewPokemon);
   }
 
   function filterMoves(e) {
@@ -131,6 +157,14 @@ const AppCtrl = (function (UICtrl) {
     const method = e.target.closest('.btn').id;
     document.querySelector(`#${method}`).classList.add('move-filter');
     UICtrl.displayMoves(pokemon.moves[method]);
+  }
+
+  function loadNewPokemon(e) {
+    const dexID = e.target.getAttribute('data-dexID');
+    if (dexID) {
+      sessionStorage.setItem('currentDexID', dexID);
+      location.reload();
+    }
   }
   return {
     init: async function () {
