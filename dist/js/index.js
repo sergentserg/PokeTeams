@@ -90,6 +90,9 @@ async function getPokemon(dexID) {
   };
 }
 
-document.querySelector('#sidenavToggler').addEventListener('click', () => {
-  document.querySelector('.side-nav').classList.toggle('show-sidenav');
-});
+const sidenavToggler = document.querySelector('#sidenavToggler');
+if (sidenavToggler) {
+  sidenavToggler.addEventListener('click', () => {
+    document.querySelector('.side-nav').classList.toggle('show-sidenav');
+  });
+}
