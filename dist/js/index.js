@@ -5,14 +5,14 @@ const POKEDEX_URL = `https://pokeapi.co/api/v2/pokemon?limit=${MAX_DEX_ID}`;
 const POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 const POKE_PER_PAGE = 20;
-const PAGINATION_LIMIT = 5;
+let PAGINATION_LIMIT;
 
-// const mobileMediaQuery = window.matchMedia('(max-width: 576px)');
-// if (mobileMediaQuery.matches) {
-//   PAGINATION_LIMIT = 1;
-// } else {
-//   PAGINATION_LIMIT = 5;
-// }
+const mobileMediaQuery = window.matchMedia('(max-width: 576px)');
+if (mobileMediaQuery.matches) {
+  PAGINATION_LIMIT = 1;
+} else {
+  PAGINATION_LIMIT = 5;
+}
 
 // Utility Functions
 function dexIDFromID(id) {
