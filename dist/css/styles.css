@@ -224,4 +224,8 @@ header {
       display: block;
       text-align: center; }
   #pokedex #pokeSearchResults {
-    grid-template-columns: 1fr; } }
+    grid-template-columns: 1fr; }
+  #pokemon .row > div {
+    margin-bottom: 2rem; }
+  #pokemon .pagination {
+    margin-bottom: 3rem; } }

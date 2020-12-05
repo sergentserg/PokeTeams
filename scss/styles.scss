@@ -343,4 +343,14 @@ header {
       grid-template-columns: 1fr;
     }
   }
+
+  #pokemon {
+    .row > div {
+      margin-bottom: 2rem;
+    }
+
+    .pagination {
+      margin-bottom: 3rem;
+    }
+  }
 }

@@ -120,7 +120,7 @@ const UICtrl = (function () {
     if (next !== null) {
       navContent += `
         <li class="page-item ml-auto">
-          <a href="#" class="page-link" data-dexID="${next}">No. ${next}&#8594;</a>
+          <a href="#" class="page-link" data-dexID="${next}">No. ${next} &#8594;</a>
         </li>
       `;
     }
