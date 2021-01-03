@@ -71,36 +71,36 @@
         </ul>
       </nav>
 
-      <section id="moves" class="main p-4">
+      <section id="moves" class="main">
         <h3>Moves</h3>
         <div class="row">
           <div class="col-md-4">
-            <form class="search-form mb-4">
+            <form id="moveForm" class="mb-4">
               <div class="input-group">
                 <div class="input-group-prepend">
-                  <span
-                    class="input-group-text bg-light"
-                    style="border-right: none"
-                  >
+                  <span class="input-group-text bg-light">
                     <i class="fas fa-search"></i>
                   </span>
                 </div>
                 <input
                   class="form-control bg-light"
-                  style="border-left: none"
                   type="text"
                   name="moveSearch"
-                  id="moveSearchInputs"
+                  id="moveSearch"
                   placeholder="Search Moves..."
+                  autocomplete="off"
                 />
-                <ul id="moveList" class="border bg-white list-unstyled d-none">
-                  <li class="px-4 py-2"><small>Growl</small></li>
-                  <li class="px-4 py-2"><small>Tackle</small></li>
-                  <li class="px-4 py-2"><small>Confuse Ray</small></li>
-                  <li class="px-4 py-2"><small>Earthquake</small></li>
-                  <li class="px-4 py-2"><small>Solar Beam</small></li>
-                  <li class="px-4 py-2"><small>Psybeam</small></li>
-                  <li class="px-4 py-2"><small>Ice Beam</small></li>
+                <ul
+                  id="moveList"
+                  class="border bg-white list-unstyled d-none small"
+                >
+                  <!-- <li class="px-4 py-2">Growl</li>
+                  <li class="px-4 py-2">Tackle</li>
+                  <li class="px-4 py-2">Confuse Ray</li>
+                  <li class="px-4 py-2">Earthquake</li>
+                  <li class="px-4 py-2">Solar Beam</li>
+                  <li class="px-4 py-2">Psybeam</li>
+                  <li class="px-4 py-2">Ice Beam</li> -->
                 </ul>
               </div>
             </form>
@@ -108,108 +108,96 @@
         </div>
 
         <!-- Move Details -->
-        <div id="moveSearchResults">
+        <div id="moveResults">
           <div class="row">
             <div id="moveDetails" class="col-md-4">
-              <h2 id="moveName" class="text-secondary mb-3">Growl</h2>
-              <div id="descriptionContainer" class="bg-light p-2 mb-2">
+              <h2 id="moveName" class="text-secondary mb-3"></h2>
+              <div class="bg-light p-2 mb-2 border">
                 <small class="text-muted">Description</small>
                 <p id="moveDescription">
-                  The user growls in an endearing way, making opposing Pokémon
-                  less wary. This lowers their Attack stat.
+                  <!-- The user growls in an endearing way, making opposing Pokémon
+                  less wary. This lowers their Attack stat. -->
                 </p>
               </div>
 
-              <div class="move-info-container">
+              <div id="moveStats" class="text-center">
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>Category</strong>
                   </div>
-                  <span id="moveCategory" class="m-2 text-center flex-even">
-                    <i class="text-muted fas fa-adjust fa-lg"></i>
+                  <span id="moveCategory" class="m-2 w-50">
+                    <!-- <i class="text-muted fas fa-adjust fa-lg"></i> -->
                   </span>
                 </div>
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>Power</strong>
                   </div>
-                  <span id="movePower" class="m-2 text-center flex-even">
-                    <strong>---</strong>
+                  <span id="movePower" class="w-50 m-2">
+                    <!-- <strong>---</strong> -->
                   </span>
                 </div>
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>Accuracy</strong>
                   </div>
-                  <span id="moveAccuracy" class="m-2 text-center flex-even">
-                    <strong class="text-danger">100</strong>
+                  <span id="moveAccuracy" class="w-50 m-2">
+                    <!-- <strong class="text-danger">100</strong> -->
                   </span>
                 </div>
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>Type</strong>
                   </div>
-                  <span id="moveType" class="m-2 text-center flex-even">
-                    <small class="type-normal">Normal</small>
+                  <span id="moveType" class="w-50 m-2">
+                    <!-- <small class="type-normal">Normal</small> -->
                   </span>
                 </div>
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>PP</strong>
                   </div>
-                  <span id="movePP" class="m-2 text-center flex-even">
-                    <strong>40</strong>
+                  <span id="movePP" class="w-50 m-2">
+                    <!-- <strong>40</strong> -->
                   </span>
                 </div>
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>Effect Chance</strong>
                   </div>
-                  <span id="moveEffectChance" class="m-2 text-center flex-even">
-                    <strong>100</strong>
+                  <span id="moveEffectChance" class="w-50 m-2">
+                    <!-- <strong>100</strong> -->
                   </span>
                 </div>
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>Target</strong>
                   </div>
-                  <span id="moveTarget" class="m-2 text-center flex-even">
-                    <strong>All Opponents</strong>
+                  <span id="moveTarget" class="w-50 m-2">
+                    <!-- <strong>All Opponents</strong> -->
                   </span>
                 </div>
                 <div class="border d-flex">
-                  <div
-                    class="p-2 border-right flex-even bg-danger text-white text-center"
-                  >
+                  <div class="w-50 p-2 bg-danger text-white">
                     <strong>Introduced</strong>
                   </div>
-                  <span id="moveIntroduced" class="m-2 text-center flex-even">
-                    <strong>Generation 1</strong>
+                  <span id="moveIntroduced" class="w-50 m-2">
+                    <!-- <strong>Generation 1</strong> -->
                   </span>
                 </div>
               </div>
-              <div id="effectContainer" class="bg-light py-1 px-2 mt-2 mb-5">
+              <div
+                id="effectContainer"
+                class="bg-light py-1 px-2 mt-2 mb-5 border"
+              >
                 <small class="text-muted">Effect</small>
                 <p id="effectEntry" class="text-primary">
-                  Lowers the target's Attack by one stage.
+                  <!-- Lowers the target's Attack by one stage. -->
                 </p>
               </div>
             </div>
-            <div
+            <!-- Super/Weak/No Effect -->
+            <!-- <div
               id="moveTypeCompare"
               class="offset-md-2 col-md-4 d-flex flex-column"
             >
@@ -239,16 +227,12 @@
                   <small class="type-ghost px-2 mx-2">Ghost</small>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <!-- For Mobile, consider only displaying move's priority level -->
-          <h3 class="text-center">Priority</h3>
-          <ul
-            id="priorityMarkers"
-            class="list-unstyled d-flex justify-content-center"
-          >
-            <li class="flex-even font-weight-bold">-7</li>
+          <h3 class="text-center">Priority: <span id="priority"></span></h3>
+          <!-- <li class="flex-even font-weight-bold">-7</li>
             <li class="flex-even font-weight-bold">-6</li>
             <li class="flex-even font-weight-bold">-5</li>
             <li class="flex-even font-weight-bold">-4</li>
@@ -260,8 +244,7 @@
             <li class="flex-even font-weight-bold">2</li>
             <li class="flex-even font-weight-bold">3</li>
             <li class="flex-even font-weight-bold">4</li>
-            <li class="flex-even font-weight-bold">5</li>
-          </ul>
+            <li class="flex-even font-weight-bold">5</li> -->
           <div class="progress mb-5" style="height: 2rem; width: 100%">
             <div
               id="priorityBar"
@@ -270,7 +253,7 @@
               aria-valuemin="0"
               aria-valuemax="12"
               aria-valuenow="7"
-              style="width: 58%"
+              style="width: 0%"
             ></div>
           </div>
         </div>
@@ -298,5 +281,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="./js/index.js"></script>
+    <script src="./js/moves.js"></script>
   </body>
 </html>

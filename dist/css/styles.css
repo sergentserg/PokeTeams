@@ -203,11 +203,28 @@ header {
 #pokemon #detailsAccordion #abilities .fa-eye-slash {
   display: none; }
 
-#pokemon #detailsAccordion #moves #moveNames {
+#pokemon #detailsAccordion #movesAccord #moveNames {
   background-color: rgba(97, 175, 254, 0.1); }
 
-#pokemon #detailsAccordion #moves .move-filter {
+#pokemon #detailsAccordion #movesAccord .move-filter {
   background-color: #dfe5eb; }
+
+#moves #moveForm {
+  position: relative; }
+  #moves #moveForm input {
+    border-left: none; }
+  #moves #moveForm #moveList {
+    max-height: 250px;
+    overflow-y: scroll;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 2;
+    box-shadow: 1px 3px 5px #ccc, -1px 0px 5px #ccc; }
+    #moves #moveForm #moveList li:hover {
+      background-color: #eee;
+      cursor: pointer; }
 
 @media (max-width: 576px) {
   #sidenavToggler {

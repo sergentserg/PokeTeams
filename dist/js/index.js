@@ -1,8 +1,12 @@
 // Global Constants
 const MAX_DEX_ID = 807;
+const MAX_MOVES = 813;
 const GAME_VERSION = 'ultra-sun-ultra-moon';
 const POKEDEX_URL = `https://pokeapi.co/api/v2/pokemon?limit=${MAX_DEX_ID}`;
 const POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon';
+const MOVES_URL = `https://pokeapi.co/api/v2/move?limit=${MAX_MOVES}`;
+const MOVE_PRIORITY_COUNT = 13;
+const SLOWEST_MOVE = -7;
 
 const POKE_PER_PAGE = 20;
 let PAGINATION_LIMIT;
@@ -15,12 +19,23 @@ if (mobileMediaQuery.matches) {
 }
 
 // Utility Functions
+function debounce(fn, ms) {
+  let timer = 0;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(fn.bind(this, ...args), ms || 0);
+  };
+}
+
 function dexIDFromID(id) {
   return ('00' + id).substr(-3, 3);
 }
 
 function capitalize(str) {
-  return str[0].toUpperCase() + str.substr(1);
+  return str
+    .split(/\s+/)
+    .map((word) => word[0].toUpperCase() + word.substr(1))
+    .join(' ');
 }
 
 function pokeSpriteURL(dexID) {
