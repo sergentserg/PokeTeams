@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <title>PokeTeams</title>
+  </head>
+  <body class="no-body-scroll">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-danger border-bottom">
+      <div
+        class="navbar-brand d-flex align-items-center justify-content-center"
+      >
+        <button id="sidenavToggler" class="btn">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="index.html">
+          <img
+            height="50px"
+            ;
+            width="50px"
+            ;
+            src="https://cdn3.iconfinder.com/data/icons/movies-3/32/pokemon-movie-cinema-ball-512.png"
+            alt="Logo"
+          />
+
+          <span id="brandName">PokeTeams</span>
+        </a>
+      </div>
+
+      <ul class="navbar-nav ml-auto flex-row">
+        <li class="nav-item">
+          <a href="signin.html" class="nav-link"
+            ><i class="fas fa-sign-in-alt"></i> Sign Out</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div id="appWrap">
+      <nav class="side-nav bg-danger">
+        <div class="profile-area">
+          <img src="./curly_serg.jpg" alt="Profile Photo" />
+        </div>
+        <ul class="nav flex-column text-white">
+          <li class="nav-item">
+            <a class="nav-link" href="#"
+              ><i class="fas fa-user"></i> <span>Profile</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="pokedex.html"
+              ><i class="fas fa-book"></i> <span>Pokedex</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="moves.html"
+              ><i class="fas fa-compact-disc"></i> <span>Moves</span></a
+            >
+          </li>
+          <li class="nav-item bg-dark">
+            <a class="nav-link" href="teams.html"
+              ><i class="fas fa-users"></i> <span>Teams</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+      <section id="teams" class="main">
+        <h3 class="mb-4">Teams</h3>
+        <form class="form-inline mb-2">
+          <div class="form-group">
+            <select class="form-control" name="teamSelect">
+              <option selected disabled hidden>Choose Team</option>
+              <option value="teamName">Team Name</option>
+            </select>
+          </div>
+        </form>
+        <button id="newTeamBtn" class="btn btn-success">
+          <i class="fas fa-plus"></i> New Team
+        </button>
+        <hr/>
+        <h4>Team Name</h4>
+        <!-- PokeTeam -->
+        <div
+          id="pokeTeam"
+        >
+          <div
+            class="team-member"
+          >
+            <img
+              
+              src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"
+              alt="Bulbasaur"
+            />
+          </div>
+          <div  class="team-member">
+            <img
+              
+              src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png"
+              alt="Bulbasaur"
+            />
+          </div>
+          <div  class="team-member">
+            <img
+              
+              src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png"
+              alt="Bulbasaur"
+            />
+          </div>
+          <div  class="team-member">
+            <img
+              
+              src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png"
+              alt="Bulbasaur"
+            />
+          </div>
+          <div  class="team-member">
+            <img
+              
+              src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/005.png"
+              alt="Bulbasaur"
+            />
+          </div>
+          <div  class="team-member">
+            <img
+              
+              src="https://assets.pokemon.com/assets/cms2/img/pokedex/detail/006.png"
+              alt="Bulbasaur"
+            />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn"><i class="fas fa-arrow-alt-circle-left fa-2x"></i></button>
+          <button class="btn"><i class="fas fa-arrow-alt-circle-right fa-2x"></i></button>
+        </div>
+
+        <button class="btn btn-warning mb-2">
+          <i class="fas fa-edit"></i> Edit
+        </button>
+        <button class="btn btn-primary mb-2">
+          <i class="fas fa-edit"></i> Save
+        </button>
+        <button class="btn btn-secondary mb-2">
+          <i class="fas fa-edit"></i> Cancel
+        </button>
+        <div
+          style="border: solid 1px #eee; padding: 1rem"
+          id="currentTeamMember"
+        >
+          <h4>Pokemon</h4>
+          <input
+            type="text"
+            class="form-control mr-2"
+            value="Bulbasaur"
+            disabled
+          />
+          <hr>
+          <h4>Nickname</h4>
+          <input
+            type="text"
+            class="form-control mr-2"
+            value="Bulbie"
+            disabled
+          />
+          <hr>
+          <!-- Ability -->
+          <h4>Ability <i class="fas fa-street-view"></i> </h4>
+          <select class="form-control" name="abilitySelect">
+            <option selected disabled hidden>Choose an Ability</option>
+            <option value="overgrow">Overgrow</option>
+            <option value="chlorophyll">Chlorophyll</option>
+          </select>
+          <div style="background-color: rgba(97, 175, 254, 0.1)" class="p-3 mt-2 border rounded">
+            <strong>
+              Overgrow
+            </strong>
+            <p class="text-muted"></p>
+              Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or
+              less.
+            </p>
+          </div>
+          <hr>
+          <!-- Item -->
+          <h4>Item <i class="fas fa-boxes"></i></h4>
+          <input
+            type="text"
+            class="form-control mr-2"
+            value="Full Restore"
+            disabled
+          />
+          <div style="background-color: rgba(97, 175, 254, 0.1)" class="p-3 mt-2 border rounded">
+            <div>
+              <img
+                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/full-restore.png"
+                alt="Black Glasses"
+              />
+              <strong>Full Restore</strong>
+            </div>
+
+            <p class="text-muted">
+              Used on a party Pokémon\n: Restores HP to full and cures any
+              status ailment and confusion.
+            </p>
+          </div>
+          <hr>
+          <h4>Move Set <i class="fas fa-compact-disc"></i></h4>
+          <div id="chosenMoves">
+            <input
+            type="text"
+            class="form-control mr-2"
+            value="Razor Leaf"
+            disabled
+            />
+            <input
+              type="text"
+              class="form-control mr-2"
+              value="Add Move"
+            />
+            <input
+              type="text"
+              class="form-control mr-2"
+              value="Add Move"
+            />
+            <input
+              type="text"
+              class="form-control mr-2"
+              value="Add Move"
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/a465367bb1.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>

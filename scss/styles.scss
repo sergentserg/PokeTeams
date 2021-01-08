@@ -268,6 +268,34 @@ header {
   }
 }
 
+#teams {
+  input,
+  select {
+    max-width: 200px;
+  }
+
+  #pokeTeam {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .team-member {
+      border: 2px solid #eee;
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  #currentTeamMember {
+    #chosenMoves {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+    }
+  }
+}
+
 @media (max-width: 576px) {
   #sidenavToggler {
     display: inline-block;
@@ -310,6 +338,26 @@ header {
 
     .pagination {
       margin-bottom: 3rem;
+    }
+  }
+
+  #teams {
+    #pokeTeam {
+      .team-member {
+        display: none;
+
+        &:first-child {
+          display: block;
+        }
+      }
+    }
+    #currentTeamMember {
+      #chosenMoves {
+        flex-direction: column;
+        input {
+          margin-bottom: 1rem;
+        }
+      }
     }
   }
 }

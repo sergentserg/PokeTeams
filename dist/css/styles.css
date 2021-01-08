@@ -226,6 +226,24 @@ header {
       background-color: #eee;
       cursor: pointer; }
 
+#teams input,
+#teams select {
+  max-width: 200px; }
+
+#teams #pokeTeam {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem; }
+  #teams #pokeTeam .team-member {
+    border: 2px solid #eee; }
+    #teams #pokeTeam .team-member img {
+      width: 100%; }
+
+#teams #currentTeamMember #chosenMoves {
+  display: flex;
+  justify-content: center;
+  flex-direction: row; }
+
 @media (max-width: 576px) {
   #sidenavToggler {
     display: inline-block; }
@@ -245,4 +263,12 @@ header {
   #pokemon .row > div {
     margin-bottom: 2rem; }
   #pokemon .pagination {
-    margin-bottom: 3rem; } }
+    margin-bottom: 3rem; }
+  #teams #pokeTeam .team-member {
+    display: none; }
+    #teams #pokeTeam .team-member:first-child {
+      display: block; }
+  #teams #currentTeamMember #chosenMoves {
+    flex-direction: column; }
+    #teams #currentTeamMember #chosenMoves input {
+      margin-bottom: 1rem; } }
