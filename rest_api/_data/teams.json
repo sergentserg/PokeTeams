@@ -4,5 +4,11 @@
     "user": "sergio",
     "name": "Dream Team",
     "pokemon": ["bulbasaur", "charmander", "pichu"]
+  },
+  {
+    "_id": 2,
+    "user": "jose",
+    "name": "Dark Light",
+    "pokemon": ["abomasnow", "tentacool", "absol", "umbreon"]
   }
 ]

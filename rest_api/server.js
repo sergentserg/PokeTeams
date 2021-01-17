@@ -15,6 +15,9 @@ connectDB();
 
 const app = express();
 
+// Body paraser; ensures req.body isn't undefined
+app.use(express.json());
+
 // Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
