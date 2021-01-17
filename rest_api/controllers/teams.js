@@ -1,4 +1,5 @@
 const Team = require('../models/Team');
+const ErrorResponse = require('../utils/errorResponse');
 
 // @desc      Get All Teams
 // @route     GET /api/v1/teams
@@ -8,8 +9,8 @@ exports.getTeams = async (req, res, next) => {
     const teams = await Team.find();
 
     res.status(200).json({ success: true, data: teams, count: teams.length });
-  } catch (error) {
-    res.status(400).json({ success: false });
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -22,13 +23,15 @@ exports.getTeam = async (req, res, next) => {
 
     // Correctly formatted ID: no result found. End cycle via return.
     if (!team) {
-      return res.status(400).json({ success: false });
+      return next(
+        new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
+      );
     }
 
     res.status(200).json({ success: true, data: team });
-  } catch (error) {
+  } catch (err) {
     // Incorrectly formatted ID.
-    res.status(400).json({ success: false });
+    next(err);
   }
 };
 
@@ -43,8 +46,8 @@ exports.createTeam = async (req, res, next) => {
       success: true,
       data: team,
     });
-  } catch (error) {
-    res.status(400).json({ success: false });
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -60,11 +63,13 @@ exports.updateTeam = async (req, res, next) => {
     });
 
     if (!team) {
-      return res.status(400).json({ success: true });
+      return next(
+        new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
+      );
     }
     res.status(200).json({ success: true, data: team });
-  } catch (error) {
-    res.status(400).json({ success: true });
+  } catch (err) {
+    next(err);
   }
 };
 
@@ -76,11 +81,13 @@ exports.deleteTeam = async (req, res, next) => {
     const team = await Team.findByIdAndDelete(req.params.id);
 
     if (!team) {
-      return res.status(400).json({ success: true });
+      return next(
+        new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
+      );
     }
 
     res.status(200).json({ success: true, data: {} });
-  } catch (error) {
-    res.status(400).json({ success: true });
+  } catch (err) {
+    next(err);
   }
 };
