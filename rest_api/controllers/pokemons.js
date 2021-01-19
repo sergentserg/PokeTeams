@@ -12,7 +12,10 @@ exports.getPokemons = asyncHandler(async (req, res, next) => {
   if (req.params.teamId) {
     query = Pokemon.find({ team: req.params.teamId });
   } else {
-    query = Pokemon.find();
+    query = Pokemon.find().populate({
+      path: 'team',
+      select: 'name',
+    });
   }
 
   const pokemons = await query;

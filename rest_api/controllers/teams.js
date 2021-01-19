@@ -14,7 +14,10 @@ exports.getTeams = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/teams/:id
 // @access    Private
 exports.getTeam = asyncHandler(async (req, res, next) => {
-  const team = await Team.findById(req.params.id);
+  const team = await Team.findById(req.params.id).populate({
+    path: 'pokemons',
+    select: 'name',
+  });
   // Correctly formatted ID: no result found. End cycle via return.
   if (!team) {
     return next(
@@ -59,13 +62,15 @@ exports.updateTeam = asyncHandler(async (req, res, next) => {
 // @route     DELETE /api/v1/teams/:id
 // @access    Private
 exports.deleteTeam = asyncHandler(async (req, res, next) => {
-  const team = await Team.findByIdAndDelete(req.params.id);
+  // const team = await Team.findByIdAndDelete(req.params.id);
+  const team = await Team.findById(req.params.id);
 
   if (!team) {
     return next(
       new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
     );
   }
+  team.remove();
 
   res.status(200).json({ success: true, data: {} });
 });
