@@ -1,14 +1,17 @@
 [
   {
-    "_id": 1,
-    "user": "sergio",
+    "_id": "6005ee8060908e3ad81bb5c6",
     "name": "Dream Team",
-    "pokemon": ["bulbasaur", "charmander", "pichu"]
+    "slug": "dream-team"
   },
   {
-    "_id": 2,
-    "user": "jose",
-    "name": "Dark Light",
-    "pokemon": ["abomasnow", "tentacool", "absol", "umbreon"]
+    "_id": "6005eeae60908e3ad81bb5c7",
+    "name": "Occult",
+    "slug": "occult"
+  },
+  {
+    "_id": "6005ee3f60908e3ad81bb5c5",
+    "name": "Mythic Light",
+    "slug": "mythic-light"
   }
 ]

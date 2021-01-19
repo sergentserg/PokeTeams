@@ -1,0 +1,25 @@
+[
+  {
+    "name": "bulbasaur",
+    "nick": "bulbie",
+    "ability": "overgrowth",
+    "item": "leftovers",
+    "moves": ["mega drain", "razor leaf", "sleep powder", "solar beam"],
+    "team": "6005ee8060908e3ad81bb5c6"
+  },
+  {
+    "name": "charmander",
+    "nick": "char",
+    "ability": "blaze",
+    "item": "fire stone",
+    "moves": ["flamethrower", "slash", "ember", "fire spin"],
+    "team": "6005ee8060908e3ad81bb5c6"
+  },
+  {
+    "name": "squirtle",
+    "ability": "torrent",
+    "item": "dark glasses",
+    "moves": ["hydro cannon", "surf", "protect", "tackle"],
+    "team": "6005ee3f60908e3ad81bb5c5"
+  }
+]

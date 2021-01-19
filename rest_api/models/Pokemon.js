@@ -21,6 +21,10 @@ const PokemonSchema = new mongoose.Schema({
     trim: true,
     required: [true, 'Please include an ability.'],
   },
+  moves: {
+    type: [String],
+    required: [true, 'Please include moves'],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
