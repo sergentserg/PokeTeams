@@ -7,7 +7,7 @@ const ErrorResponse = require('../utils/errorResponse');
 // @access    Private
 exports.getTeams = asyncHandler(async (req, res, next) => {
   const teams = await Team.find();
-  res.status(200).json({ success: true, data: teams, count: teams.length });
+  res.status(200).json({ success: true, count: teams.length, data: teams });
 });
 
 // @desc      Get single Team

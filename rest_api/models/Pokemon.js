@@ -4,6 +4,7 @@ const PokemonSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
+    unique: true,
     required: [true, 'Please include Pokemon name.'],
   },
   nick: {
