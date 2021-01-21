@@ -15,10 +15,7 @@ exports.register = asyncHandler(async (req, res, next) => {
     password,
   });
 
-  // Create token
-  const token = user.getSignedJwtToken();
-
-  res.status(200).json({ success: true, token });
+  sendTokenResponse(user, 200, res);
 });
 
 // @desc    Login user
@@ -50,8 +47,25 @@ exports.login = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Create token
+  sendTokenResponse(user, 200, res);
+});
+
+// Get token from model, create cookie, and send response.
+const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
 
-  res.status(200).json({ success: true, token });
-});
+  // Assumes days in JWT_COOKIE_EXPIRE.
+  // httpOnly so cookie is accessed only in client side script.
+  const options = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+  };
+
+  res
+    .status(statusCode)
+    .cookie('token', token, options)
+    .json({ success: true, token });
+};
