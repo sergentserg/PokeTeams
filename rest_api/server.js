@@ -11,6 +11,7 @@ dotenv.config({ path: 'rest_api/config/config.env' });
 // Route files
 const teams = require('./routes/teams');
 const pokemons = require('./routes/pokemons');
+const auth = require('./routes/auth');
 
 // Connect to database
 connectDB();
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 // Mount routers
 app.use('/api/v1/teams', teams);
 app.use('/api/v1/pokemons', pokemons);
+app.use('/api/v1/auth', auth);
 
 app.use(errorHandler);
 
