@@ -40,9 +40,9 @@ exports.createTeam = asyncHandler(async (req, res, next) => {
   if (teams && teams.length >= process.env.MAX_USER_TEAMS) {
     return next(
       new ErrorResponse(
-        `The user with id ${req.user.id} has reached the limit on the number of teams`
-      ),
-      400
+        `The user with id ${req.user.id} has reached the limit on the number of teams`,
+        400
+      )
     );
   }
 
@@ -70,9 +70,9 @@ exports.updateTeam = asyncHandler(async (req, res, next) => {
   if (team.user.toString() !== req.user.id) {
     return next(
       new ErrorResponse(
-        `User ${req.user.id} is not authorized to update this team.`
-      ),
-      401
+        `User ${req.user.id} is not authorized to update this team.`,
+        401
+      )
     );
   }
 

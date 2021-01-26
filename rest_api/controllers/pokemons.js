@@ -36,8 +36,7 @@ exports.getPokemon = asyncHandler(async (req, res, next) => {
 
   if (!pokemon) {
     return next(
-      new ErrorResponse(`No course with the id of ${req.params.id}`),
-      404
+      new ErrorResponse(`No pokemon with the id of ${req.params.id}`, 404)
     );
   }
 
@@ -50,6 +49,7 @@ exports.getPokemon = asyncHandler(async (req, res, next) => {
 exports.createPokemon = asyncHandler(async (req, res, next) => {
   // Check if team exists
   req.body.team = req.params.teamId;
+  req.body.user = req.user.id;
 
   const team = await Team.findById(req.params.teamId);
   if (!team) {
@@ -57,6 +57,14 @@ exports.createPokemon = asyncHandler(async (req, res, next) => {
       new ErrorResponse(
         `No team exists with the id of ${req.params.teamId}`,
         404
+      )
+    );
+  }
+  if (team.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to create a pokemon to team ${team._id}.`,
+        401
       )
     );
   }
@@ -69,7 +77,7 @@ exports.createPokemon = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/pokemons/:id
 // @access  Private
 exports.updatePokemon = asyncHandler(async (req, res, next) => {
-  const pokemon = await Pokemon.findByIdAndUpdate(req.params.id);
+  let pokemon = await Pokemon.findById(req.params.id);
 
   if (!pokemon) {
     return next(
@@ -78,19 +86,12 @@ exports.updatePokemon = asyncHandler(async (req, res, next) => {
     );
   }
 
-  res.status(200).json({ success: true, data: pokemon });
-});
-
-// @desc    Update Pokemon
-// @route   PUT /api/v1/pokemons/:id
-// @access  Private
-exports.updatePokemon = asyncHandler(async (req, res, next) => {
-  let pokemon = await Pokemon.findById(req.params.id);
-
-  if (!pokemon) {
+  if (pokemon.user.toString() !== req.user.id) {
     return next(
-      new ErrorResponse(`No pokemon with the id of ${req.params.id}`),
-      404
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to update pokemon ${pokemon._id}`,
+        401
+      )
     );
   }
 
@@ -98,6 +99,7 @@ exports.updatePokemon = asyncHandler(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
   res.status(200).json({ success: true, data: pokemon });
 });
 
@@ -111,6 +113,15 @@ exports.deletePokemon = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorResponse(`No pokemon with the id of ${req.params.id}`),
       404
+    );
+  }
+
+  if (pokemon.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to delete pokemon ${pokemon._id}`,
+        401
+      )
     );
   }
 

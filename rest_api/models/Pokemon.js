@@ -35,6 +35,11 @@ const PokemonSchema = new mongoose.Schema({
     ref: 'Team',
     required: true,
   },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Pokemon', PokemonSchema);
