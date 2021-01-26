@@ -32,6 +32,20 @@ exports.getTeam = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/teams/:id
 // @access    Private
 exports.createTeam = asyncHandler(async (req, res, next) => {
+  // Add user to req.body
+  req.body.user = req.user.id;
+
+  // Check for max number of teams.
+  const teams = await Team.find({ user: req.user.id });
+  if (teams && teams.length >= process.env.MAX_USER_TEAMS) {
+    return next(
+      new ErrorResponse(
+        `The user with id ${req.user.id} has reached the limit on the number of teams`
+      ),
+      400
+    );
+  }
+
   const team = await Team.create(req.body);
 
   res.status(201).json({
@@ -44,17 +58,29 @@ exports.createTeam = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/teams/:id
 // @access    Private
 exports.updateTeam = asyncHandler(async (req, res, next) => {
-  const team = await Team.findByIdAndUpdate(req.params.id, req.body, {
-    // team is the new (updated) data from the body.
-    new: true,
-    runValidators: true,
-  });
+  let team = await Team.findById(req.params.id);
 
   if (!team) {
     return next(
       new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
     );
   }
+
+  // Only the team owner can change the team.
+  if (team.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to update this team.`
+      ),
+      401
+    );
+  }
+
+  team = await Team.findByIdAndUpdate(req.params.id, req.body, {
+    // team is the new (updated) data from the body.
+    new: true,
+    runValidators: true,
+  });
   res.status(200).json({ success: true, data: team });
 });
 
@@ -70,6 +96,16 @@ exports.deleteTeam = asyncHandler(async (req, res, next) => {
       new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
     );
   }
+
+  if (team.user.toString() !== req.user.id) {
+    return next(
+      new ErrorResponse(
+        `User ${req.user.id} is not authorized to delete this team.`,
+        401
+      )
+    );
+  }
+
   team.remove();
 
   res.status(200).json({ success: true, data: {} });
