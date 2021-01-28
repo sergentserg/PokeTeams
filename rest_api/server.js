@@ -1,13 +1,17 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
+const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
 // Load env vars
 dotenv.config({ path: 'rest_api/config/config.env' });
+
+process.env.PROJECT_DIR = __dirname;
 
 // Route files
 const teams = require('./routes/teams');
@@ -30,6 +34,12 @@ app.use(cookieParser());
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// File upload
+app.use(fileupload());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
 app.use('/api/v1/teams', teams);

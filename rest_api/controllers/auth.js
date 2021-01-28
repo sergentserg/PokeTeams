@@ -1,3 +1,4 @@
+const path = require('path');
 const crypto = require('crypto');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
@@ -159,6 +160,64 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
   await user.save();
 
   sendTokenResponse(user, 200, res);
+});
+
+// @desc      Upload photo for user
+// @route     PUT /api/v1/auth/photoupload
+// @access    Private
+exports.userPhotoUpload = asyncHandler(async (req, res, next) => {
+  // Check if file has been uploaded.
+  if (!req.files) {
+    return next(new ErrorResponse(`Please upload a file.`, 400));
+  }
+
+  const file = req.files.file;
+
+  // Image must be a photo.
+  if (!file.mimetype.startsWith('image')) {
+    return next(new ErrorResponse(`Please upload an image file.`, 400));
+  }
+
+  // 1 MB max for photo uploads.
+  if (file.size > process.env.MAX_FILE_UPLOAD) {
+    return next(
+      new ErrorResponse(
+        `Please upload an image less than ${
+          process.env.MAX_FILE_UPLOAD / (1024 * 1024)
+        } MB.`,
+        400
+      )
+    );
+  }
+
+  // Create unique photo name.
+  file.name = `photo_${req.user.id}${path.parse(file.name).ext}`;
+
+  // Move file to photo folder.
+  file.mv(
+    path.join(
+      process.env.PROJECT_DIR,
+      process.env.PUBLIC_DIR,
+      process.env.FILE_UPLOAD_DIR,
+      file.name
+    ),
+    async (err) => {
+      if (err) {
+        return next(new ErrorResponse(`Unable to upload file`, 500));
+      }
+
+      await User.findByIdAndUpdate(
+        req.user.id,
+        { photo: file.name },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+
+      res.status(200).json({ success: true, photo: file.name });
+    }
+  );
 });
 
 // Get token from model, create cookie, and send response.
