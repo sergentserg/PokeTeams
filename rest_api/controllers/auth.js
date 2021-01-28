@@ -62,6 +62,17 @@ exports.getMe = asyncHandler(async (req, res, next) => {
   });
 });
 
+// @desc    Log user out by clearing cookie
+// @route   GET /api/v1/auth/logout
+// @access  Private
+exports.logout = asyncHandler(async (req, res, next) => {
+  res.clearCookie('token');
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
+});
+
 // @desc    Forgot password
 // @route   POST /api/v1/auth/forgotpassword
 // @access  Public
