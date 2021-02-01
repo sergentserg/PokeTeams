@@ -5,6 +5,11 @@ const morgan = require('morgan');
 const colors = require('colors');
 const fileupload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
@@ -38,10 +43,30 @@ if (process.env.NODE_ENV === 'development') {
 // File upload
 app.use(fileupload());
 
-// Set static folder
+// Sanitize data.
+app.use(mongoSanitize());
+
+// Set security headers.
+app.use(helmet());
+
+// Prevent XSS attacks.
+app.use(xss());
+
+// Rate Limiting.
+const limiter = rateLimit({
+  windowsMs: process.env.RATE_LIMIT_MINS * 60 * 1000, // in ms
+  max: process.env.RATE_LIMIT_MAX,
+});
+
+app.use(limiter);
+
+// Prevent http parameter pollution.
+app.use(hpp());
+
+// Set static folder.
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Mount routers
+// Mount routers.
 app.use('/api/v1/teams', teams);
 app.use('/api/v1/pokemons', pokemons);
 app.use('/api/v1/auth', auth);
