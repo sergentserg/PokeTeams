@@ -34,11 +34,16 @@ TeamSchema.pre('save', function (next) {
 });
 
 // Cascade delete pokemons when a team is deleted.
-TeamSchema.pre('remove', async function (next) {
-  console.log(`Pokemons being removed from team ${this._id}`);
-  await this.model('Pokemon').deleteMany({ team: this._id });
-  next();
-});
+TeamSchema.pre(
+  /^(delete|remove)/,
+  { document: true, query: false },
+  async function (next) {
+    console.log(this);
+    console.log(`Pokemons being removed from team ${this._id}`);
+    await this.model('Pokemon').deleteMany({ team: this._id });
+    next();
+  }
+);
 
 // Reverse populate with virtuals.
 TeamSchema.virtual('pokemons', {

@@ -49,6 +49,16 @@ UserSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
+// Cascade delete teams when a user is deleted.
+UserSchema.pre(
+  /^(delete|remove)/,
+  { document: true, query: false },
+  async function (next) {
+    await this.model('Team').deleteMany({ user: this._id });
+    next();
+  }
+);
+
 // Sign JWT and return.
 UserSchema.methods.getSignedJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
