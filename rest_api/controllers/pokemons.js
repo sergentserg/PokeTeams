@@ -1,5 +1,5 @@
 const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
+const asyncHandler = require('../utils/async');
 const Pokemon = require('../models/Pokemon');
 const Team = require('../models/Team');
 
@@ -13,7 +13,7 @@ exports.getPokemons = asyncHandler(async (req, res, next) => {
   if (req.params.teamId) {
     query = Pokemon.find({ team: req.params.teamId });
   } else {
-    query = Pokemon.find().populate({
+    query = Pokemon.find({ user: req.user.id }).populate({
       path: 'team',
       select: 'name',
     });
@@ -29,17 +29,17 @@ exports.getPokemons = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/pokemons/:id
 // @access  Private
 exports.getPokemon = asyncHandler(async (req, res, next) => {
-  const pokemon = await Pokemon.findById(req.params.id).populate({
+  const pokemon = await Pokemon.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  }).populate({
     path: 'team',
     select: 'name',
   });
 
   if (!pokemon) {
-    return next(
-      new ErrorResponse(`No pokemon with the id of ${req.params.id}`, 404)
-    );
+    return next(new ErrorResponse(`Resource not found.`, 404));
   }
-
   res.status(200).json({ success: true, data: pokemon });
 });
 
@@ -47,26 +47,16 @@ exports.getPokemon = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/teams/:teamId/pokemons
 // @access  Private
 exports.createPokemon = asyncHandler(async (req, res, next) => {
-  // Check if team exists
+  // Check if team exists.
   req.body.team = req.params.teamId;
   req.body.user = req.user.id;
 
-  const team = await Team.findById(req.params.teamId);
+  const team = await Team.findOne({
+    user: req.user.id,
+    _id: req.params.teamId,
+  });
   if (!team) {
-    return next(
-      new ErrorResponse(
-        `No team exists with the id of ${req.params.teamId}`,
-        404
-      )
-    );
-  }
-  if (team.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to create a pokemon to team ${team._id}.`,
-        401
-      )
-    );
+    return next(new ErrorResponse('Resource not found.', 404));
   }
   const pokemon = await Pokemon.create(req.body);
 
@@ -77,22 +67,13 @@ exports.createPokemon = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/pokemons/:id
 // @access  Private
 exports.updatePokemon = asyncHandler(async (req, res, next) => {
-  let pokemon = await Pokemon.findById(req.params.id);
+  let pokemon = await Pokemon.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  });
 
   if (!pokemon) {
-    return next(
-      new ErrorResponse(`No course with the id of ${req.params.id}`),
-      404
-    );
-  }
-
-  if (pokemon.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to update pokemon ${pokemon._id}`,
-        401
-      )
-    );
+    return next(new ErrorResponse('Resource not found', 404));
   }
 
   pokemon = await Pokemon.findByIdAndUpdate(req.params.id, req.body, {
@@ -107,22 +88,13 @@ exports.updatePokemon = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/v1/pokemons/:id
 // @access  Private
 exports.deletePokemon = asyncHandler(async (req, res, next) => {
-  const pokemon = await Pokemon.findById(req.params.id);
+  const pokemon = await Pokemon.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  });
 
   if (!pokemon) {
-    return next(
-      new ErrorResponse(`No pokemon with the id of ${req.params.id}`),
-      404
-    );
-  }
-
-  if (pokemon.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to delete pokemon ${pokemon._id}`,
-        401
-      )
-    );
+    return next(new ErrorResponse('Resource not found', 404));
   }
 
   await pokemon.remove();

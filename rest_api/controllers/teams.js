@@ -1,12 +1,12 @@
 const Team = require('../models/Team');
-const asyncHandler = require('../middleware/async');
+const asyncHandler = require('../utils/async');
 const ErrorResponse = require('../utils/errorResponse');
 
 // @desc      Get All Teams
 // @route     GET /api/v1/teams
 // @access    Private
 exports.getTeams = asyncHandler(async (req, res, next) => {
-  const teams = await Team.find();
+  const teams = await Team.find({ user: req.user.id });
   res.status(200).json({ success: true, count: teams.length, data: teams });
 });
 
@@ -14,14 +14,22 @@ exports.getTeams = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/teams/:id
 // @access    Private
 exports.getTeam = asyncHandler(async (req, res, next) => {
-  const team = await Team.findById(req.params.id).populate({
+  const team = await Team.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  }).populate({
     path: 'pokemons',
     select: 'name',
   });
+  console.log(team);
   // Correctly formatted ID: no result found. End cycle via return.
   if (!team) {
+    return next(new ErrorResponse(`Resource not found.`, 404));
+  }
+
+  if (team.user.toString() != req.user.id) {
     return next(
-      new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
+      new ErrorResponse(`Not authorized to access this resource.`, 403)
     );
   }
 
@@ -58,22 +66,14 @@ exports.createTeam = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/teams/:id
 // @access    Private
 exports.updateTeam = asyncHandler(async (req, res, next) => {
-  let team = await Team.findById(req.params.id);
+  // Ensure resource exists.
+  let team = await Team.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  });
 
   if (!team) {
-    return next(
-      new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
-    );
-  }
-
-  // Only the team owner can change the team.
-  if (team.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to update this team.`,
-        401
-      )
-    );
+    return next(new ErrorResponse('Resource not found', 404));
   }
 
   team = await Team.findByIdAndUpdate(req.params.id, req.body, {
@@ -88,24 +88,14 @@ exports.updateTeam = asyncHandler(async (req, res, next) => {
 // @route     DELETE /api/v1/teams/:id
 // @access    Private
 exports.deleteTeam = asyncHandler(async (req, res, next) => {
-  // const team = await Team.findByIdAndDelete(req.params.id);
-  const team = await Team.findById(req.params.id);
+  const team = await Team.findOne({
+    _id: req.params.id,
+    user: req.user.id,
+  });
 
   if (!team) {
-    return next(
-      new ErrorResponse(`Team not found with id of ${req.params.id}`, 404)
-    );
+    return next(new ErrorResponse('Resource not found', 404));
   }
-
-  if (team.user.toString() !== req.user.id) {
-    return next(
-      new ErrorResponse(
-        `User ${req.user.id} is not authorized to delete this team.`,
-        401
-      )
-    );
-  }
-
   team.remove();
 
   res.status(200).json({ success: true, data: {} });

@@ -13,9 +13,8 @@ const hpp = require('hpp');
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
-// Load env vars
+// Load environment variables.
 dotenv.config({ path: 'rest_api/config/config.env' });
-
 process.env.PROJECT_DIR = __dirname;
 
 // Route files
@@ -24,23 +23,24 @@ const pokemons = require('./routes/pokemons');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
 
-// Connect to database
+// Connect to database.
 connectDB();
 
 const app = express();
 
-// Body paraser; ensures req.body isn't undefined
+// ---- Middleware ------
+// Body parser; ensures req.body isn't undefined.
 app.use(express.json());
 
-// Cookie parser
+// Cookie parser.
 app.use(cookieParser());
 
-// Dev logging middleware
+// Dev logging middleware.
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// File upload
+// File upload.
 app.use(fileupload());
 
 // Sanitize data.
@@ -72,6 +72,7 @@ app.use('/api/v1/pokemons', pokemons);
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/users', users);
 
+// Error handling (custom) middleware.
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
@@ -83,7 +84,7 @@ const server = app.listen(PORT, () =>
   )
 );
 
-// Unhandled Promise rejections
+// Unhandled Promise rejections.
 process.on('unhandledRejection', (err, promise) => {
   console.log(`Error: ${err.message}`.red);
   // Close server and exit process.

@@ -27,20 +27,20 @@ const TeamSchema = new mongoose.Schema(
   }
 );
 
-// Create team slug from the name
+// Create team slug from the name.
 TeamSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
 
-// Cascade delete pokemons when a team is deleted
+// Cascade delete pokemons when a team is deleted.
 TeamSchema.pre('remove', async function (next) {
   console.log(`Pokemons being removed from team ${this._id}`);
   await this.model('Pokemon').deleteMany({ team: this._id });
   next();
 });
 
-// Reverse populate with virtuals
+// Reverse populate with virtuals.
 TeamSchema.virtual('pokemons', {
   ref: 'Pokemon',
   localField: '_id',

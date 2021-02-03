@@ -1,22 +1,23 @@
 const jwt = require('jsonwebtoken');
-const asyncHandler = require('./async');
+const asyncHandler = require('../utils/async');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
 
-// Protect routes
+// Protect routes (allow only authenticated users).
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer ')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  } else if (req.cookies.token) {
+  // if (
+  //   req.headers.authorization &&
+  //   req.headers.authorization.startsWith('Bearer ')
+  // ) {
+  //   token = req.headers.authorization.split(' ')[1];
+  // } else
+  if (req.cookies.token) {
     token = req.cookies.token;
   }
 
-  // Make sure token exists
+  // Make sure token exists.
   if (!token) {
     return next(
       new ErrorResponse('Not authorized to access this resource.', 401)
@@ -24,9 +25,8 @@ exports.protect = asyncHandler(async (req, res, next) => {
   }
 
   try {
-    // Verify token
+    // Verify token and set user in request object.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
 
     req.user = await User.findById(decoded.id);
     next();
@@ -43,7 +43,7 @@ exports.authorize = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new ErrorResponse(
-          `User role ${req.user.role} is not authorize to access this route.`,
+          `User role ${req.user.role} is forbidden from accessing this route.`,
           403
         )
       );

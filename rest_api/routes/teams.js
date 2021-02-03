@@ -11,13 +11,12 @@ const { protect } = require('../middleware/auth');
 
 const router = express.Router();
 
+router.use(protect);
+
 // Reroute
 router.use('/:teamId/pokemons', pokemonsRouter);
 
-router.route('/').get(protect, getTeams).post(protect, createTeam);
-router
-  .route('/:id')
-  .get(protect, getTeam)
-  .put(protect, updateTeam)
-  .delete(protect, deleteTeam);
+router.route('/').get(getTeams).post(createTeam);
+router.route('/:id').get(getTeam).put(updateTeam).delete(deleteTeam);
+
 module.exports = router;

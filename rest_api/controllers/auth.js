@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
 const sendEmail = require('../utils/sendEmails');
-const asyncHandler = require('../middleware/async');
+const asyncHandler = require('../utils/async');
 
 // @desc    Register user
 // @route   POST /api/v1/auth/register
@@ -40,7 +40,7 @@ exports.login = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if password matches
+  // Check if password matches.
   const isMatch = await user.matchPassword(password);
 
   if (!isMatch) {
@@ -87,7 +87,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
 
-  // Create reset url
+  // Create reset url.
   const resetURL = `${req.protocol}://${req.get(
     'host'
   )}/api/v1/auth/resetpassword/${resetToken}`;
@@ -96,7 +96,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Password reset token',
+      subject: 'PokeTeams password reset token',
       message,
     });
     res.status(200).json({ success: true, data: 'Email sent.' });
@@ -248,5 +248,6 @@ const sendTokenResponse = (user, statusCode, res) => {
   res
     .status(statusCode)
     .cookie('token', token, options)
-    .json({ success: true, token });
+    .json({ success: true });
+  // .json({ success: true, token });
 };
