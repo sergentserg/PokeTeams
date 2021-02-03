@@ -3,4 +3,6 @@ node_modules/
 package-lock.json
 *.zip
 *.txt
-rest_api/_data/seeder.js
+rest_api/_data
+rest_api/config/config.env
+poketeams.postman_collection.json

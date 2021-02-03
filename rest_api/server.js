@@ -64,7 +64,7 @@ app.use(limiter);
 app.use(hpp());
 
 // Set static folder.
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api/v1', express.static(path.join(__dirname, 'public')));
 
 // Mount routers.
 app.use('/api/v1/teams', teams);
