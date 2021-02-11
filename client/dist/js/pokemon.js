@@ -168,7 +168,7 @@ const AppCtrl = (function (UICtrl) {
   }
   return {
     init: async function () {
-      // Authenticate
+      authenticate();
       const dexID = sessionStorage.getItem('currentDexID');
       pokemon = await getPokemon(dexID);
       UICtrl.render(pokemon);

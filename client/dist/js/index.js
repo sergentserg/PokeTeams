@@ -11,6 +11,8 @@ const SLOWEST_MOVE = -7;
 const POKE_PER_PAGE = 20;
 let PAGINATION_LIMIT;
 
+document.querySelector('#signOutBtn').addEventListener('click', logout);
+
 const mobileMediaQuery = window.matchMedia('(max-width: 576px)');
 if (mobileMediaQuery.matches) {
   PAGINATION_LIMIT = 1;
@@ -43,11 +45,34 @@ function pokeSpriteURL(dexID) {
 }
 
 // Redirect if no token.
-function authenticate() {
+async function authenticate() {
+  const GET_ME_URL = 'http://127.0.0.1:5000/api/v1/auth/me';
+  const res = await fetch(GET_ME_URL, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  const data = await res.json();
+  if (!data.success) {
+    location.replace('signin.html');
+  }
   // Get token from local storage.
   // const token = sessionStorage.getItem('jwt');
   // If no token, redirect to login page.
   // window.location.href = 'login.html';
+}
+
+async function logout() {
+  const LOGOUT_URL = 'http://127.0.0.1:5000/api/v1/auth/logout';
+  const res = await fetch(LOGOUT_URL, {
+    method: 'GET',
+    credentials: 'include',
+  });
+  const data = await res.json();
+  if (!data.success) {
+    console.log('Not allowed to be here.');
+  } else {
+    location.replace('signin.html');
+  }
 }
 
 function parseMoves(moves) {

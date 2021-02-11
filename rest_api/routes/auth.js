@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   register,
+  verifyEmail,
   login,
   logout,
   getMe,
@@ -15,6 +16,7 @@ const { protect } = require('../middleware/auth');
 const router = express.Router();
 
 router.post('/register', register);
+router.put('/verify/:emailToken', verifyEmail);
 router.post('/login', login);
 router.get('/logout', logout);
 router.get('/me', protect, getMe);

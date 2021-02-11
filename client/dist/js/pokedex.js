@@ -299,7 +299,7 @@ const AppCtrl = (function (UICtrl, PokedexCtrl) {
 
   return {
     init: async function () {
-      // authenticate();
+      authenticate();
       await PokedexCtrl.init();
       populateResults();
       loadAllEventListeners();

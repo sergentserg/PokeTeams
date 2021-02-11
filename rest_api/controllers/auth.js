@@ -9,13 +9,59 @@ const asyncHandler = require('../utils/async');
 // @route   POST /api/v1/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
 
   const user = await User.create({
-    name,
     email,
     password,
   });
+  const emailToken = user.getEmailVerifyToken();
+  await user.save();
+
+  const verifyUrl = `${req.protocol}://${req.get(
+    'origin'
+  )}/signup.html?emailtoken=${emailToken}`;
+
+  const message = `Hello,\n\nYou are receiving this email because you (or someone else) have decided to create a PokeTeams account with the following credentials:\n\nPassword: ${password}\n\nYou can use your email to login. Please click on the following link to confirm your email before you can start using your account:\n\n${verifyUrl}\n\nIf you did not initiate this request, please ignore this email.\n\nBest,\nPokeTeams`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'PokeTeams Email Verification',
+      message,
+    });
+    res.status(200).json({ success: true, data: 'Email sent.' });
+  } catch (err) {
+    console.log(err);
+    await user.delete();
+
+    return next(new ErrorResponse(`Email could not be sent.`, 500));
+  }
+});
+
+// @desc    Verify User Email
+// @route   PUT /api/v1/auth/verify/:emailToken
+// @access  Public
+exports.verifyEmail = asyncHandler(async (req, res, next) => {
+  // Get hashed token.
+  const emailVerifyToken = crypto
+    .createHash('sha256')
+    .update(req.params.emailToken)
+    .digest('hex');
+
+  const user = await User.findOne({
+    emailVerifyToken,
+    emailVerifyExpire: { $gt: Date.now() },
+  });
+  if (!user) {
+    return next(new ErrorResponse('Invalid token', 400));
+  }
+
+  // Activate account.
+  user.active = true;
+  user.emailVerifyToken = undefined;
+  user.emailVerifyExpire = undefined;
+  await user.save();
 
   sendTokenResponse(user, 200, res);
 });
@@ -32,7 +78,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
 
   // Check for user; explicitly requests password (defaults to not returning it).
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email: email }).select('+password');
 
   if (!user) {
     return next(

@@ -10,7 +10,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./css/styles.css" />
-    <title>PokeTeams | Sign In</title>
+    <title>PokeTeams | Register</title>
   </head>
   <body class="bg-light">
     <nav
@@ -42,7 +42,7 @@
                 ><i class="fas fa-home"></i> Home</a
               >
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
               <a href="#" class="nav-link"
                 ><i class="fas fa-sign-in-alt"></i> Sign In</a
               >
@@ -53,7 +53,7 @@
     </nav>
 
     <section
-      id="signIn"
+      id="signUp"
       class="d-flex flex-column justify-content-center align-items-center"
     >
       <div class="signin-container bg-white p-4 border">
@@ -65,9 +65,8 @@
           />
         </div>
 
-        <h3 class="text-center">Sign in to PokeTeams</h3>
-        <p class="text-muted text-center">Get competitive about Pokemon.</p>
-        <form id="signInForm">
+        <h3 class="text-center">New trainer approaches</h3>
+        <form id="signUpForm">
           <div class="form-group">
             <label for="email">Email Address</label>
             <input
@@ -86,26 +85,32 @@
               type="password"
               name="password"
               id="password"
-              placeholder="Enter Password"
+              placeholder="PokeTeams Password"
               required
+              minlength=8
             />
-            <small class="d-block text-right mt-1"
-              ><a id="forgotPass" class="text-primary" href="#"
-                >Forgot Password?</a
-              ></small
-            >
           </div>
+          <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input
+              class="form-control"
+              type="password"
+              name="password2"
+              id="password2"
+              placeholder="PokeTeams Password"
+              required
+              minlength=8
+            />
           <input
-            id="signInInput"
             class="btn btn-danger btn-block mt-4"
             type="submit"
-            value="Sign In"
+            value="Register"
           />
         </form>
         <small class="d-block mt-3 text-center"
-          >New around here?
-          <a id="register" class="text-primary" href="signup.html"
-            >Register for free!</a
+          >Already have an account?
+          <a class="text-primary" href="signin.html"
+            >Sign In!</a
           ></small
         >
       </div>
@@ -130,6 +135,6 @@
       src="https://kit.fontawesome.com/a465367bb1.js"
       crossorigin="anonymous"
     ></script>
-    <script src="./js/signin.js"></script>
+    <script src="./js/signup.js"></script>
   </body>
 </html>

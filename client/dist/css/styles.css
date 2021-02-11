@@ -132,11 +132,13 @@ header {
 #homeMain {
   transform: translate(0, 77px); }
 
-#signIn {
+#signIn,
+#signUp {
   transform: translate(0, 77px);
   height: 75vh;
   width: 100vw; }
-  #signIn .signin-container {
+  #signIn .signin-container,
+  #signUp .signin-container {
     width: 360px; }
 
 #pokedex #pokeSearchResults {

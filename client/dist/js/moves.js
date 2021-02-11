@@ -164,7 +164,7 @@ const AppCtrl = (function (UICtrl, MovesCtrl) {
 
   return {
     init: async function () {
-      // Authenticate
+      authenticate();
       loadEventListeners();
       await MovesCtrl.init();
       // Check for move in local storage.

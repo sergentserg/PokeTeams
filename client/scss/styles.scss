@@ -115,7 +115,8 @@ header {
 }
 
 // Sign In Page
-#signIn {
+#signIn,
+#signUp {
   transform: translate(0, $navbar-height);
   height: 75vh;
   width: 100vw;
