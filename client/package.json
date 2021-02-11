@@ -1,0 +1,22 @@
+{
+  "name": "PokeTeams_Client",
+  "version": "1.0.0",
+  "description": "Simple application for making pokemon teams using the PokeAPI",
+  "main": "server.js",
+  "scripts": {
+    "sass": "node-sass -w client/scss/ -o client/dist/css --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergentserg/PokeTeams.git"
+  },
+  "author": "Sergio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sergentserg/PokeTeams/issues"
+  },
+  "homepage": "https://github.com/sergentserg/PokeTeams#readme",
+  "devDependencies": {
+    "node-sass": "^5.0.0"
+  }
+}

@@ -1,10 +1,9 @@
 {
-  "name": "poke_teams",
+  "name": "Poketeams_API",
   "version": "1.0.0",
   "description": "Simple application for making pokemon teams using the PokeAPI",
   "main": "server.js",
   "scripts": {
-    "sass": "node-sass -w client/scss/ -o client/dist/css --recursive",
     "start": "SET NODE_ENV=production & node rest_api/server",
     "dev": "nodemon rest_api/server"
   },
@@ -20,7 +19,6 @@
   "homepage": "https://github.com/sergentserg/PokeTeams#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "colors": "^1.4.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -33,12 +31,12 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.12",
     "morgan": "^1.10.0",
-    "node-sass": "^5.0.0",
     "nodemailer": "^6.4.17",
     "slugify": "^1.4.6",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
+    "colors": "^1.4.0",
     "nodemon": "^2.0.7"
   }
 }

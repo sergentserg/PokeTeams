@@ -14,7 +14,7 @@ const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
 // Load environment variables.
-dotenv.config({ path: 'rest_api/config/config.env' });
+dotenv.config({ path: './config/config.env' });
 process.env.PROJECT_DIR = __dirname;
 
 // Route files
