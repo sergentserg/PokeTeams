@@ -44,23 +44,6 @@ function pokeSpriteURL(dexID) {
   return `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${dexID}.png`;
 }
 
-// Redirect if no token.
-async function authenticate() {
-  const GET_ME_URL = 'http://127.0.0.1:5000/api/v1/auth/me';
-  const res = await fetch(GET_ME_URL, {
-    method: 'GET',
-    credentials: 'include',
-  });
-  const data = await res.json();
-  if (!data.success) {
-    location.replace('signin.html');
-  }
-  // Get token from local storage.
-  // const token = sessionStorage.getItem('jwt');
-  // If no token, redirect to login page.
-  // window.location.href = 'login.html';
-}
-
 async function logout() {
   const LOGOUT_URL = 'http://127.0.0.1:5000/api/v1/auth/logout';
   const res = await fetch(LOGOUT_URL, {

@@ -52,7 +52,7 @@ function getSearchParams(url) {
   return params;
 }
 
-async function registerUser(e) {
+export async function registerUser(e) {
   e.preventDefault();
   // Get form fields.
   const inputs = e.target.elements;

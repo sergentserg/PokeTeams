@@ -1,0 +1,18 @@
+@import '../shared/assets/shared';
+
+$login-width: 360px;
+
+#login,
+#signUp {
+  transform: translate(0, $navbar-height);
+  height: 75vh;
+  width: 100vw;
+  .login-container {
+    width: $login-width;
+
+    form a {
+      color: blue;
+      cursor: pointer;
+    }
+  }
+}

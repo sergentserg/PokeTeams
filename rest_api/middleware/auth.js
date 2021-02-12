@@ -28,7 +28,14 @@ exports.protect = asyncHandler(async (req, res, next) => {
     // Verify token and set user in request object.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = await User.findById(decoded.id);
+    // Invalid token or expired token?
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return next(
+        new ErrorResponse('Not authorized to access this resource.', 401)
+      );
+    }
+    req.user = user;
     next();
   } catch (err) {
     return next(

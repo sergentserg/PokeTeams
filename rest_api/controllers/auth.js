@@ -20,7 +20,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 
   const verifyUrl = `${req.protocol}://${req.get(
     'origin'
-  )}/signup.html?emailtoken=${emailToken}`;
+  )}/login.html?emailtoken=${emailToken}`;
 
   const message = `Hello,\n\nYou are receiving this email because you (or someone else) have decided to create a PokeTeams account with the following credentials:\n\nPassword: ${password}\n\nYou can use your email to login. Please click on the following link to confirm your email before you can start using your account:\n\n${verifyUrl}\n\nIf you did not initiate this request, please ignore this email.\n\nBest,\nPokeTeams`;
 
