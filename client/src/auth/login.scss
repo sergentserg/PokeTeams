@@ -1,0 +1,18 @@
+@import '../shared/assets/shared';
+
+$login-width: 360px;
+
+#auth {
+  transform: translate(0, $navbar-height);
+  height: 75vh;
+  width: 100vw;
+  .auth-container {
+    width: $login-width;
+
+    small {
+      color: blue;
+      cursor: pointer;
+      display: block;
+    }
+  }
+}

@@ -1,0 +1,185 @@
+@import 'variables';
+@import 'utilities';
+
+#pokemon {
+  #detailsCard {
+    // width: 30%;
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    img {
+      width: 215px;
+    }
+  }
+
+  #detailsAccordion {
+    #stats {
+      .progress {
+        height: 1.5rem;
+
+        .progress-bar {
+          transition: all 0.5s;
+        }
+      }
+      .stat-hp:hover {
+        background-color: $hp-color;
+      }
+
+      .stat-atk:hover {
+        background-color: $atk-color;
+      }
+
+      .stat-def:hover {
+        background-color: $def-color;
+      }
+
+      .stat-spatk:hover {
+        background-color: $spatk-color;
+      }
+
+      .stat-spdef:hover {
+        background-color: $spdef-color;
+      }
+
+      .stat-spd:hover {
+        background-color: $spd-color;
+      }
+    }
+
+    #abilities {
+      .view-item {
+        background: white;
+      }
+      .fa-eye,
+      .fa-eye-slash {
+        display: none;
+      }
+    }
+
+    #movesAccord {
+      #moveNames {
+        background-color: rgba(97, 175, 254, 0.1);
+      }
+
+      .move-filter {
+        background-color: #dfe5eb;
+      }
+    }
+  }
+}
+
+// Move Page
+#moves {
+  #moveForm {
+    position: relative;
+
+    input {
+      border-left: none;
+    }
+
+    #moveList {
+      max-height: 250px;
+      overflow-y: scroll;
+      width: 100%;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 2;
+      box-shadow: 1px 3px 5px #ccc, -1px 0px 5px #ccc;
+
+      li:hover {
+        background-color: #eee;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+#teams {
+  input,
+  select {
+    max-width: 200px;
+  }
+
+  #pokeTeam {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .team-member {
+      border: 2px solid #eee;
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  #currentTeamMember {
+    #chosenMoves {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  #sidenavToggler {
+    display: inline-block;
+  }
+
+  #brandName {
+    display: none;
+  }
+
+  .navbar-brand a {
+    text-decoration: none;
+  }
+  .side-nav {
+    // flex: 0;
+    width: 5rem;
+
+    .nav {
+      .nav-item {
+        .nav-link {
+          font-size: 14px;
+          padding: 0.5rem 1rem;
+          display: block;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  #pokemon {
+    .row > div {
+      margin-bottom: 2rem;
+    }
+
+    .pagination {
+      margin-bottom: 3rem;
+    }
+  }
+
+  #teams {
+    #pokeTeam {
+      .team-member {
+        display: none;
+
+        &:first-child {
+          display: block;
+        }
+      }
+    }
+    #currentTeamMember {
+      #chosenMoves {
+        flex-direction: column;
+        input {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+}

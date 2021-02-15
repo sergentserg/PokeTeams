@@ -1,0 +1,92 @@
+@import '../shared/assets/shared';
+@import './pokedex/pokedex';
+
+// App variables.
+$sidenav-width: 250px;
+$hp-color: rgba(255, 0, 0, 0.75);
+$atk-color: rgba(255, 166, 0, 0.75);
+$def-color: rgba(0, 184, 6, 0.564);
+$spatk-color: rgba(128, 0, 128, 0.75);
+$spdef-color: rgba(250, 128, 114, 0.75);
+$spd-color: rgba(7, 203, 224, 0.714);
+
+body.no-body-scroll {
+  height: 100vh;
+  overflow: hidden;
+}
+
+#sidenavToggler {
+  display: none;
+  margin-right: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  i {
+    font-size: 1.5rem;
+  }
+}
+
+#appWrap {
+  display: flex;
+  // transition: transform 0.3s ease, width 0.3s;
+
+  // &.show-nav {
+  //   transform: translateX($sidenav-width);
+  // }
+}
+
+.side-nav {
+  border-right: 2px solid rgba(200, 200, 200, 0.1);
+  height: 100vh;
+  width: $sidenav-width;
+  z-index: 100;
+  // transform: translate(0, $navbar-height);
+  transition: max-width 0.3s ease-in-out;
+  overflow: hidden;
+  max-width: $sidenav-width;
+
+  &.show-sidenav {
+    max-width: 0;
+  }
+
+  .profile-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 0;
+
+    img {
+      height: 75px;
+      width: 75px;
+      border-radius: 50%;
+    }
+  }
+
+  .nav {
+    .nav-item {
+      border-bottom: 2px solid rgba(200, 200, 200, 0.1);
+
+      &:first-of-type {
+        border-top: 2px solid rgba(200, 200, 200, 0.1);
+      }
+
+      .nav-link {
+        padding-left: 4.5rem;
+        padding-right: 4.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  }
+
+  display: block;
+}
+
+.main {
+  overflow-y: scroll;
+  // Container must have a height that it overflows.
+  height: 95vh;
+  padding: 3rem 2rem;
+  flex: 1;
+  // transform: translate(0, $navbar-height);
+}

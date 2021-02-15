@@ -20,14 +20,14 @@ exports.register = asyncHandler(async (req, res, next) => {
 
   const verifyUrl = `${req.protocol}://${req.get(
     'origin'
-  )}/login.html?emailtoken=${emailToken}`;
+  )}/auth.html?emailtoken=${emailToken}`;
 
-  const message = `Hello,\n\nYou are receiving this email because you (or someone else) have decided to create a PokeTeams account with the following credentials:\n\nPassword: ${password}\n\nYou can use your email to login. Please click on the following link to confirm your email before you can start using your account:\n\n${verifyUrl}\n\nIf you did not initiate this request, please ignore this email.\n\nBest,\nPokeTeams`;
+  const message = `Hello,\n\nYou are receiving this email because you (or someone else) have decided to create a PokeTeams account. Please click on the following link to confirm your email before you can start using your account:\n\n${verifyUrl}\n\nIf you did not initiate this request, please ignore this email.\n\nBest,\nPokeTeams`;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: 'PokeTeams Email Verification',
+      subject: 'PokeTeams Email Verification - DO NOT REPLY',
       message,
     });
     res.status(200).json({ success: true, data: 'Email sent.' });
@@ -135,14 +135,14 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
   // Create reset url.
   const resetURL = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/auth/resetpassword/${resetToken}`;
-  const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetURL}`;
+    'origin'
+  )}/auth.html?resettoken=${resetToken}`;
+  const message = `Hello,\nYou are receiving this email because you (or someone else) has requested the reset of a password. Please click on the following URL to reset your PokeTeams password: \n\n ${resetURL}\n\nIf you did not request this reset, please ignore this email.\n\nBest,\nPokeTeams`;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: 'PokeTeams password reset token',
+      subject: 'PokeTeams Password Reset - DO NOT REPLY',
       message,
     });
     res.status(200).json({ success: true, data: 'Email sent.' });

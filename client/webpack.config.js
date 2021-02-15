@@ -6,14 +6,20 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-    index: './src/pages/home/index.js',
-    login: './src/pages/auth/login.js',
+    index: './src/home/index.js',
+    login: './src/auth/index.js',
+    app: './src/app/index.js',
   },
   output: {
     filename: './js/[name].[contenthash].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'inline-source-map',
+  resolve: {
+    alias: {
+      src: path.resolve(__dirname, 'src'),
+    },
+  },
   module: {
     rules: [
       // {
@@ -84,13 +90,18 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/pages/home/index.html',
+      template: 'src/home/index.html',
       chunks: ['index'],
     }),
     new HtmlWebpackPlugin({
-      filename: 'login.html',
-      template: 'src/pages/auth/login.html',
+      filename: 'auth.html',
+      template: 'src/auth/index.html',
       chunks: ['login'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'app.html',
+      template: 'src/app/index.html',
+      chunks: ['app'],
     }),
     new CleanWebpackPlugin(),
   ],
