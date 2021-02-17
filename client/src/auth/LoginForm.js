@@ -4,7 +4,7 @@ import { RegisterForm } from './RegisterForm';
 import { ForgotForm } from './ForgotForm';
 import { Alert } from 'src/shared/components/Alert';
 
-import { login } from '../shared/util/auth';
+import { login } from './AuthState';
 
 export function LoginForm(formContainer) {
   // Form header.
@@ -90,7 +90,7 @@ function submitLogin(e) {
     if (!success) {
       const formContainer = form.parentElement;
       const alertDiv = Alert(false, 'Invalid credentials');
-      formContainer.append(alertDiv, formContainer.firstElementChild);
+      formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
     } else {
       window.location.replace('app.html');
     }

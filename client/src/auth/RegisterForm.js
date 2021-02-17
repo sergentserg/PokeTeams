@@ -2,7 +2,7 @@ import { DOMElement } from '../shared/components/DOMElement';
 import { FormGroup } from '../shared/components/FormGroup';
 import { Alert } from 'src/shared/components/Alert';
 
-import { register } from '../shared/util/auth';
+import { register } from './AuthState';
 
 export function RegisterForm(formContainer) {
   // Form header.

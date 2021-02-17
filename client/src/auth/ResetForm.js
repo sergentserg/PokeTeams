@@ -2,7 +2,7 @@ import { FormGroup } from '../shared/components/FormGroup';
 import { DOMElement } from '../shared/components/DOMElement';
 import { Alert } from 'src/shared/components/Alert';
 
-import { resetPassword } from '../shared/util/auth';
+import { resetPassword } from './AuthState';
 
 export function ResetForm(formContainer, resetToken) {
   const form = document.createElement('form');

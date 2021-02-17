@@ -14,6 +14,7 @@ export function Navbar(isLoggedIn) {
     navContent = DOMElement('div', { class: 'container' });
     nav.append(navContent);
   } else {
+    nav.classList.add('border-bottom');
     navContent = nav;
   }
 

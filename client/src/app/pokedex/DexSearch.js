@@ -1,7 +1,7 @@
 // import searchPokemon from '../utils/searchPokemon';
 import { DOMElement } from 'src/shared/components/DOMElement';
 
-export function DexSearch() {
+export default function DexSearch() {
   const form = DOMElement('form', { class: 'search-form' });
 
   const inputGroup = document.createElement('div');
@@ -27,11 +27,5 @@ export function DexSearch() {
     placeholder: 'Search Pokemon...',
   });
   inputGroup.append(searchInput);
-  form.addEventListener('submit', searchPokemonSubmit);
   return form;
-}
-
-function searchPokemonSubmit(e) {
-  e.preventDefault();
-  console.log('Searching for Pokemon');
 }
