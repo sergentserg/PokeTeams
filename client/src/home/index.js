@@ -1,7 +1,7 @@
 import './index.scss';
 
 import { Navbar } from '../shared/components/Navbar';
-import { authenticate } from 'src/shared/util/auth';
+import { authenticate } from '../auth/AuthState';
 
 // Authenticate when this page is loaded.
 authenticate().then((isLoggedIn) => {

@@ -2,7 +2,7 @@ import { DOMElement } from '../shared/components/DOMElement';
 import { FormGroup } from '../shared/components/FormGroup';
 import { Alert } from 'src/shared/components/Alert';
 
-import { forgotPassword } from '../shared/util/auth';
+import { forgotPassword } from './AuthState';
 
 export function ForgotForm(formContainer) {
   const header = DOMElement('h3', { class: 'text-center' });
