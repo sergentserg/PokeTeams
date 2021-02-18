@@ -15,7 +15,7 @@ export default (function SearchFilter() {
   return {
     component: searchFilter,
     update: function (searchQuery) {
-      filterText.innerText = `"${searchQuery}" `;
+      filterText.textContent = `"${searchQuery}" `;
       filterBtn.classList.remove('d-none');
     },
   };

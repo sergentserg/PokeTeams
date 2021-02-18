@@ -3,11 +3,13 @@ import SearchFilter from './SearchFilter';
 import PokedexItems from './PokedexItems';
 import Pagination from './Pagination';
 import PokedexEntry from './PokedexEntry';
+import PokedexEntryNav from './PokedexEntryNav';
 
 export class PokedexView {
   constructor(state) {
     this.state = state;
     this.view = document.createElement('div');
+    this.view.id = 'pokedex';
   }
 
   render() {
@@ -15,9 +17,8 @@ export class PokedexView {
     while (this.view.firstElementChild) this.view.firstElementChild.remove();
 
     // Show Pokedex entry or Pokedex items.
-    const currentPokemon = sessionStoraget.getItem('currentPokemon');
+    const currentPokemon = sessionStorage.getItem('currentPokemon');
     if (!currentPokemon) {
-      this.view.id = 'pokedex';
       // Header.
       const title = document.createElement('h2');
       title.innerText = 'Pokédex';
@@ -51,13 +52,23 @@ export class PokedexView {
       PokedexItems.update(data);
       Pagination.update(this.state.getTotalPages());
     } else {
-      this.view.id = 'pokemon';
-      // <a
-      //   href="pokedex.html"
-      //   class="btn btn-secondary text-white results-btn mb-4"
-      // >
-      //   <i class="fas fa-long-arrow-alt-left"></i> Search
-      // </a>;
+      // Back-to-Pokedex button; clear currentPokemon.
+      const backBtn = document.createElement('button');
+      backBtn.setAttribute('class', 'btn btn-secondary text-white mb-4');
+      backBtn.innerHTML = '<i class="fas fa-long-arrow-alt-left"></i> Search';
+      backBtn.addEventListener('click', this.returnToDexSearch.bind(this));
+      this.view.append(backBtn);
+
+      this.state.getPokemon(currentPokemon).then((data) => {
+        PokedexEntry.update(data);
+        this.view.append(PokedexEntry.component);
+        const pokedexEntryNav = PokedexEntryNav(data.previous, data.next);
+        pokedexEntryNav.addEventListener(
+          'click',
+          this.updateCurrentPokemon.bind(this)
+        );
+        this.view.append(pokedexEntryNav);
+      });
     }
 
     return this.view;
@@ -115,19 +126,28 @@ export class PokedexView {
   }
 
   viewPokemonDetails(e) {
-    // Insead of refreshing, clear everything and show the Pokemon page
-    // Save the DEX # for clicked Pokemon and redirect.
     const viewDetailsBtn = e.target.closest('.poke-details-btn');
     if (viewDetailsBtn) {
-      sessionStorage.setItem(
-        'currentDexID',
-        viewDetailsBtn.getAttribute('data-poke-dexid')
-      );
+      const dexID = viewDetailsBtn.getAttribute('data-poke-dexid');
+      sessionStorage.setItem('currentPokemon', dexID);
+      // console.log(viewDetailsBtn.getAttribute('data-poke-dexid'));
       sessionStorage.setItem('currentPage', 'pokemon');
-      console.log(viewDetailsBtn.getAttribute('data-poke-dexid'));
-      location.reload();
+      this.render();
     } else {
       console.log("Didn't click details btn");
+    }
+  }
+
+  returnToDexSearch(e) {
+    sessionStorage.removeItem('currentPokemon');
+    this.render();
+  }
+
+  updateCurrentPokemon(e) {
+    const dexID = e.target.getAttribute('data-dexID');
+    if (dexID) {
+      sessionStorage.setItem('currentPokemon', dexID);
+      this.render();
     }
   }
 }
