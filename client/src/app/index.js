@@ -1,6 +1,6 @@
 import './index.scss';
 import { Navbar } from '../shared/components/Navbar';
-import { authenticate } from '../shared/util/auth';
+import { authenticate, logout } from '../shared/util/auth';
 import { PokedexView } from './pokedex/PokedexView.js';
 import { PokedexState } from './pokedex/PokedexState';
 
@@ -11,6 +11,11 @@ authenticate().then(async (isLoggedIn) => {
     window.location = 'auth.html';
   } else {
     document.body.insertBefore(Navbar(isLoggedIn), document.body.firstChild);
+    document.querySelector('#sidenavToggler').addEventListener('click', () => {
+      document.querySelector('.side-nav').classList.toggle('show-sidenav');
+    });
+    document.querySelector('#logoutLink').addEventListener('click', logout);
+    document.querySelector('.navbar-toggler').style.display = 'none';
 
     // Load user profile (name and image).
 

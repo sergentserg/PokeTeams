@@ -1,7 +1,6 @@
 // import pokeball image
 import Pokeball from '../assets/Pokeball.png';
 import { DOMElement } from './DOMElement';
-import { logout } from '../util/auth';
 
 export function Navbar(isLoggedIn) {
   // Navbar.
@@ -14,7 +13,6 @@ export function Navbar(isLoggedIn) {
     navContent = DOMElement('div', { class: 'container' });
     nav.append(navContent);
   } else {
-    nav.classList.add('border-bottom');
     navContent = nav;
   }
 
@@ -37,6 +35,11 @@ export function Navbar(isLoggedIn) {
   collapseBtn.innerHTML = `<span class="navbar-toggler-icon"></span>`;
   navContent.append(collapseBtn);
 
+  const collapsedContent = document.createElement('div');
+  collapsedContent.classList = 'navbar-collapse collapse';
+  collapsedContent.id = 'navbarNav';
+  navContent.append(collapsedContent);
+
   // Navigation menu: (Home + Login) OR (Logout).
   const navMenu = DOMElement('ul', { class: 'navbar-nav ml-auto' });
   let li;
@@ -51,12 +54,14 @@ export function Navbar(isLoggedIn) {
     li.innerHTML = `<a href="auth.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>`;
     navMenu.append(li);
   } else {
-    // Logout button.
-    li = DOMElement('li', { class: 'nav-item' });
-    li.innerHTML = `<a class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>`;
-    li.addEventListener('click', logout);
-    navMenu.append(li);
+    // Side nav toggler button.
+    nav.classList.add('border-bottom');
+    const sideNavToggler = document.createElement('button');
+    sideNavToggler.classList = 'btn';
+    sideNavToggler.id = 'sidenavToggler';
+    sideNavToggler.innerHTML = `<span class="navbar-toggler-icon"></span>`;
+    navContent.append(sideNavToggler);
   }
-  navContent.append(navMenu);
+  collapsedContent.append(navMenu);
   return nav;
 }

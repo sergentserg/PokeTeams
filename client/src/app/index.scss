@@ -90,3 +90,32 @@ body.no-body-scroll {
   flex: 1;
   // transform: translate(0, $navbar-height);
 }
+
+@media (max-width: 576px) {
+  #sidenavToggler {
+    display: inline-block;
+  }
+
+  #brandName {
+    display: none;
+  }
+
+  .navbar-brand a {
+    text-decoration: none;
+  }
+  .side-nav {
+    // flex: 0;
+    width: 5rem;
+
+    .nav {
+      .nav-item {
+        .nav-link {
+          font-size: 14px;
+          padding: 0.5rem 1rem;
+          display: block;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
