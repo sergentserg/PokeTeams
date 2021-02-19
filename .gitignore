@@ -6,3 +6,4 @@ package-lock.json
 rest_api/_data
 rest_api/config/config.env
 poketeams.postman_collection.json
+client/dist/
