@@ -1,4 +1,4 @@
-import { POKE_SPRITE_URL } from './PokedexState';
+import { POKE_SPRITE_URL } from 'src/shared/util/constants';
 import { capitalize } from 'src/shared/util/capitalize';
 
 export default function PokedexEntrySummary(data) {

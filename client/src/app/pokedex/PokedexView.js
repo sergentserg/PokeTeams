@@ -8,7 +8,7 @@ import PokedexEntryNav from './PokedexEntryNav';
 export class PokedexView {
   constructor(state) {
     this.state = state;
-    this.view = document.createElement('div');
+    this.view = document.querySelector('.main');
     this.view.id = 'pokedex';
   }
 
@@ -70,8 +70,6 @@ export class PokedexView {
         this.view.append(pokedexEntryNav);
       });
     }
-
-    return this.view;
   }
 
   searchPokedex(e) {

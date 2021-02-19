@@ -10,7 +10,7 @@
       crossorigin="anonymous"
     />
     <title>PokéTeams | App</title>
-  <script defer src="./js/app.e38be133e9713b7f4140.bundle.js"></script><link href="./css/app.f305307a0d7440bce112.css" rel="stylesheet"></head>
+  <script defer src="./js/app.fc3e86aff8878a374bfb.bundle.js"></script><link href="./css/app.f305307a0d7440bce112.css" rel="stylesheet"></head>
   <body class="no-body-scroll">
     <div id="appWrap">
       <nav class="side-nav bg-danger">
@@ -18,22 +18,22 @@
           <img src="" alt="Profile Photo" />
         </div>
         <ul class="nav flex-column text-white">
-          <li id="profileLink" class="nav-item">
+          <li id="profileLink" class="nav-item" data-view="profile">
             <a class="nav-link" href="#"
               ><i class="fas fa-user"></i> <span>Profile</span></a
             >
           </li>
-          <li id="pokedexLink" class="nav-item bg-dark">
+          <li id="pokedexLink" class="nav-item" data-view="pokedex">
             <a class="nav-link" href="#"
               ><i class="fas fa-book"></i> <span>Pokédex</span></a
             >
           </li>
-          <li id="movesLink" class="nav-item">
+          <li id="movesLink" class="nav-item" data-view="moves">
             <a class="nav-link" href="#"
               ><i class="fas fa-compact-disc"></i> <span>Moves</span></a
             >
           </li>
-          <li id="teamsLink" class="nav-item">
+          <li id="teamsLink" class="nav-item" data-view="teams">
             <a class="nav-link" href="#"
               ><i class="fas fa-users"></i> <span>Teams</span></a
             >
@@ -45,6 +45,7 @@
           </li>
         </ul>
       </nav>
+      <div class="main"></div>
     </div>
 
     <!-- SCRIPTS -->

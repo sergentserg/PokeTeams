@@ -1,11 +1,7 @@
 import { capitalize } from 'src/shared/util/capitalize';
 
 import { dexNoFromId } from 'src/shared/util/dexNoFromId';
-
-const POKE_API_URL = 'https://pokeapi.co/api/v2';
-// `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${dexID}.png`;
-export const POKE_SPRITE_URL = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail`;
-export const GAME_VERSION = 'ultra-sun-ultra-moon';
+import { POKE_API_URL, GAME_VERSION } from 'src/shared/util/constants';
 
 export class PokedexState {
   constructor() {
