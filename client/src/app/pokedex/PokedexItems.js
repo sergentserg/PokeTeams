@@ -1,20 +1,23 @@
 import PokedexItem from './PokedexItem';
 
-export default (function PokedexItems() {
-  const items = document.createElement('div');
-  items.setAttribute('id', 'pokeSearchResults');
-  items.setAttribute('class', 'my-5');
+export default class PokedexItems {
+  constructor() {
+    this.items = document.createElement('div');
+    this.items.setAttribute('id', 'pokeSearchResults');
+    this.items.setAttribute('class', 'my-5');
+  }
 
-  return {
-    component: items,
-    update: function (data) {
-      // Clear items.
-      while (items.firstElementChild) items.firstElementChild.remove();
+  getComponent() {
+    return this.items;
+  }
 
-      // Populate with new data.
-      data.forEach((pokemon) => {
-        items.append(PokedexItem(pokemon));
-      });
-    },
-  };
-})();
+  update(data) {
+    // Clear this.items.
+    while (this.items.firstElementChild) this.items.firstElementChild.remove();
+
+    // Populate with new data.
+    data.forEach((pokemon) => {
+      this.items.append(PokedexItem(pokemon));
+    });
+  }
+}

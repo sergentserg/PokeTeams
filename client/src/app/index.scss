@@ -8,7 +8,6 @@ $spdef-color: rgba(250, 128, 114, 0.75);
 $spd-color: rgba(7, 203, 224, 0.714);
 
 @import '../shared/assets/shared';
-@import './pokedex/pokedex';
 
 body.no-body-scroll {
   height: 100vh;
@@ -90,6 +89,9 @@ body.no-body-scroll {
   flex: 1;
   // transform: translate(0, $navbar-height);
 }
+
+@import './pokedex/pokedex';
+@import './moves/moves';
 
 @media (max-width: 576px) {
   #sidenavToggler {

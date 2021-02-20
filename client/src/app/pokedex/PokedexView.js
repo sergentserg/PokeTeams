@@ -5,23 +5,43 @@ import Pagination from './Pagination';
 import PokedexEntry from './PokedexEntry';
 import PokedexEntryNav from './PokedexEntryNav';
 
+import { PAGINATION_LIMIT } from 'src/shared/util/constants';
+
 export class PokedexView {
   constructor(state) {
     this.state = state;
     this.view = document.querySelector('.main');
     this.view.id = 'pokedex';
+    this.searchFilter = new SearchFilter();
+    // Add event listeners.
+    this.searchFilter
+      .getComponent()
+      .addEventListener('click', this.clearFilter.bind(this));
+
+    this.pokedexItems = new PokedexItems();
+    this.pokedexItems
+      .getComponent()
+      .addEventListener('click', this.viewPokemonDetails.bind(this));
+
+    this.pagination = new Pagination();
+    this.pagination
+      .getComponent()
+      .addEventListener('click', this.flipPage.bind(this));
+
+    this.pokedexEntry = new PokedexEntry();
   }
 
   render() {
     // Clear view.
-    while (this.view.firstElementChild) this.view.firstElementChild.remove();
-
+    while (this.view.firstElementChild) {
+      this.view.firstElementChild.remove();
+    }
     // Show Pokedex entry or Pokedex items.
     const currentPokemon = sessionStorage.getItem('currentPokemon');
     if (!currentPokemon) {
       // Header.
       const title = document.createElement('h2');
-      title.innerText = 'Pokédex';
+      title.textContent = 'Pokédex';
       this.view.append(title);
 
       // Search Input.
@@ -30,27 +50,18 @@ export class PokedexView {
       this.view.append(searchComponent);
 
       // Search filter.
-      const searchFilter = SearchFilter.component;
-      searchFilter.addEventListener('click', this.clearFilter.bind(this));
-      this.view.append(searchFilter);
+      this.view.append(this.searchFilter.getComponent());
 
-      // PokedexItems.
-      const itemsComponent = PokedexItems.component;
-      itemsComponent.addEventListener(
-        'click',
-        this.viewPokemonDetails.bind(this)
-      );
-      this.view.append(itemsComponent);
+      // Pokedex Items (entries).
+      this.view.append(this.pokedexItems.getComponent());
 
       // Pagination.
-      const paginationComponent = Pagination.component;
-      paginationComponent.addEventListener('click', this.flipPage.bind(this));
-      this.view.append(paginationComponent);
+      this.view.append(this.pagination.getComponent());
 
       // Default Pokedex view: all Pokemon.
       const data = this.state.getPage();
-      PokedexItems.update(data);
-      Pagination.update(this.state.getTotalPages());
+      this.pokedexItems.update(data);
+      this.pagination.update(this.state.getTotalPages());
     } else {
       // Back-to-Pokedex button; clear currentPokemon.
       const backBtn = document.createElement('button');
@@ -60,14 +71,14 @@ export class PokedexView {
       this.view.append(backBtn);
 
       this.state.getPokemon(currentPokemon).then((data) => {
-        PokedexEntry.update(data);
-        this.view.append(PokedexEntry.component);
-        const pokedexEntryNav = PokedexEntryNav(data.previous, data.next);
-        pokedexEntryNav.addEventListener(
-          'click',
-          this.updateCurrentPokemon.bind(this)
-        );
-        this.view.append(pokedexEntryNav);
+        this.pokedexEntry.update(data);
+        this.view.append(this.pokedexEntry.getComponent());
+        const pokedexEntryNav = new PokedexEntryNav(data.previous, data.next);
+        pokedexEntryNav
+          .getComponent()
+          .querySelector('.pagination')
+          .addEventListener('click', this.updateCurrentPokemon.bind(this));
+        this.view.append(pokedexEntryNav.getComponent());
       });
     }
   }
@@ -80,10 +91,10 @@ export class PokedexView {
       e.preventDefault();
 
       this.state.filterPokemons(searchQuery);
-      SearchFilter.update(searchQuery);
+      this.searchFilter.update(searchQuery);
 
-      PokedexItems.update(this.state.getPage());
-      Pagination.update(this.state.getTotalPages());
+      this.pokedexItems.update(this.state.getPage());
+      this.pagination.update(this.state.getTotalPages());
     }
   }
 
@@ -115,12 +126,10 @@ export class PokedexView {
     else newActive = parseInt(buttonClickText);
     this.state.setPageNumber(newActive);
     newFirst =
-      Pagination.PAGINATION_LIMIT *
-        Math.floor((newActive - 1) / Pagination.PAGINATION_LIMIT) +
-      1;
+      PAGINATION_LIMIT * Math.floor((newActive - 1) / PAGINATION_LIMIT) + 1;
 
-    PokedexItems.update(this.state.getPage());
-    Pagination.update(totalPages, newFirst, newActive);
+    this.pokedexItems.update(this.state.getPage());
+    this.pagination.update(totalPages, newFirst, newActive);
   }
 
   viewPokemonDetails(e) {
@@ -129,7 +138,7 @@ export class PokedexView {
       const dexID = viewDetailsBtn.getAttribute('data-poke-dexid');
       sessionStorage.setItem('currentPokemon', dexID);
       // console.log(viewDetailsBtn.getAttribute('data-poke-dexid'));
-      sessionStorage.setItem('currentPage', 'pokemon');
+
       this.render();
     } else {
       console.log("Didn't click details btn");

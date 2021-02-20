@@ -27,7 +27,12 @@ authenticate().then((isLoggedIn) => {
     // Load user profile (name and image).
 
     // Default to Pokedex view.
-    const currentPage = sessionStorage.getItem('currentPage') || 'pokedex';
+    let currentPage = sessionStorage.getItem('currentPage');
+    if (!currentPage) {
+      sessionStorage.setItem('currentPage', 'pokedex');
+      currentPage = 'pokedex';
+    }
+    console.log(currentPage);
     document
       .querySelector(`[data-view="${currentPage}"]`)
       .classList.add('bg-dark');

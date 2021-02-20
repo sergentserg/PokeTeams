@@ -1,7 +1,4 @@
-// Global Constants
-
-// Utility Functions
-function debounce(fn, ms) {
+export default function debounce(fn, ms) {
   let timer = 0;
   return function (...args) {
     clearTimeout(timer);

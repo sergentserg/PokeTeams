@@ -1,33 +1,6 @@
 @import 'variables';
 @import 'utilities';
 
-// Move Page
-#moves {
-  #moveForm {
-    position: relative;
-
-    input {
-      border-left: none;
-    }
-
-    #moveList {
-      max-height: 250px;
-      overflow-y: scroll;
-      width: 100%;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      z-index: 2;
-      box-shadow: 1px 3px 5px #ccc, -1px 0px 5px #ccc;
-
-      li:hover {
-        background-color: #eee;
-        cursor: pointer;
-      }
-    }
-  }
-}
-
 #teams {
   input,
   select {

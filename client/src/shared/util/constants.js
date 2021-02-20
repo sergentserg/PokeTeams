@@ -8,3 +8,8 @@ export const GAME_VERSION = 'ultra-sun-ultra-moon';
 export const MOVE_PRIORITY_COUNT = 13;
 export const SLOWEST_MOVE = -7;
 export const MAX_MOVES = 813;
+export const INPUT_DELAY = 500;
+
+export const PAGINATION_LIMIT = window.matchMedia('(max-width: 576px)').matches
+  ? 1
+  : 5;

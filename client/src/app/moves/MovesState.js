@@ -21,4 +21,10 @@ export default class MovesState {
       move.name.toLowerCase().startsWith(pattern)
     );
   }
+
+  async getMove(moveUrl) {
+    const res = await fetch(moveUrl);
+    const move = await res.json();
+    return move;
+  }
 }

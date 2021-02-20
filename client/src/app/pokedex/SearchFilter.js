@@ -1,22 +1,25 @@
-export default (function SearchFilter() {
-  const searchFilter = document.createElement('div');
-  searchFilter.setAttribute('class', 'mt-1');
+export default class SearchFilter {
+  constructor() {
+    this.searchFilter = document.createElement('div');
+    this.searchFilter.setAttribute('class', 'mt-1');
 
-  const filterBtn = document.createElement('button');
-  filterBtn.setAttribute('class', 'btn btn-dark d-none');
-  searchFilter.append(filterBtn);
+    this.filterBtn = document.createElement('button');
+    this.filterBtn.setAttribute('class', 'btn btn-dark d-none');
+    this.searchFilter.append(this.filterBtn);
 
-  const filterText = document.createElement('span');
-  filterBtn.append(filterText);
+    this.filterText = document.createElement('span');
+    this.filterBtn.append(this.filterText);
 
-  const icon = document.createElement('i');
-  icon.classList = 'fas fa-times-circle fa-xs';
-  filterBtn.append(icon);
-  return {
-    component: searchFilter,
-    update: function (searchQuery) {
-      filterText.textContent = `"${searchQuery}" `;
-      filterBtn.classList.remove('d-none');
-    },
-  };
-})();
+    const icon = document.createElement('i');
+    icon.classList = 'fas fa-times-circle fa-xs';
+    this.filterBtn.append(icon);
+  }
+  getComponent() {
+    return this.searchFilter;
+  }
+
+  update(searchQuery) {
+    this.filterText.textContent = `"${searchQuery}" `;
+    this.filterBtn.classList.remove('d-none');
+  }
+}
