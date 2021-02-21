@@ -13,3 +13,5 @@ export const INPUT_DELAY = 500;
 export const PAGINATION_LIMIT = window.matchMedia('(max-width: 576px)').matches
   ? 1
   : 5;
+
+export const MAX_FILE_SIZE = 1048576;

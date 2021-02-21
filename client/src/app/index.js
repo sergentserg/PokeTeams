@@ -1,12 +1,15 @@
 import './index.scss';
 import { Navbar } from '../shared/components/Navbar';
-import { authenticate, logout } from '../shared/util/auth';
 import { PokedexView } from './pokedex/PokedexView.js';
 import { PokedexState } from './pokedex/PokedexState';
 import MovesState from './moves/MovesState';
 import MovesView from './moves/MovesView';
+import ProfileView from './profile/ProfileView';
+import { authState, AuthState } from '../auth/AuthState';
 
-authenticate().then((isLoggedIn) => {
+import { API_URL } from 'src/shared/util/constants';
+
+authState.authenticate().then((isLoggedIn) => {
   if (!isLoggedIn) {
     window.location = 'auth.html';
   } else {
@@ -22,9 +25,12 @@ authenticate().then((isLoggedIn) => {
     });
 
     // Enable logout functionality.
-    document.querySelector('#logoutLink').addEventListener('click', logout);
+    document
+      .querySelector('#logoutLink')
+      .addEventListener('click', AuthState.logout);
 
     // Load user profile (name and image).
+    document.querySelector('#profilePhoto').src = authState.getPhotoUrl();
 
     // Default to Pokedex view.
     let currentPage = sessionStorage.getItem('currentPage');
@@ -32,7 +38,6 @@ authenticate().then((isLoggedIn) => {
       sessionStorage.setItem('currentPage', 'pokedex');
       currentPage = 'pokedex';
     }
-    console.log(currentPage);
     document
       .querySelector(`[data-view="${currentPage}"]`)
       .classList.add('bg-dark');
@@ -45,6 +50,9 @@ async function loadPage(currentPage) {
   while (appView.firstElementChild) appView.firstElementChild.remove();
 
   const pages = {
+    profile: {
+      view: ProfileView,
+    },
     pokedex: {
       view: PokedexView,
       state: PokedexState,
@@ -55,8 +63,11 @@ async function loadPage(currentPage) {
     },
   };
   const page = pages[currentPage];
-  const state = new page.state();
-  await state.init();
+  let state;
+  if (currentPage !== 'profile') {
+    state = new page.state();
+    await state.init();
+  }
   const view = new page.view(state);
   view.render();
 }

@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
@@ -12,15 +13,17 @@ exports.register = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.create({
+    name: email,
     email,
     password,
   });
   const emailToken = user.getEmailVerifyToken();
   await user.save();
 
-  const verifyUrl = `${req.protocol}://${req.get(
-    'origin'
-  )}/auth.html?emailtoken=${emailToken}`;
+  // const verifyUrl = `${req.protocol}://${req.get(
+  //   'origin'
+  // )}/auth.html?emailtoken=${emailToken}`;
+  const verifyUrl = `${req.get('origin')}/auth.html?emailtoken=${emailToken}`;
 
   const message = `Hello,\n\nYou are receiving this email because you (or someone else) have decided to create a PokeTeams account. Please click on the following link to confirm your email before you can start using your account:\n\n${verifyUrl}\n\nIf you did not initiate this request, please ignore this email.\n\nBest,\nPokeTeams`;
 
@@ -32,7 +35,6 @@ exports.register = asyncHandler(async (req, res, next) => {
     });
     res.status(200).json({ success: true, data: 'Email sent.' });
   } catch (err) {
-    console.log(err);
     await user.delete();
 
     return next(new ErrorResponse(`Email could not be sent.`, 500));
@@ -187,14 +189,17 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/auth/updatedetails
 // @access  Private
 exports.updateDetails = asyncHandler(async (req, res, next) => {
+  console.log(req.body);
   const fieldsToUpdate = {
     name: req.body.name,
-    email: req.body.email,
+    // email: req.body.email,
   };
   const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
     new: true,
     runValidators: true,
   });
+
+  console.log(user);
 
   res.status(200).json({
     success: true,
@@ -224,6 +229,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 // @access    Private
 exports.userPhotoUpload = asyncHandler(async (req, res, next) => {
   // Check if file has been uploaded.
+  console.log(req.files);
   if (!req.files) {
     return next(new ErrorResponse(`Please upload a file.`, 400));
   }
@@ -250,31 +256,33 @@ exports.userPhotoUpload = asyncHandler(async (req, res, next) => {
   // Create unique photo name.
   file.name = `photo_${req.user.id}${path.parse(file.name).ext}`;
 
-  // Move file to photo folder.
-  file.mv(
-    path.join(
-      process.env.PROJECT_DIR,
-      process.env.PUBLIC_DIR,
-      process.env.FILE_UPLOAD_DIR,
-      file.name
-    ),
-    async (err) => {
-      if (err) {
-        return next(new ErrorResponse(`Unable to upload file`, 500));
-      }
-
-      await User.findByIdAndUpdate(
-        req.user.id,
-        { photo: file.name },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
-
-      res.status(200).json({ success: true, photo: file.name });
-    }
+  const uploadsPath = path.join(
+    process.env.PROJECT_DIR,
+    process.env.PUBLIC_DIR,
+    process.env.FILE_UPLOAD_DIR
   );
+  // Delete old file.
+  fs.readdirSync(uploadsPath)
+    .filter((f) => f.startsWith(`photo_${req.user.id}`))
+    .map((f) => fs.unlinkSync(path.join(uploadsPath, f)));
+
+  // Move new file to photo folder.
+  file.mv(path.join(uploadsPath, file.name), async (err) => {
+    if (err) {
+      return next(new ErrorResponse(`Unable to upload file`, 500));
+    }
+
+    await User.findByIdAndUpdate(
+      req.user.id,
+      { photo: file.name },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({ success: true, photo: file.name });
+  });
 });
 
 // Get token from model, create cookie, and send response.

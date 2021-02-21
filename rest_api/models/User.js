@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    default: 'no-photo.jpg',
+    default: 'no-photo.png',
   },
   emailVerifyToken: String,
   emailVerifyExpire: Date,

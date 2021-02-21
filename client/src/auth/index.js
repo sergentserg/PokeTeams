@@ -6,9 +6,9 @@ import { ResetForm } from './ResetForm';
 import { Alert } from 'src/shared/components/Alert';
 
 import { getSearchParams } from '../shared/util/getSearchParams';
-import { authenticate, activate } from '../shared/util/auth';
+import { authState, AuthState } from './AuthState';
 
-authenticate().then((isLoggedIn) => {
+authState.authenticate().then((isLoggedIn) => {
   if (isLoggedIn) {
     window.location.replace('app.html');
   } else {
@@ -35,7 +35,7 @@ authenticate().then((isLoggedIn) => {
 });
 
 function activateAccount(emailtToken, formContainer) {
-  activate(emailtToken).then((success) => {
+  AuthState.activate(emailtToken).then((success) => {
     const alertMsg = success ? 'Account was verified' : 'Invalid Token';
     const alertDiv = Alert(success, alertMsg);
     formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
