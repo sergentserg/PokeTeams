@@ -32,6 +32,7 @@ npm run start
 - Jose Gonzalez
 - [Sweet Farm](https://thenounproject.com/sweetfarm/collection/pokemon-go/) for the Pokeball image.
 - PEDRO ROMANI RUIZ, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons, for loading GIF image.
+- Blank Profile Image by <a href="https://pixabay.com/users/wanderercreative-855399/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Stephanie Edwards</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=973460">Pixabay</a>
 
 This project started as a simple frontend mockup on figma with @jm-gonzalez. Together, he and I came up with a simple design that we implemented in Bootstrap. This wouldn't have been possible without him.
 

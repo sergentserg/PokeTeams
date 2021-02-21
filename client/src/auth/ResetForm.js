@@ -2,7 +2,7 @@ import { FormGroup } from '../shared/components/FormGroup';
 import { DOMElement } from '../shared/components/DOMElement';
 import { Alert } from 'src/shared/components/Alert';
 
-import { resetPassword } from './AuthState';
+import { AuthState } from './AuthState';
 
 export function ResetForm(formContainer, resetToken) {
   const form = document.createElement('form');
@@ -49,7 +49,7 @@ function submitReset(e, resetToken) {
     formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
   } else {
     const password = inputs['password'].value;
-    resetPassword(password, resetToken).then((success) => {
+    AuthState.resetPassword(password, resetToken).then((success) => {
       if (success) {
         alertDiv = Alert(true, 'Your password reset.');
       } else {

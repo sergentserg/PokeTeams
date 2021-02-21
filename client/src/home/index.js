@@ -1,10 +1,10 @@
 import './index.scss';
 
 import { Navbar } from '../shared/components/Navbar';
-import { authenticate } from '../auth/AuthState';
+import { authState } from '../auth/AuthState';
 
 // Authenticate when this page is loaded.
-authenticate().then((isLoggedIn) => {
+authState.authenticate().then((isLoggedIn) => {
   if (isLoggedIn) {
     window.location.replace('app.html');
   } else {

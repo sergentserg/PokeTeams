@@ -2,7 +2,7 @@ import { DOMElement } from '../shared/components/DOMElement';
 import { FormGroup } from '../shared/components/FormGroup';
 import { Alert } from 'src/shared/components/Alert';
 
-import { register } from './AuthState';
+import { AuthState } from './AuthState';
 
 export function RegisterForm(formContainer) {
   // Form header.
@@ -67,7 +67,7 @@ function submitRegister(e) {
       email: inputs['email'].value,
       password: inputs['password'].value,
     };
-    register(fields).then((success) => {
+    AuthState.register(fields).then((success) => {
       if (success) {
         alertDiv = Alert(true, 'Verify your email to activate account.');
       } else {

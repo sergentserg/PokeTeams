@@ -2,7 +2,7 @@ import { DOMElement } from '../shared/components/DOMElement';
 import { FormGroup } from '../shared/components/FormGroup';
 import { Alert } from 'src/shared/components/Alert';
 
-import { forgotPassword } from './AuthState';
+import { AuthState } from './AuthState';
 
 export function ForgotForm(formContainer) {
   const header = DOMElement('h3', { class: 'text-center' });
@@ -38,7 +38,7 @@ function submitForgot(e) {
   const form = e.target;
   const formContainer = form.parentElement;
   const email = form.elements['email'].value;
-  forgotPassword(email).then((success) => {
+  AuthState.forgotPassword(email).then((success) => {
     const alertMsg = success ? 'Email sent' : 'An email was not sent';
     const alertDiv = Alert(success, alertMsg);
     formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
