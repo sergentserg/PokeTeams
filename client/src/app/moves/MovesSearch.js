@@ -1,3 +1,5 @@
+import InputWithSuggest from 'src/shared/components/InputWithSuggest';
+
 export default (function MoveSearch() {
   const moveSearchRow = document.createElement('div');
   moveSearchRow.classList.add('row');
@@ -10,7 +12,7 @@ export default (function MoveSearch() {
   form.classList.add('mb-4');
   moveSearchCol.append(form);
 
-  const group = document.createElement('div');
+  const group = InputWithSuggest();
   group.classList.add('input-group');
   form.append(group);
 
@@ -21,24 +23,15 @@ export default (function MoveSearch() {
       <i class="fas fa-search"></i>
     </span>
   `;
-  group.append(prepend);
-
-  const search = document.createElement('input');
-  search.classList.add('form-control', 'bg-light');
-  search.setAttribute('type', 'text');
-  search.setAttribute('name', 'moveSearch');
-  search.setAttribute('placeholder', 'Search moves...');
-  search.setAttribute('autocomplete', 'off');
-  group.append(search);
-
-  // Move List
-  const ul = document.createElement('ul');
-  ul.classList = 'border bg-white list-unstyled d-none small';
-  group.append(ul);
+  group.insertBefore(prepend, group.firstElementChild);
+  const searchInput = group.querySelector('input');
+  searchInput.setAttribute('name', 'moveSearch');
+  searchInput.setAttribute('placeholder', 'Search moves...');
 
   return {
     component: moveSearchRow,
     update: function (matches) {
+      const ul = moveSearchRow.querySelector('ul');
       while (ul.firstElementChild) ul.firstElementChild.remove();
       matches.forEach((move) => {
         const li = document.createElement('li');

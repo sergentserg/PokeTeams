@@ -1,12 +1,12 @@
 import MovesSearch from './MovesSearch';
 import MovesDetails from './MovesDetails';
 import { INPUT_DELAY } from 'src/shared/util/constants';
+import { movesState } from './MovesState';
 
 export default class MovesView {
-  constructor(state) {
-    this.state = state;
-    this.view = document.querySelector('.main');
-    this.view.id = 'moves';
+  constructor(main) {
+    this.main = main;
+    this.main.id = 'moves';
     this.searchTimer = 0;
   }
 
@@ -14,7 +14,7 @@ export default class MovesView {
     // Header
     const title = document.createElement('h2');
     title.textContent = 'Moves';
-    this.view.append(title);
+    this.main.append(title);
 
     // Search component.
     MovesSearch.component
@@ -25,8 +25,8 @@ export default class MovesView {
       .addEventListener('click', this.loadMove.bind(this));
 
     // MoveDetails area.
-    this.view.append(MovesSearch.component);
-    this.view.append(MovesDetails.component);
+    this.main.append(MovesSearch.component);
+    this.main.append(MovesDetails.component);
   }
 
   filterMoves(e) {
@@ -35,7 +35,7 @@ export default class MovesView {
       function () {
         const pattern = e.target.value.trim().toLowerCase();
         if (pattern != '') {
-          const matches = this.state.filter(pattern);
+          const matches = movesState.filter(pattern);
           MovesSearch.update(matches);
         } else {
           MovesSearch.component.querySelector('ul').classList.add('d-none');
@@ -47,7 +47,7 @@ export default class MovesView {
 
   loadMove(e) {
     const moveUrl = e.target.getAttribute('data-move-url');
-    this.state.getMove(moveUrl).then((move) => {
+    movesState.getMove(moveUrl).then((move) => {
       move.name = e.target.textContent;
       MovesDetails.update(move);
       MovesSearch.component.querySelector('ul').classList.add('d-none');

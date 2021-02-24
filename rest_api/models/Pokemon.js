@@ -4,8 +4,12 @@ const PokemonSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    unique: true,
     required: [true, 'Please include Pokemon name.'],
+  },
+  dexID: {
+    type: String,
+    trim: true,
+    required: [true, 'Please include dexID'],
   },
   nick: {
     type: String,
@@ -15,16 +19,13 @@ const PokemonSchema = new mongoose.Schema({
   ability: {
     type: String,
     trim: true,
-    required: [true, 'Please include an ability.'],
   },
   item: {
     type: String,
     trim: true,
-    required: [true, 'Please include an ability.'],
   },
   moves: {
     type: [String],
-    required: [true, 'Please include moves'],
   },
   createdAt: {
     type: Date,

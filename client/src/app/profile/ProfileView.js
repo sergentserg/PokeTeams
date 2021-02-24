@@ -5,33 +5,33 @@ import { Alert } from 'src/shared/components/Alert';
 import { authState } from '../../auth/AuthState';
 
 export default class ProfileView {
-  constructor() {
-    this.view = document.querySelector('.main');
-    this.view.id = 'profile';
+  constructor(main) {
+    this.main = main;
+    this.main.id = 'profile';
     const { name, photo } = authState.getMe();
     this.photoUpload = new PhotoUpload(photo);
     this.detailsForm = new DetailsForm(name);
   }
 
   render() {
-    while (this.view.firstElementChild) this.view.firstElementChild.remove();
+    while (this.main.firstElementChild) this.main.firstElementChild.remove();
 
     // Header
     const title = document.createElement('h2');
     title.textContent = 'Profile';
-    this.view.append(title);
+    this.main.append(title);
 
     // Trainer name.
     this.detailsForm
       .getComponent()
       .addEventListener('submit', this.updateName.bind(this));
-    this.view.append(this.detailsForm.getComponent());
+    this.main.append(this.detailsForm.getComponent());
 
     // Photo
     this.photoUpload
       .getComponent()
       .addEventListener('change', this.uploadPhoto.bind(this));
-    this.view.append(this.photoUpload.getComponent());
+    this.main.append(this.photoUpload.getComponent());
   }
 
   async uploadPhoto(e) {
@@ -47,7 +47,7 @@ export default class ProfileView {
           success ? 'Photo updated!' : 'Unable to upload photo'
         );
       }
-      this.view.insertBefore(alert, this.view.firstElementChild);
+      this.main.insertBefore(alert, this.main.firstElementChild);
       // Force image reload.
       const timestamp = new Date().getTime();
       document.querySelector('#profilePhoto').src =
@@ -66,6 +66,6 @@ export default class ProfileView {
       const success = await authState.update({ name: name });
       alert = Alert(success, success ? 'Updated name' : 'Unable to update');
     }
-    this.view.insertBefore(alert, this.view.firstElementChild);
+    this.main.insertBefore(alert, this.main.firstElementChild);
   }
 }

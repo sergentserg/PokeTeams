@@ -88,6 +88,10 @@ exports.login = asyncHandler(async (req, res, next) => {
     );
   }
 
+  if (!user.active) {
+    return next(new ErrorResponse('Inactive account.', 401));
+  }
+
   // Check if password matches.
   const isMatch = await user.matchPassword(password);
 

@@ -1,100 +1,134 @@
 import { capitalize } from 'src/shared/util/capitalize';
+import { pokedexState } from './PokedexState';
 
-export default function PokedexEntryMoves(moves) {
-  // Save a private reference to moves.
-  const movesCard = document.createElement('div');
-  movesCard.classList = 'card';
+export default class PokedexEntryMoves {
+  constructor() {
+    // Save a private reference to moves.
+    this.card = document.createElement('div');
+    this.card.classList = 'card';
 
-  const header = document.createElement('div');
-  header.classList = 'card-header bg-danger text-white';
-  header.innerHTML = `
-    <h5>
-      <a
-        href="#movesAccord"
-        data-parent="#detailsAccordion"
-        data-toggle="collapse"
-      >
-        <i class="fas fa-angle-right"></i> Moves
-      </a>
-    </h5>
-  `;
-  movesCard.append(header);
+    // Header.
+    const header = document.createElement('div');
+    this.card.append(header);
+    header.classList = 'card-header bg-danger text-white';
+    header.innerHTML = `
+      <h5>
+        <a
+          href="#movesAccord"
+          data-parent="#detailsAccordion"
+          data-toggle="collapse"
+        >
+          Moves
+        </a>
+      </h5>
+    `;
 
-  const movesCollapse = document.createElement('div');
-  movesCollapse.classList = 'collapse';
-  movesCollapse.id = 'movesAccord';
-  movesCard.append(movesCollapse);
+    // Collapse and body.
+    this.collapse = document.createElement('div');
+    this.card.append(this.collapse);
+    this.collapse.classList = 'collapse';
+    this.collapse.id = 'movesAccord';
 
-  const movesCardBody = document.createElement('div');
-  movesCardBody.classList = 'card-body';
-  movesCollapse.append(movesCardBody);
+    this.body = document.createElement('div');
+    this.body.classList = 'card-body';
+    this.collapse.append(this.body);
 
-  const levelBtn = document.createElement('button');
-  levelBtn.classList = 'btn p-1 border';
-  levelBtn.id = 'levelUp';
-  levelBtn.innerHTML = `
+    // Level Up Moves Button.
+    const levelBtn = document.createElement('button');
+    levelBtn.classList = 'btn p-1 border m-1';
+    levelBtn.id = 'levelUp';
+    levelBtn.innerHTML = `
     <span>
       <i class="fas fa-chart-line text-success"></i>
       <small class="text-muted">Lv. Up</small>
     </span>
   `;
-  movesCardBody.append(levelBtn);
+    this.body.append(levelBtn);
 
-  const eggBtn = document.createElement('button');
-  eggBtn.classList = 'btn p-1 border';
-  eggBtn.id = 'egg';
-  eggBtn.innerHTML = `
-    <span>
+    // Egg Moves Button.
+    const eggBtn = document.createElement('button');
+    eggBtn.classList = 'btn p-1 border m-1';
+    eggBtn.id = 'egg';
+    eggBtn.innerHTML = `
+    <span class="m-1">
       <i class="fas fa-egg text-warning"></i>
       <small class="text-muted">Egg</small>
     </span>
   `;
-  movesCardBody.append(eggBtn);
+    this.body.append(eggBtn);
 
-  const machineBtn = document.createElement('button');
-  machineBtn.classList = 'btn p-1 border';
-  machineBtn.id = 'machine';
-  machineBtn.innerHTML = `
+    // Machine Moves Button.
+    const machineBtn = document.createElement('button');
+    machineBtn.classList = 'btn p-1 border m-1';
+    machineBtn.id = 'machine';
+    machineBtn.innerHTML = `
     <span>
       <i class="fas fa-compact-disc text-secondary"></i>
       <small class="text-muted">Machine</small>
     </span>
   `;
-  movesCardBody.append(machineBtn);
+    this.body.append(machineBtn);
 
-  const shownMoves = document.createElement('div');
-  shownMoves.classList = 'p-3 mt-2 border rounded';
-  movesCardBody.append(shownMoves);
-  // <div id="moveNames" class="p-3 mt-2 border rounded"></div>
+    // Moves for current Pokemon.
+    this.moves = null;
 
-  [levelBtn, eggBtn, machineBtn].forEach((btn) =>
-    btn.addEventListener('click', (e) => {
-      const method = e.target.closest('.btn').id;
-      const currentMoveFilter = document.querySelector('.move-filter');
-      if (currentMoveFilter && currentMoveFilter.id != method) {
-        document.querySelector('.move-filter').classList.remove('move-filter');
-      }
-      document.querySelector(`#${method}`).classList.add('move-filter');
+    const moveBtns = [levelBtn, eggBtn, machineBtn];
+    for (let i = 0; i < moveBtns.length; i++) {
+      moveBtns[i].addEventListener('click', this.toggleMoves.bind(this));
+    }
 
-      // Update shown moves.
-      while (shownMoves.firstElementChild)
-        shownMoves.firstElementChild.remove();
+    this.shownMoves = document.createElement('div');
+    this.shownMoves.id = 'shownMoves';
+    this.shownMoves.classList = 'p-3 mt-2 border rounded';
+    this.body.append(this.shownMoves);
 
-      let movesContent = '';
-      moves[method].forEach((move) => {
+    this.moveDivs = {
+      egg: document.createElement('div'),
+      machine: document.createElement('div'),
+      levelUp: document.createElement('div'),
+    };
+    for (const [method, div] of Object.entries(this.moveDivs)) {
+      div.classList = 'd-none';
+      this.shownMoves.append(div);
+    }
+  }
+
+  getComponent() {
+    return this.card;
+  }
+
+  update() {
+    this.moves = pokedexState.getPokemon().moves;
+
+    // Update Move type (level up, egg, or machine).
+    let moveContent;
+    for (let [method, moves] of Object.entries(this.moves)) {
+      moveContent = '';
+      moves.forEach((move) => {
         const level = move.level
-          ? `<span class="text-success">Lv. ${move.level}</span> `
+          ? `<small class="text-success">Lv. ${move.level}</small> `
           : '';
-        movesContent += `
-        <a class="btn text-primary bg-light border rounded p-1 mb-1 mr-1">
-          <small>${level}${capitalize(move.name)}
-          </small>
-        </a>
+        moveContent += `
+        <span class="btn border rounded p-1 mb-1 mr-1"
+          data-move="${capitalize(move.name)}">
+          ${level}
+          <small>${capitalize(move.name)}</small>
+        </span>
       `;
       });
-      shownMoves.innerHTML = movesContent;
-    })
-  );
+      this.moveDivs[method].innerHTML = moveContent;
+    }
+  }
 
-  return movesCard;
+  toggleMoves(e) {
+    // Update Move type (level up, egg, or machine).
+    const newMethod = e.target.closest('.btn').id;
+    const currentMoveFilter = document.querySelector('.move-filter');
+    if (currentMoveFilter && currentMoveFilter.id != newMethod) {
+      currentMoveFilter.classList.remove('move-filter');
+      this.moveDivs[currentMoveFilter.id].classList.add('d-none');
+    }
+    document.querySelector(`#${newMethod}`).classList.add('move-filter');
+    this.moveDivs[newMethod].classList.remove('d-none');
+  }
 }

@@ -1,7 +1,7 @@
 import { POKE_API_URL, MAX_MOVES } from 'src/shared/util/constants';
 import { capitalize } from 'src/shared/util/capitalize';
 
-export default class MovesState {
+class MovesState {
   constructor() {
     this.moves = [];
   }
@@ -28,3 +28,5 @@ export default class MovesState {
     return move;
   }
 }
+
+export const movesState = new MovesState();

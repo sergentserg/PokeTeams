@@ -1,62 +1,78 @@
 import { capitalize } from 'src/shared/util/capitalize';
+import { pokedexState } from './PokedexState';
 
-export default function PokedexEntryAbilities(abilities) {
-  const abilitiesCard = document.createElement('div');
-  abilitiesCard.classList = 'card';
+export default class PokedexEntryAbilities {
+  constructor() {
+    this.card = document.createElement('div');
+    this.card.classList = 'card';
 
-  const header = document.createElement('div');
-  header.classList = 'card-header bg-danger text-white';
-  header.innerHTML = `
+    // Header
+    const header = document.createElement('div');
+    header.classList = 'card-header bg-danger text-white';
+    header.innerHTML = `
     <h5>
       <a
         href="#abilities"
         data-parent="#detailsAccordion"
         data-toggle="collapse"
       >
-        <i class="fas fa-angle-right"></i> Abilities
+        Abilities
       </a>
     </h5>
   `;
-  abilitiesCard.append(header);
+    this.card.append(header);
 
-  const abilitiesCollapse = document.createElement('div');
-  abilitiesCollapse.classList = 'collapse';
-  abilitiesCollapse.id = 'abilities';
-  abilitiesCard.append(abilitiesCollapse);
+    // Collapse.
+    const collapse = document.createElement('div');
+    collapse.classList = 'collapse';
+    collapse.id = 'abilities';
+    this.card.append(collapse);
 
-  const abilitiesBody = document.createElement('div');
-  abilitiesBody.classList = 'body';
-  abilitiesCollapse.append(abilitiesBody);
+    // Body.
+    const body = document.createElement('div');
+    body.classList = 'body';
+    collapse.append(body);
 
-  const abilitiesList = document.createElement('ul');
-  abilitiesList.classList = 'list-group';
-  abilitiesBody.append(abilitiesList);
+    // Abiity list.
+    this.list = document.createElement('ul');
+    this.list.classList = 'list-group';
+    body.append(this.list);
+  }
 
-  abilities.forEach((slot) => {
-    fetch(slot.ability.url)
-      .then((res) => res.json())
-      .then((data) => {
-        const enAbility = data.effect_entries.find(
-          (entry) => entry.language.name === 'en'
-        );
-        const abilityEffect = enAbility.short_effect;
-        const li = document.createElement('li');
-        li.classList.add('list-group-item');
+  getComponent() {
+    return this.card;
+  }
 
-        li.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center">
-              <strong>${capitalize(slot.ability.name)}</strong>
-              <i class="far fa-eye"></i>
-            </div>
-            ${
-              slot.is_hidden
-                ? '<small class="text-success">Hidden Ability</small><br>'
-                : ''
-            }
-            <small class="text-muted">${abilityEffect}</small>
-        `;
-        abilitiesList.append(li);
-      });
-  });
-  return abilitiesCard;
+  async update() {
+    // Clear ability list.
+    while (this.list.firstElementChild) this.list.firstElementChild.remove();
+
+    // Populate new abilities.
+    const abilities = pokedexState.getPokemon().abilities;
+    abilities.forEach(async (slot) => {
+      const res = await fetch(slot.ability.url);
+      const data = await res.json();
+
+      const enAbility = data.effect_entries.find(
+        (entry) => entry.language.name === 'en'
+      );
+      const abilityEffect = enAbility.short_effect;
+      const li = document.createElement('li');
+      li.classList.add('list-group-item');
+
+      li.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center">
+            <strong>${capitalize(slot.ability.name)}</strong>
+            <i class="far fa-eye"></i>
+          </div>
+          ${
+            slot.is_hidden
+              ? '<small class="text-success">Hidden Ability</small><br>'
+              : ''
+          }
+          <small class="text-muted">${abilityEffect}</small>
+      `;
+      this.list.append(li);
+    });
+  }
 }

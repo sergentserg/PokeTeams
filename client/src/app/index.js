@@ -1,15 +1,18 @@
 import './index.scss';
-import { Navbar } from '../shared/components/Navbar';
-import { PokedexView } from './pokedex/PokedexView.js';
-import { PokedexState } from './pokedex/PokedexState';
-import MovesState from './moves/MovesState';
-import MovesView from './moves/MovesView';
-import ProfileView from './profile/ProfileView';
+
 import { authState, AuthState } from '../auth/AuthState';
+import { pokedexState } from './pokedex/PokedexState';
+import { movesState } from './moves/MovesState';
+import { teamState } from './teams/TeamState';
+import { itemState } from './teams/ItemState';
 
-import { API_URL } from 'src/shared/util/constants';
+import { Navbar } from '../shared/components/Navbar';
+import ProfileView from './profile/ProfileView';
+import { PokedexView } from './pokedex/PokedexView.js';
+import MovesView from './moves/MovesView';
+import TeamView from './teams/TeamView';
 
-authState.authenticate().then((isLoggedIn) => {
+authState.authenticate().then(async (isLoggedIn) => {
   if (!isLoggedIn) {
     window.location = 'auth.html';
   } else {
@@ -41,34 +44,27 @@ authState.authenticate().then((isLoggedIn) => {
     document
       .querySelector(`[data-view="${currentPage}"]`)
       .classList.add('bg-dark');
+    await pokedexState.init();
+    await movesState.init();
+    await teamState.init();
+    await itemState.init();
     loadPage(currentPage);
   }
 });
 
-async function loadPage(currentPage) {
-  const appView = document.querySelector('.main');
-  while (appView.firstElementChild) appView.firstElementChild.remove();
-
-  const pages = {
-    profile: {
-      view: ProfileView,
-    },
-    pokedex: {
-      view: PokedexView,
-      state: PokedexState,
-    },
-    moves: {
-      view: MovesView,
-      state: MovesState,
-    },
-  };
-  const page = pages[currentPage];
-  let state;
-  if (currentPage !== 'profile') {
-    state = new page.state();
-    await state.init();
+function loadPage(currentPage) {
+  const main = document.querySelector('.main');
+  while (main.firstElementChild) main.firstElementChild.remove();
+  let view;
+  if (currentPage === 'profile') {
+    view = new ProfileView(main);
+  } else if (currentPage === 'pokedex') {
+    view = new PokedexView(main);
+  } else if (currentPage === 'moves') {
+    view = new MovesView(main);
+  } else if (currentPage === 'teams') {
+    view = new TeamView(main);
   }
-  const view = new page.view(state);
   view.render();
 }
 

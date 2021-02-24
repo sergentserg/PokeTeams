@@ -1,83 +1,59 @@
 import { POKE_SPRITE_URL } from 'src/shared/util/constants';
 import { capitalize } from 'src/shared/util/capitalize';
+import { pokedexState } from './PokedexState';
 
-export default function PokedexEntrySummary(data) {
-  const summary = document.createElement('div');
-  summary.classList = 'border';
-  summary.id = 'summaryCard';
+export default class PokedexEntrySummary {
+  constructor() {
+    this.summary = document.createElement('div');
+    this.summary.classList = 'border';
+    this.summary.id = 'summaryCard';
 
-  const teamSelectAdd = document.createElement('div');
-  teamSelectAdd.classList = 'd-flex';
-  summary.append(teamSelectAdd);
+    // Sprite
+    this.sprite = document.createElement('div');
+    this.summary.append(this.sprite);
+    this.sprite.classList = 'd-flex justify-content-center';
 
-  // Team select: load based on teams.
-  const teamSelect = document.createElement('select');
-  teamSelect.classList = 'form-control';
-  teamSelectAdd.append(teamSelect);
+    // Name
+    this.name = document.createElement('h4');
+    this.name.classList = 'text-center';
+    this.summary.append(this.name);
 
-  const selectHeader = document.createElement('option');
-  selectHeader.selected = true;
-  selectHeader.disabled = true;
-  selectHeader.hidden = true;
-  selectHeader.textContent = 'Choose a team';
-  teamSelect.append(selectHeader);
-  // For now, load filler options.
-  ['A', 'B', 'C'].forEach((team) => {
-    const teamOption = document.createElement('option');
-    teamOption.value = `team${team}`;
-    teamOption.textContent = `Team ${team}`;
-    teamSelect.append(teamOption);
-  });
+    // Types
+    this.types = document.createElement('div');
+    this.types.classList = `d-flex justify-content-center py-2 border-top bg-secondary`;
+    this.summary.append(this.types);
 
-  const teamSelectAddBtn = document.createElement('button');
-  teamSelectAddBtn.classList = 'btn';
-  teamSelectAddBtn.innerHTML = `<i class="fas fa-plus-circle"></i>`;
-  teamSelectAdd.append(teamSelectAddBtn);
+    // Pokedex Number, height, and weight.
+    this.miscDetails = document.createElement('div');
+    this.miscDetails.classList = 'text-center';
+    this.summary.append(this.miscDetails);
+  }
 
-  // Favorite + Gender
-  const miscControls = document.createElement('div');
-  miscControls.classList = 'd-flex justify-content-between';
-  summary.append(miscControls);
+  getComponent() {
+    return this.summary;
+  }
 
-  const genderBtn = document.createElement('button');
-  genderBtn.classList = 'btn';
-  genderBtn.innerHTML = `<i class="fas fa-venus text-danger"></i>`;
-  miscControls.append(genderBtn);
+  update() {
+    const data = pokedexState.getPokemon();
 
-  const favBtn = document.createElement('button');
-  favBtn.classList = 'btn';
-  favBtn.innerHTML = `<i class="far fa-heart"></i>`;
-  miscControls.append(favBtn);
+    // Sprite
+    this.sprite.innerHTML = `
+      <img src="${POKE_SPRITE_URL}/${data.dexID}.png" alt="${data.name}"/>
+    `;
 
-  // Sprite
-  const sprite = document.createElement('div');
-  sprite.classList = 'd-flex justify-content-center';
-  sprite.innerHTML = `
-    <img src="${POKE_SPRITE_URL}/${data.dexID}.png" alt="${data.name}"/>
-  `;
-  summary.append(sprite);
+    // Name
+    this.name.textContent = data.name;
 
-  // Name
-  const name = document.createElement('h4');
-  name.classList = 'text-center';
-  name.textContent = data.name;
-  summary.append(name);
+    // Types
+    let content = '';
+    data.types.forEach((slot) => {
+      const type = slot.type.name;
+      content += `<small class="type-${type} mx-1">${capitalize(type)}</small>`;
+    });
+    this.types.innerHTML = content;
 
-  // Types
-  const types = document.createElement('div');
-  types.classList = `d-flex justify-content-center py-2 border-top bg-secondary`;
-  let content = '';
-  data.types.forEach((slot) => {
-    const type = slot.type.name;
-    content += `<small class="type-${type} mx-1">${capitalize(type)}</small>`;
-  });
-  types.innerHTML = content;
-  summary.append(types);
-
-  // Pokedex Number, height, and weight.
-  const miscDetails = document.createElement('div');
-  miscDetails.classList = 'text-center';
-  miscDetails.innerHTML = `
+    // Pokedex Number, height, and weight.
+    this.miscDetails.innerHTML = `
     <div class="d-flex justify-content-around border-bottom">
       <strong class="border-right w-100 flex-grow">
         Pokédex No.
@@ -93,6 +69,5 @@ export default function PokedexEntrySummary(data) {
       <span id="weight" class="w-100 flex-grow">${100 * data.weight} g</span>
     </div>
   `;
-  summary.append(miscDetails);
-  return summary;
+  }
 }

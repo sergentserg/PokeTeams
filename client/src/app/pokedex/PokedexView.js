@@ -4,14 +4,14 @@ import PokedexItems from './PokedexItems';
 import Pagination from './Pagination';
 import PokedexEntry from './PokedexEntry';
 import PokedexEntryNav from './PokedexEntryNav';
+import { pokedexState } from './PokedexState';
 
 import { PAGINATION_LIMIT } from 'src/shared/util/constants';
 
 export class PokedexView {
-  constructor(state) {
-    this.state = state;
-    this.view = document.querySelector('.main');
-    this.view.id = 'pokedex';
+  constructor(main) {
+    this.main = main;
+    this.main.id = 'pokedex';
     this.searchFilter = new SearchFilter();
     // Add event listeners.
     this.searchFilter
@@ -29,58 +29,52 @@ export class PokedexView {
       .addEventListener('click', this.flipPage.bind(this));
 
     this.pokedexEntry = new PokedexEntry();
+
+    // Back-to-Pokedex button.
+    this.backBtn = document.createElement('button');
+    this.backBtn.setAttribute('class', 'btn btn-secondary text-white mb-4');
+    this.backBtn.innerHTML =
+      '<i class="fas fa-long-arrow-alt-left"></i> Search';
+    this.backBtn.addEventListener('click', this.returnToDexSearch.bind(this));
+
+    this.pokedexEntryNav = new PokedexEntryNav();
+
+    // Navigation for fetching other Pokemon.
+    this.pokedexEntryNav
+      .getComponent()
+      .querySelector('.pagination')
+      .addEventListener('click', this.updateCurrentPokemon.bind(this));
   }
 
   render() {
     // Clear view.
-    while (this.view.firstElementChild) {
-      this.view.firstElementChild.remove();
+    while (this.main.firstElementChild) {
+      this.main.firstElementChild.remove();
     }
-    // Show Pokedex entry or Pokedex items.
-    const currentPokemon = sessionStorage.getItem('currentPokemon');
-    if (!currentPokemon) {
-      // Header.
-      const title = document.createElement('h2');
-      title.textContent = 'Pokédex';
-      this.view.append(title);
 
-      // Search Input.
-      const searchComponent = DexSearch();
-      searchComponent.addEventListener('submit', this.searchPokedex.bind(this));
-      this.view.append(searchComponent);
+    // Header.
+    const title = document.createElement('h2');
+    title.textContent = 'Pokédex';
+    this.main.append(title);
 
-      // Search filter.
-      this.view.append(this.searchFilter.getComponent());
+    // Search Input.
+    const searchComponent = DexSearch();
+    searchComponent.addEventListener('submit', this.searchPokedex.bind(this));
+    this.main.append(searchComponent);
 
-      // Pokedex Items (entries).
-      this.view.append(this.pokedexItems.getComponent());
+    // Search filter.
+    this.main.append(this.searchFilter.getComponent());
 
-      // Pagination.
-      this.view.append(this.pagination.getComponent());
+    // Pokedex Items (entries).
+    this.main.append(this.pokedexItems.getComponent());
 
-      // Default Pokedex view: all Pokemon.
-      const data = this.state.getPage();
-      this.pokedexItems.update(data);
-      this.pagination.update(this.state.getTotalPages());
-    } else {
-      // Back-to-Pokedex button; clear currentPokemon.
-      const backBtn = document.createElement('button');
-      backBtn.setAttribute('class', 'btn btn-secondary text-white mb-4');
-      backBtn.innerHTML = '<i class="fas fa-long-arrow-alt-left"></i> Search';
-      backBtn.addEventListener('click', this.returnToDexSearch.bind(this));
-      this.view.append(backBtn);
+    // Pagination.
+    this.main.append(this.pagination.getComponent());
 
-      this.state.getPokemon(currentPokemon).then((data) => {
-        this.pokedexEntry.update(data);
-        this.view.append(this.pokedexEntry.getComponent());
-        const pokedexEntryNav = new PokedexEntryNav(data.previous, data.next);
-        pokedexEntryNav
-          .getComponent()
-          .querySelector('.pagination')
-          .addEventListener('click', this.updateCurrentPokemon.bind(this));
-        this.view.append(pokedexEntryNav.getComponent());
-      });
-    }
+    // Default Pokedex view: all Pokemon.
+    const data = pokedexState.getPage();
+    this.pokedexItems.update(data);
+    this.pagination.update(pokedexState.getTotalPages());
   }
 
   searchPokedex(e) {
@@ -90,17 +84,17 @@ export class PokedexView {
       // Don't reload the page.
       e.preventDefault();
 
-      this.state.filterPokemons(searchQuery);
+      pokedexState.filterPokemons(searchQuery);
       this.searchFilter.update(searchQuery);
 
-      this.pokedexItems.update(this.state.getPage());
-      this.pagination.update(this.state.getTotalPages());
+      this.pokedexItems.update(pokedexState.getPage());
+      this.pagination.update(pokedexState.getTotalPages());
     }
   }
 
   clearFilter(e) {
     e.target.closest('button').classList.add('d-none');
-    this.state.clearFilter();
+    pokedexState.clearFilter();
     this.render();
   }
 
@@ -113,48 +107,59 @@ export class PokedexView {
       return;
     }
     const buttonClickText = e.target.innerHTML;
-    const totalPages = this.state.getTotalPages();
+    const totalPages = pokedexState.getTotalPages();
 
     // Determine updated values for the active page number, and the new first in the pagination.
     let newFirst, newActive;
     if (buttonClickText == 'First') newActive = 1;
     else if (buttonClickText == 'Last') newActive = totalPages;
     else if (buttonClickText == '&gt;&gt;')
-      newActive = this.state.getPageNumber() + 1;
+      newActive = pokedexState.getPageNumber() + 1;
     else if (buttonClickText == '&lt;&lt;')
-      newActive = this.state.getPageNumber() - 1;
+      newActive = pokedexState.getPageNumber() - 1;
     else newActive = parseInt(buttonClickText);
-    this.state.setPageNumber(newActive);
+    pokedexState.setPageNumber(newActive);
     newFirst =
       PAGINATION_LIMIT * Math.floor((newActive - 1) / PAGINATION_LIMIT) + 1;
 
-    this.pokedexItems.update(this.state.getPage());
+    this.pokedexItems.update(pokedexState.getPage());
     this.pagination.update(totalPages, newFirst, newActive);
   }
 
-  viewPokemonDetails(e) {
+  async viewPokemonDetails(e) {
     const viewDetailsBtn = e.target.closest('.poke-details-btn');
     if (viewDetailsBtn) {
+      // Fetch the Pokemon details.
       const dexID = viewDetailsBtn.getAttribute('data-poke-dexid');
-      sessionStorage.setItem('currentPokemon', dexID);
-      // console.log(viewDetailsBtn.getAttribute('data-poke-dexid'));
+      await pokedexState.setPokemon(dexID);
 
-      this.render();
+      // Clear the view.
+      while (this.main.firstElementChild) {
+        this.main.firstElementChild.remove();
+      }
+
+      this.main.append(this.backBtn);
+
+      // Render the Pokedex entry from fetched details.
+      this.pokedexEntry.update();
+      this.main.append(this.pokedexEntry.getComponent());
+      this.pokedexEntryNav.update();
+      this.main.append(this.pokedexEntryNav.getComponent());
     } else {
       console.log("Didn't click details btn");
     }
   }
 
   returnToDexSearch(e) {
-    sessionStorage.removeItem('currentPokemon');
     this.render();
   }
 
-  updateCurrentPokemon(e) {
+  async updateCurrentPokemon(e) {
     const dexID = e.target.getAttribute('data-dexID');
     if (dexID) {
-      sessionStorage.setItem('currentPokemon', dexID);
-      this.render();
+      await pokedexState.setPokemon(dexID);
+      this.pokedexEntry.update();
+      this.pokedexEntryNav.update();
     }
   }
 }

@@ -3,7 +3,7 @@ import { capitalize } from 'src/shared/util/capitalize';
 import { dexNoFromId } from 'src/shared/util/dexNoFromId';
 import { POKE_API_URL, GAME_VERSION } from 'src/shared/util/constants';
 
-export class PokedexState {
+class PokedexState {
   constructor() {
     this.MAX_DEX_ID = 807;
     this.POKE_PER_PAGE = 20;
@@ -12,6 +12,7 @@ export class PokedexState {
     this.pokemons = [];
     // Index array for this.pokemons.
     this.filtered = [];
+    this.currentPokemon = null;
   }
 
   // Meant to be called from constructor only.
@@ -19,25 +20,27 @@ export class PokedexState {
     const res = await fetch(`${POKE_API_URL}/pokemon?limit=${this.MAX_DEX_ID}`);
     const data = await res.json();
     this.pokemons = data.results;
+
+    // Set Pokedex ID and capitalized name (lazy).
+    this.pokemons.forEach((pokemon) => {
+      const id = parseInt(pokemon.url.match(/\/(\d+)\//)[1]);
+      pokemon.dexID = dexNoFromId(id);
+      pokemon.name = capitalize(pokemon.name);
+    });
     this.filtered = this.pokemons;
   }
 
-  async getPokemon(dexID) {
+  getPokemon() {
+    return this.currentPokemon;
+  }
+
+  async setPokemon(dexID) {
     const res = await fetch(`${POKE_API_URL}/pokemon/${parseInt(dexID)}`);
-    const pokemonData = await res.json();
-    const {
-      name,
-      sprites,
-      height,
-      weight,
-      types,
-      stats,
-      abilities,
-    } = pokemonData;
+    this.currentPokemon = await res.json();
 
     // Parse moves.
     const moves = { egg: [], machine: [], levelUp: [] };
-    pokemonData.moves.forEach((item) => {
+    this.currentPokemon.moves.forEach((item) => {
       // Find correct move version.
       const versions = item.version_group_details;
       const move = versions.find(
@@ -57,20 +60,15 @@ export class PokedexState {
           });
       }
     });
+    this.currentPokemon.moves = moves;
 
-    return {
-      dexID,
-      name: capitalize(name),
-      sprites,
-      height: height / 10,
-      weight: weight / 10,
-      types,
-      stats,
-      abilities,
-      moves,
-      next: +dexID < this.MAX_DEX_ID ? dexNoFromId(+dexID + 1) : null,
-      previous: +dexID > 1 ? dexNoFromId(+dexID - 1) : null,
-    };
+    this.currentPokemon.name = capitalize(this.currentPokemon.name);
+    this.currentPokemon.dexID = dexNoFromId(this.currentPokemon.id);
+    this.currentPokemon.height /= 10;
+    this.currentPokemon.weight /= 10;
+    this.currentPokemon.next =
+      +dexID < this.MAX_DEX_ID ? dexNoFromId(+dexID + 1) : null;
+    this.currentPokemon.previous = +dexID > 1 ? dexNoFromId(+dexID - 1) : null;
   }
 
   setPageNumber(pageNum) {
@@ -92,14 +90,11 @@ export class PokedexState {
       startIndex,
       startIndex + this.POKE_PER_PAGE
     );
-
-    // Set Pokedex ID and capitalized name (lazy).
-    pokemonPage.forEach((pokemon) => {
-      const id = parseInt(pokemon.url.match(/\/(\d+)\//)[1]);
-      pokemon.dexID = dexNoFromId(id);
-      pokemon.name = capitalize(pokemon.name);
-    });
     return pokemonPage;
+  }
+
+  getAllPokemon() {
+    return this.pokemons;
   }
 
   filterPokemons(searchQuery) {
@@ -119,3 +114,5 @@ export class PokedexState {
     this.currentPage = 1;
   }
 }
+
+export const pokedexState = new PokedexState();

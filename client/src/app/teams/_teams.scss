@@ -1,0 +1,83 @@
+#teams {
+  input,
+  select,
+  .info-bubble {
+    max-width: 200px;
+  }
+
+  #memberEdit {
+    display: flex;
+    justify-content: space-around;
+
+    #currentTeamMember {
+      flex: 0.25;
+    }
+
+    #pokemon {
+      flex: 1;
+    }
+  }
+
+  #pokeTeam {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+
+    .team-member {
+      margin: 0 1rem;
+      border: 2px solid #eee;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    #currentTeamMember {
+      border: solid 1px #eee;
+      padding: 1rem;
+    }
+  }
+
+  #currentTeamMember {
+    .info-bubble {
+      background-color: rgba(97, 175, 254, 0.1);
+      padding: 1rem;
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      // p-3 mt-2 border rounded
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  #teams {
+    #memberEdit {
+      display: block;
+    }
+    #pokeTeam {
+      flex-direction: column;
+      // .team-member {
+      //   display: none;
+
+      //   &:first-child {
+      //     display: block;
+      //   }
+      // }
+    }
+    #currentTeamMember {
+      #chosenMoves {
+        flex-direction: column;
+        input {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+}

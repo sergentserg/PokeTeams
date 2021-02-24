@@ -6,7 +6,9 @@ const ErrorResponse = require('../utils/errorResponse');
 // @route     GET /api/v1/teams
 // @access    Private
 exports.getTeams = asyncHandler(async (req, res, next) => {
-  const teams = await Team.find({ user: req.user.id });
+  const teams = await Team.find({ user: req.user.id }).populate({
+    path: 'pokemons',
+  });
   res.status(200).json({ success: true, count: teams.length, data: teams });
 });
 
@@ -19,7 +21,6 @@ exports.getTeam = asyncHandler(async (req, res, next) => {
     user: req.user.id,
   }).populate({
     path: 'pokemons',
-    select: 'name',
   });
   console.log(team);
   // Correctly formatted ID: no result found. End cycle via return.
@@ -63,7 +64,7 @@ exports.createTeam = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Update Team
-// @route     POST /api/v1/teams/:id
+// @route     PUT /api/v1/teams/:id
 // @access    Private
 exports.updateTeam = asyncHandler(async (req, res, next) => {
   // Ensure resource exists.
@@ -80,6 +81,8 @@ exports.updateTeam = asyncHandler(async (req, res, next) => {
     // team is the new (updated) data from the body.
     new: true,
     runValidators: true,
+  }).populate({
+    path: 'pokemons',
   });
   res.status(200).json({ success: true, data: team });
 });

@@ -1,13 +1,22 @@
+import { pokedexState } from './PokedexState';
+
 export default class PokedexEntryNav {
-  constructor(previous, next) {
+  constructor() {
     this.nav = document.createElement('nav');
     this.nav.classList = 'mt-4';
     this.nav.setAttribute('aria-label', 'Pokemon Pokedex entries');
 
-    const pagination = document.createElement('ul');
-    pagination.classList = 'pagination';
-    this.nav.append(pagination);
+    this.pagination = document.createElement('ul');
+    this.pagination.classList = 'pagination';
+    this.nav.append(this.pagination);
+  }
 
+  getComponent() {
+    return this.nav;
+  }
+
+  update() {
+    const { previous, next } = pokedexState.getPokemon();
     let navContent = '';
     if (previous !== null) {
       navContent += `
@@ -23,10 +32,6 @@ export default class PokedexEntryNav {
         </li>
       `;
     }
-    pagination.innerHTML = navContent;
-  }
-
-  getComponent() {
-    return this.nav;
+    this.pagination.innerHTML = navContent;
   }
 }

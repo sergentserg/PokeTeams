@@ -6,6 +6,7 @@ import PokedexEntryMoves from './PokedexEntryMoves';
 export default class PokedexEntry {
   constructor() {
     this.entry = document.createElement('div');
+    this.entry.id = 'pokemon';
     this.entry.classList = 'row';
 
     this.summaryCard = document.createElement('div');
@@ -13,27 +14,35 @@ export default class PokedexEntry {
     this.entry.append(this.summaryCard);
 
     this.detailsAccordion = document.createElement('div');
-    this.detailsAccordion.classList = 'col-sm-12 col-md-7 col-lg-6 offset-lg-3';
+    this.detailsAccordion.classList = 'col-sm-12 col-md-7 col-lg-7 offset-lg-2';
     this.detailsAccordion.id = 'detailsAccordion';
     this.entry.append(this.detailsAccordion);
+
+    // Summary.
+    this.entrySummary = new PokedexEntrySummary();
+    this.summaryCard.append(this.entrySummary.getComponent());
+
+    // Stats Accordion.
+    this.entryStats = new PokedexEntryStats();
+    this.detailsAccordion.append(this.entryStats.getComponent());
+
+    // Ability Accordion.
+    this.entryAbilities = new PokedexEntryAbilities();
+    this.detailsAccordion.append(this.entryAbilities.getComponent());
+
+    // Moves Accordion.
+    this.entryMoves = new PokedexEntryMoves();
+    this.detailsAccordion.append(this.entryMoves.getComponent());
   }
 
   getComponent() {
     return this.entry;
   }
 
-  update(data) {
-    const { name, dexID, types, height, weight } = data;
-    while (this.summaryCard.firstElementChild)
-      this.summaryCard.firstElementChild.remove();
-    this.summaryCard.append(
-      PokedexEntrySummary({ name, dexID, types, height, weight })
-    );
-    while (this.detailsAccordion.firstElementChild)
-      this.detailsAccordion.firstElementChild.remove();
-    this.detailsAccordion.append(PokedexEntryStats(data.stats));
-    this.detailsAccordion.append(PokedexEntryAbilities(data.abilities));
-    this.detailsAccordion.append(PokedexEntryMoves(data.moves));
-    // return this.summaryCard;
+  update() {
+    this.entrySummary.update();
+    this.entryStats.update();
+    this.entryAbilities.update();
+    this.entryMoves.update();
   }
 }
