@@ -5,7 +5,7 @@ export default class Pagination {
     // Number of pagination links.
 
     // this.Nav element (pagination wrapper).
-    this.nav = document.createElement('this.nav');
+    this.nav = document.createElement('nav');
     this.nav.setAttribute('class', 'd-flex justify-content-center');
     this.nav.setAttribute('aria-label', 'Search results pages');
 
@@ -32,8 +32,9 @@ export default class Pagination {
   }
 
   update(totalPages, newFirst = 1, newActive = 1) {
-    if (totalPages < 1) {
-      pagination.parentElement.classList.add('d-none');
+    if (totalPages <= 1) {
+      this.nav.classList.remove('d-flex');
+      this.nav.classList.add('d-none');
       return;
     }
     const firstLi = this.pagination.firstElementChild;
@@ -100,5 +101,6 @@ export default class Pagination {
 
     // Display it in the UI.
     this.nav.classList.remove('d-none');
+    this.nav.classList.add('d-flex');
   }
 }
