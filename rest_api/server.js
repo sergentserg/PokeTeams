@@ -12,6 +12,7 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
+const noCache = require('./middleware/noCache');
 
 // Load environment variables.
 dotenv.config({ path: './config/config.env' });
@@ -73,7 +74,7 @@ app.use('/api/v1', express.static(path.join(__dirname, 'public')));
 // Mount routers.
 app.use('/api/v1/teams', teams);
 app.use('/api/v1/pokemons', pokemons);
-app.use('/api/v1/auth', auth);
+app.use('/api/v1/auth', noCache, auth);
 app.use('/api/v1/users', users);
 
 // Error handling (custom) middleware.
