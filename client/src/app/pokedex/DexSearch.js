@@ -1,8 +1,6 @@
-// import searchPokemon from '../utils/searchPokemon';
-import { DOMElement } from 'src/shared/components/DOMElement';
-
 export default function DexSearch() {
-  const form = DOMElement('form', { class: 'search-form' });
+  const form = document.createElement('form');
+  form.classList = 'search-form';
 
   const inputGroup = document.createElement('div');
   inputGroup.classList = 'input-group';
@@ -12,20 +10,28 @@ export default function DexSearch() {
   inputGroupPrepend.classList = 'input-group-prepend';
   inputGroup.append(inputGroupPrepend);
 
-  const pokeSearchBtn = DOMElement('button', {
+  const pokeSearchBtn = document.createElement('button');
+  let attributes = {
     class: 'btn btn-light border',
     type: 'submit',
-  });
+  };
+  for (const [key, value] of Object.entries(attributes)) {
+    pokeSearchBtn.setAttribute(key, value);
+  }
   pokeSearchBtn.innerHTML = `<i class="fas fa-search"></i>`;
   inputGroupPrepend.append(pokeSearchBtn);
 
   // Search input.
-  const searchInput = DOMElement('input', {
+  attributes = {
     type: 'text',
     name: 'pokeSearchInput',
     class: 'form-control',
     placeholder: 'Search Pokemon...',
-  });
+  };
+  const searchInput = document.createElement('input');
+  for (const [key, value] of Object.entries(attributes)) {
+    searchInput.setAttribute(key, value);
+  }
   inputGroup.append(searchInput);
   return form;
 }

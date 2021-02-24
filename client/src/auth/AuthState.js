@@ -52,7 +52,6 @@ export class AuthState {
   }
 
   async update(fields) {
-    console.log(fields);
     const res = await fetch(`${API_URL}/auth/updateDetails`, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },

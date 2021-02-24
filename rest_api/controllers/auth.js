@@ -140,10 +140,12 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // Create reset url.
-  const resetURL = `${req.protocol}://${req.get(
-    'origin'
-  )}/auth.html?resettoken=${resetToken}`;
-  const message = `Hello,\nYou are receiving this email because you (or someone else) has requested the reset of a password. Please click on the following URL to reset your PokeTeams password: \n\n ${resetURL}\n\nIf you did not request this reset, please ignore this email.\n\nBest,\nPokeTeams`;
+  // const resetURL = `${req.protocol}://${req.get(
+  //   'origin'
+  // )}/auth.html?resettoken=${resetToken}`;
+  // const message = `Hello,\nYou are receiving this email because you (or someone else) has requested the reset of a password. Please click on the following URL to reset your PokeTeams password: \n\n ${resetURL}\n\nIf you did not request this reset, please ignore this email.\n\nBest,\nPokeTeams`;
+  const resetURL = `${req.get('origin')}/auth.html?resettoken=${resetToken}`;
+  const message = `Hello,\n\nYou are receiving this email because you (or someone else) has requested the reset of a password. Please click on the following URL to reset your PokeTeams password: \n\n ${resetURL}\n\nIf you did not request this reset, please ignore this email.\n\nBest,\nPokeTeams`;
 
   try {
     await sendEmail({
@@ -186,7 +188,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   user.resetPasswordExpire = undefined;
   await user.save();
 
-  sendTokenResponse(user, 200, res);
+  res.status(200).json({ success: true, data: 'Email sent.' });
 });
 
 // @desc    Update user details
@@ -257,8 +259,8 @@ exports.userPhotoUpload = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Create unique photo name.
-  file.name = `photo_${req.user.id}${path.parse(file.name).ext}`;
+  // Create unique photo name; append timestamp to prevent caching issues.
+  file.name = `photo_${req.user.id}${Date.now()}${path.parse(file.name).ext}`;
 
   const uploadsPath = path.join(
     process.env.PROJECT_DIR,

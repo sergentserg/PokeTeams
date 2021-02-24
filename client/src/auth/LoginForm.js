@@ -1,20 +1,21 @@
-import { DOMElement } from '../shared/components/DOMElement';
 import { FormGroup } from '../shared/components/FormGroup';
 import { RegisterForm } from './RegisterForm';
 import { ForgotForm } from './ForgotForm';
-import { Alert } from 'src/shared/components/Alert';
+import { gAlert } from '../shared/components/Alert';
 
 import { AuthState } from './AuthState';
 
 export function LoginForm(formContainer) {
   // Form header.
-  const header = DOMElement('h3', { class: 'text-center' });
+  const header = document.createElement('h3');
+  header.classList = 'text-center';
   header.innerText = `Login to PokeTeams`;
   formContainer.append(header);
 
   // Form subtext (flavor text?).
-  const text = DOMElement('p', { class: 'text-center text-muted' });
-  text.innerText = 'Get competitive about Pokemon';
+  const text = document.createElement('p');
+  text.classList = 'text-center text-muted';
+  text.textContent = 'Get competitive about Pokemon';
   formContainer.append(text);
 
   const form = document.createElement('form');
@@ -45,7 +46,8 @@ export function LoginForm(formContainer) {
     form.append(FormGroup(attributes));
   });
   // Forgot password?
-  const forgotText = DOMElement('small', { class: 'text-right mt-1' });
+  const forgotText = document.createElement('small');
+  forgotText.classList = 'text-right mt-1';
   forgotText.innerText = 'Forgot password?';
   forgotText.addEventListener('click', (e) => {
     while (formContainer.firstChild) {
@@ -56,16 +58,20 @@ export function LoginForm(formContainer) {
   form.append(forgotText);
 
   // Submit button.
-  form.append(
-    DOMElement('input', {
-      type: 'submit',
-      value: 'Login',
-      class: 'btn btn-danger btn-block mt-4',
-    })
-  );
+  const loginSubmit = document.createElement('input');
+  const attributes = {
+    type: 'submit',
+    value: 'Login',
+    class: 'btn btn-danger btn-block mt-4',
+  };
+  for (const [key, value] of Object.entries(attributes)) {
+    loginSubmit.setAttribute(key, value);
+  }
+  form.append(loginSubmit);
 
   // Replace login form with register form onclick.
-  const registerText = DOMElement('small', { class: 'mt-3 text-center' });
+  const registerText = document.createElement('small');
+  registerText.classList = 'mt-3 text-center';
   registerText.innerText = 'Register for free!';
   registerText.addEventListener('click', (e) => {
     while (formContainer.firstChild) {
@@ -89,8 +95,8 @@ function submitLogin(e) {
   AuthState.login(fields).then((success) => {
     if (!success) {
       const formContainer = form.parentElement;
-      const alertDiv = Alert(false, 'Invalid credentials');
-      formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
+      gAlert.update(false, 'Invalid credentials');
+      formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
     } else {
       window.location.replace('app.html');
     }

@@ -1,6 +1,5 @@
 import { FormGroup } from '../shared/components/FormGroup';
-import { DOMElement } from '../shared/components/DOMElement';
-import { Alert } from 'src/shared/components/Alert';
+import { gAlert } from '../shared/components/Alert';
 
 import { AuthState } from './AuthState';
 
@@ -13,12 +12,14 @@ export function ResetForm(formContainer, resetToken) {
       name: 'password',
       placeholder: 'PokeTeams password',
       labelText: 'New Password',
+      minlength: 8,
     },
     {
       type: 'password',
       name: 'password2',
       placeholder: 'PokeTeams password',
       labelText: 'Confirm Password',
+      minlength: 8,
     },
   ];
   // Form groups.
@@ -26,13 +27,16 @@ export function ResetForm(formContainer, resetToken) {
     form.append(FormGroup(attributes));
   });
 
-  form.append(
-    DOMElement('input', {
-      type: 'submit',
-      value: 'Submit',
-      class: 'btn btn-danger btn-block mt-4',
-    })
-  );
+  const resetSubmit = document.createElement('input');
+  const attributes = {
+    type: 'submit',
+    value: 'Submit',
+    class: 'btn btn-danger btn-block mt-4',
+  };
+  for (const [key, value] of Object.entries(attributes)) {
+    resetSubmit.setAttribute(key, value);
+  }
+  form.append(resetSubmit);
 
   form.addEventListener('submit', (e) => submitReset(e, resetToken));
   return form;
@@ -43,20 +47,19 @@ function submitReset(e, resetToken) {
   const form = e.target;
   const formContainer = e.target.parentElement;
   const inputs = form.elements;
-  let alertDiv;
   if (inputs['password'].value !== inputs['password2'].value) {
-    alertDiv = Alert(false, 'The passwords did not match');
-    formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
+    gAlert.update(false, 'The passwords did not match');
+    formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
   } else {
     const password = inputs['password'].value;
     AuthState.resetPassword(password, resetToken).then((success) => {
       if (success) {
-        alertDiv = Alert(true, 'Your password reset.');
+        gAlert.update(true, 'Your password reset.');
       } else {
-        alertDiv = Alert(false, 'Unable to reset password.');
+        gAlert.update(false, 'Unable to reset password.');
       }
       form.reset();
-      formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
+      formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
     });
   }
 }

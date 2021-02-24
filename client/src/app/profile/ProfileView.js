@@ -1,7 +1,7 @@
 import { MAX_FILE_SIZE } from 'src/shared/util/constants';
 import PhotoUpload from './PhotoUpload';
 import DetailsForm from './DetailsForm';
-import { Alert } from 'src/shared/components/Alert';
+import { gAlert } from '../../shared/components/Alert';
 import { authState } from '../../auth/AuthState';
 
 export default class ProfileView {
@@ -36,36 +36,31 @@ export default class ProfileView {
 
   async uploadPhoto(e) {
     const files = e.target.files;
-    let alert;
     if (files.length !== 0) {
       if (files[0].size > MAX_FILE_SIZE) {
-        alert = Alert(false, 'Image size is too large');
+        gAlert.update(false, 'Image size is too large');
       } else {
         const success = await authState.uploadPhoto(files[0]);
-        alert = Alert(
+        gAlert.update(
           success,
           success ? 'Photo updated!' : 'Unable to upload photo'
         );
       }
-      this.main.insertBefore(alert, this.main.firstElementChild);
-      // Force image reload.
-      const timestamp = new Date().getTime();
-      document.querySelector('#profilePhoto').src =
-        authState.getPhotoUrl() + `?t=${timestamp}`;
+      this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
+      document.querySelector('#profilePhoto').src = authState.getPhotoUrl();
     }
   }
 
   async updateName(e) {
     e.preventDefault();
     const name = e.target.elements['trainerName'].value;
-    let alert;
     // Same name submitted; ignore.
     if (name == authState.getMe().name) {
-      alert = Alert(false, 'Provide new name.');
+      gAlert.update(false, 'Provide new name.');
     } else {
       const success = await authState.update({ name: name });
-      alert = Alert(success, success ? 'Updated name' : 'Unable to update');
+      gAlert.update(success, success ? 'Updated name' : 'Unable to update');
     }
-    this.main.insertBefore(alert, this.main.firstElementChild);
+    this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
   }
 }

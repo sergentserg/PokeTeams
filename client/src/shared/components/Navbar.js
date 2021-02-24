@@ -1,6 +1,4 @@
-// import pokeball image
 import Pokeball from '../assets/Pokeball.png';
-import { DOMElement } from './DOMElement';
 
 export function Navbar(isLoggedIn) {
   // Navbar.
@@ -10,7 +8,8 @@ export function Navbar(isLoggedIn) {
   let navContent;
   if (!isLoggedIn) {
     nav.classList.add('fixed-top');
-    navContent = DOMElement('div', { class: 'container' });
+    navContent = document.createElement('div');
+    navContent.classList = 'container';
     nav.append(navContent);
   } else {
     navContent = nav;
@@ -41,16 +40,19 @@ export function Navbar(isLoggedIn) {
   navContent.append(collapsedContent);
 
   // Navigation menu: (Home + Login) OR (Logout).
-  const navMenu = DOMElement('ul', { class: 'navbar-nav ml-auto' });
+  const navMenu = document.createElement('ul');
+  navMenu.classList = 'navbar-nav ml-auto';
   let li;
   if (!isLoggedIn) {
     // Home page button.
-    li = DOMElement('li', { class: 'nav-item' });
+    li = document.createElement('li');
+    li.class = 'nav-item';
     li.innerHTML = `<a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>`;
     navMenu.append(li);
 
     // Login page button.
-    li = DOMElement('li', { class: 'nav-item' });
+    li = document.createElement('li');
+    li.class = 'nav-item';
     li.innerHTML = `<a href="auth.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>`;
     navMenu.append(li);
   } else {

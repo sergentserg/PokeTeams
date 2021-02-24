@@ -3,7 +3,7 @@ import TeamAddForm from './TeamAddForm';
 import TeamSelect from './TeamSelect';
 import MemberAddInput from './MemberAddInput';
 import TeamMembers from './TeamMembers';
-import { Alert } from 'src/shared/components/Alert';
+import { gAlert } from '../../shared/components/Alert';
 import MemberEdit from './MemberEdit';
 import { pokedexState } from '../pokedex/PokedexState';
 
@@ -11,8 +11,6 @@ export default class TeamsView {
   constructor(main) {
     this.main = main;
     this.main.id = 'teams';
-
-    this.alert = null;
 
     // Team Create.
     this.teamAddForm = new TeamAddForm();
@@ -82,9 +80,7 @@ export default class TeamsView {
   }
 
   clear() {
-    if (this.alert) {
-      this.alert.remove();
-    }
+    gAlert.get().remove();
     while (this.main.childElementCount > 1) this.main.lastElementChild.remove();
   }
 
@@ -124,11 +120,11 @@ export default class TeamsView {
     // Verify team name is unique.
     const teams = teamState.getTeams();
     if (teams.some((team) => team.name === fields.name)) {
-      this.alert = Alert(false, 'Duplicate team name');
+      gAlert.update(false, 'Duplicate team name');
     } else {
       // Attempt to create a team.
       const data = await teamState.createTeam(fields);
-      this.alert = Alert(
+      gAlert.update(
         data.success,
         data.success ? 'Team created' : 'Unable to create team'
       );
@@ -137,7 +133,7 @@ export default class TeamsView {
         this.render();
       }
     }
-    this.main.insertBefore(this.alert, this.main.firstElementChild);
+    this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
   }
 
   showTeamEdit() {
@@ -158,11 +154,11 @@ export default class TeamsView {
     // Verify team name is unique.
     const teams = teamState.getTeams();
     if (teams.some((team) => team.name === fields.name)) {
-      this.alert = Alert(false, 'Duplicate team name');
+      gAlert.update(false, 'Duplicate team name');
     } else {
       // Attempt to edit team.
       const data = await teamState.updateTeam(fields);
-      this.alert = Alert(
+      gAlert.update(
         data.success,
         data.success ? 'Team edited' : 'Unable to edit team'
       );
@@ -171,7 +167,7 @@ export default class TeamsView {
         this.render();
       }
     }
-    this.main.insertBefore(this.alert, this.main.firstElementChild);
+    this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
   }
 
   showTeam(e) {
@@ -210,8 +206,8 @@ export default class TeamsView {
       alertMsg = `Team ${teamName} removed!`;
       this.render();
     }
-    this.alert = Alert(data.success, alertMsg);
-    this.main.insertBefore(this.alert, this.main.firstElementChild);
+    gAlert.update(data.success, alertMsg);
+    this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
   }
 
   async addMember(e) {
@@ -234,8 +230,8 @@ export default class TeamsView {
 
     // Render the team with (possibly new) members.
     this.showTeam();
-    this.alert = Alert(data.success, alertMsg);
-    this.main.insertBefore(this.alert, this.main.firstElementChild);
+    gAlert.update(data.success, alertMsg);
+    this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
   }
 
   async updateOrRemoveMember(e) {
@@ -264,8 +260,8 @@ export default class TeamsView {
         this.showTeam();
         alertMsg = 'Member removed successfully';
       }
-      this.alert = Alert(data.success, alertMsg);
-      this.main.insertBefore(this.alert, this.main.firstElementChild);
+      gAlert.update(data.success, alertMsg);
+      this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
     }
   }
 
@@ -279,9 +275,6 @@ export default class TeamsView {
       moves.push(input.getAttribute('value'));
     });
     const member = teamState.getMember();
-    Array.from(form.elements).forEach((input) => {
-      console.log(input.getAttribute('name'));
-    });
 
     const fields = {
       pokemon: member.name,
@@ -294,11 +287,11 @@ export default class TeamsView {
     // Update the team member.
     const data = await teamState.updateMember(fields);
     if (data.success) {
-      this.alert = Alert(true, 'Team Member updated!');
+      gAlert.update(true, 'Team Member updated!');
       this.showTeam();
     } else {
-      this.alert = Alert(false, 'Unable to update member');
+      gAlert.update(false, 'Unable to update member');
     }
-    this.main.insertBefore(this.alert, this.main.firstElementChild);
+    this.main.insertBefore(gAlert.get(), this.main.firstElementChild);
   }
 }

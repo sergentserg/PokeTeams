@@ -1,15 +1,18 @@
-import { DOMElement } from './DOMElement';
-
 export function FormGroup(attributes) {
-  const formGroup = DOMElement('div', { class: 'form-group' });
+  const formGroup = document.createElement('div');
+  formGroup.classList = 'form-group';
 
   const { labelText, ...inputAttributes } = attributes;
-  const inputLabel = DOMElement('label', { for: inputAttributes.type });
+  const inputLabel = document.createElement('label');
+  inputLabel.setAttribute('for', inputAttributes.type);
   inputLabel.innerText = labelText;
   formGroup.append(inputLabel);
 
-  formGroup.append(
-    DOMElement('input', { class: 'form-control', ...inputAttributes })
-  );
+  const input = document.createElement('input');
+  input.classList = 'form-control';
+  for (let [key, value] of Object.entries(inputAttributes)) {
+    input.setAttribute(key, value);
+  }
+  formGroup.append(input);
   return formGroup;
 }

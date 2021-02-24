@@ -1,13 +1,13 @@
-import { DOMElement } from '../shared/components/DOMElement';
 import { FormGroup } from '../shared/components/FormGroup';
-import { Alert } from 'src/shared/components/Alert';
+import { gAlert } from '../shared/components/Alert';
 
 import { AuthState } from './AuthState';
 
 export function RegisterForm(formContainer) {
   // Form header.
-  const header = DOMElement('h3', { class: 'text-center' });
-  header.innerText = `New trainer approaches`;
+  const header = document.createElement('h3');
+  header.classList = 'text-center';
+  header.textContent = `New trainer approaches`;
   formContainer.append(header);
 
   const form = document.createElement('form');
@@ -40,13 +40,16 @@ export function RegisterForm(formContainer) {
     form.append(FormGroup(attributes));
   });
 
-  form.append(
-    DOMElement('input', {
-      type: 'submit',
-      value: 'Register',
-      class: 'btn btn-danger btn-block mt-4',
-    })
-  );
+  const registerSubmit = document.createElement('input');
+  const attributes = {
+    type: 'submit',
+    value: 'Register',
+    class: 'btn btn-danger btn-block mt-4',
+  };
+  for (const [key, value] of Object.entries(attributes)) {
+    registerSubmit.setAttribute(key, value);
+  }
+  form.append(registerSubmit);
 
   form.addEventListener('submit', submitRegister);
   return form;
@@ -58,10 +61,9 @@ function submitRegister(e) {
   const form = e.target;
   const formContainer = e.target.parentElement;
   const inputs = form.elements;
-  let alertDiv;
   if (inputs['password'].value !== inputs['password2'].value) {
-    alertDiv = Alert(false, 'The passwords did not match');
-    formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
+    gAlert.update(false, 'The passwords did not match');
+    formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
   } else {
     const fields = {
       email: inputs['email'].value,
@@ -69,12 +71,12 @@ function submitRegister(e) {
     };
     AuthState.register(fields).then((success) => {
       if (success) {
-        alertDiv = Alert(true, 'Verify your email to activate account.');
+        gAlert.update(true, 'Verify your email to activate account.');
       } else {
-        alertDiv = Alert(false, 'Unable to create account.');
+        gAlert.update(false, 'Unable to create account.');
       }
       form.reset();
-      formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
+      formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
     });
   }
 }

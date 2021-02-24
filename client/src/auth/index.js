@@ -3,7 +3,7 @@ import './login.scss';
 import { Navbar } from '../shared/components/Navbar';
 import { LoginForm } from './LoginForm';
 import { ResetForm } from './ResetForm';
-import { Alert } from 'src/shared/components/Alert';
+import { gAlert } from '../shared/components/Alert';
 
 import { getSearchParams } from '../shared/util/getSearchParams';
 import { authState, AuthState } from './AuthState';
@@ -37,7 +37,7 @@ authState.authenticate().then((isLoggedIn) => {
 function activateAccount(emailtToken, formContainer) {
   AuthState.activate(emailtToken).then((success) => {
     const alertMsg = success ? 'Account was verified' : 'Invalid Token';
-    const alertDiv = Alert(success, alertMsg);
-    formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
+    gAlert.update(success, alertMsg);
+    formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
   });
 }

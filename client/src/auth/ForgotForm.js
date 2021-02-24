@@ -1,12 +1,13 @@
-import { DOMElement } from '../shared/components/DOMElement';
 import { FormGroup } from '../shared/components/FormGroup';
-import { Alert } from 'src/shared/components/Alert';
+import { gAlert } from '../shared/components/Alert';
 
 import { AuthState } from './AuthState';
 
 export function ForgotForm(formContainer) {
-  const header = DOMElement('h3', { class: 'text-center' });
-  header.innerText = 'Forgotten Password';
+  const header = document.createElement('h3');
+  header.classList = 'text-center';
+
+  header.textContent = 'Forgotten Password';
   formContainer.append(header);
 
   const form = document.createElement('form');
@@ -21,13 +22,16 @@ export function ForgotForm(formContainer) {
     })
   );
 
-  form.append(
-    DOMElement('input', {
-      type: 'submit',
-      value: 'Submit',
-      class: 'btn btn-danger btn-block mt-4',
-    })
-  );
+  const forgotSubmit = document.createElement('input');
+  const attributes = {
+    type: 'submit',
+    value: 'Submit',
+    class: 'btn btn-danger btn-block mt-4',
+  };
+  for (const [key, value] of Object.entries(attributes)) {
+    forgotSubmit.setAttribute(key, value);
+  }
+  form.append(forgotSubmit);
 
   form.addEventListener('submit', submitForgot);
   return form;
@@ -40,8 +44,8 @@ function submitForgot(e) {
   const email = form.elements['email'].value;
   AuthState.forgotPassword(email).then((success) => {
     const alertMsg = success ? 'Email sent' : 'An email was not sent';
-    const alertDiv = Alert(success, alertMsg);
-    formContainer.insertBefore(alertDiv, formContainer.firstElementChild);
+    gAlert.update(success, alertMsg);
+    formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
     form.reset();
   });
 }
