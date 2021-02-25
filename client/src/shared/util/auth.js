@@ -1,7 +1,7 @@
 import { API_URL } from './constants';
 import LoadingGif from '../components/LoadingGif';
 
-// Redirect to login page by default if cannot authenticate.
+// Redirect to login page by default if cannot `authenticate`.
 export async function authenticate() {
   const loadingGif = LoadingGif();
   document.body.append(loadingGif);

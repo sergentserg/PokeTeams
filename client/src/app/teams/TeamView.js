@@ -192,7 +192,7 @@ export default class TeamsView {
     // Add Team Member.
     if (teamState.getTeam().pokemons.length < 6) {
       this.memberAddInput.update();
-      this.main.append(this.memberAddInput.getComponent());
+      this.main.append(this.memberAddInput.get());
     }
   }
 

@@ -2,7 +2,7 @@ import './index.scss';
 
 import { authState, AuthState } from '../auth/AuthState';
 import { pokedexState } from './pokedex/PokedexState';
-import { movesState } from './moves/MovesState';
+import { moveState } from './moves/MoveState';
 import { teamState } from './teams/TeamState';
 import { itemState } from './teams/ItemState';
 
@@ -45,7 +45,7 @@ authState.authenticate().then(async (isLoggedIn) => {
       .querySelector(`[data-view="${currentPage}"]`)
       .classList.add('bg-dark');
     await pokedexState.init();
-    await movesState.init();
+    await moveState.init();
     await teamState.init();
     await itemState.init();
     loadPage(currentPage);
@@ -74,7 +74,7 @@ document.querySelector('.side-nav .nav').addEventListener('click', (e) => {
   const currentPage = sessionStorage.getItem('currentPage');
   // Only access new page if still authenticated.
   if (newPage && currentPage !== newPage) {
-    authenticate().then((isLoggedIn) => {
+    authState.authenticate().then((isLoggedIn) => {
       if (!isLoggedIn) {
         window.location = 'auth.html';
       } else {

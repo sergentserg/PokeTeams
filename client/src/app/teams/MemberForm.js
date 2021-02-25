@@ -28,11 +28,8 @@ export default class MemberForm {
 
     // Item Group: label and input.
     this.itemSearch = new ItemSearch();
-    this.itemSearch
-      .getComponent()
-      .querySelector('ul')
-      .addEventListener('click', this.showItem.bind(this));
-    this.form.append(this.itemSearch.getComponent());
+    this.itemSearch.ul.addEventListener('click', this.showItem.bind(this));
+    this.form.append(this.itemSearch.get());
 
     this.itemDesc = document.createElement('div');
     this.itemDesc.classList = 'info-bubble d-none';
@@ -85,7 +82,7 @@ export default class MemberForm {
 
   async showItemDescription(itemName) {
     // Populate search input with item name.
-    const itemInput = this.itemSearch.getComponent().querySelector('input');
+    const itemInput = this.itemSearch.search;
     itemInput.textContent = `${itemName}`;
     itemInput.value = `${itemName}`;
 

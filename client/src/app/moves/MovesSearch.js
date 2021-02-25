@@ -1,46 +1,43 @@
-import InputWithSuggest from 'src/shared/components/InputWithSuggest';
+import SearchSuggest from 'src/shared/components/SearchSuggest';
+import { moveState } from './MoveState';
 
-export default (function MoveSearch() {
-  const moveSearchRow = document.createElement('div');
-  moveSearchRow.classList.add('row');
+export default class MoveSearch extends SearchSuggest {
+  constructor() {
+    super();
+    this.row = document.createElement('div');
+    this.row.classList.add('row');
 
-  const moveSearchCol = document.createElement('div');
-  moveSearchCol.classList.add('col-md-4');
-  moveSearchRow.append(moveSearchCol);
+    const col = document.createElement('div');
+    col.classList.add('col-md-4');
+    this.row.append(col);
 
-  const form = document.createElement('form');
-  form.classList.add('mb-4');
-  moveSearchCol.append(form);
+    this.group.classList.add('input-group');
+    col.append(this.group);
 
-  const group = InputWithSuggest();
-  group.classList.add('input-group');
-  form.append(group);
+    const prepend = document.createElement('div');
+    prepend.classList.add('input-group-prepend');
+    prepend.innerHTML = `
+      <span class="input-group-text bg-light">
+        <i class="fas fa-search"></i>
+      </span>
+    `;
+    this.group.insertBefore(prepend, this.group.firstElementChild);
 
-  const prepend = document.createElement('div');
-  prepend.classList.add('input-group-prepend');
-  prepend.innerHTML = `
-    <span class="input-group-text bg-light">
-      <i class="fas fa-search"></i>
-    </span>
-  `;
-  group.insertBefore(prepend, group.firstElementChild);
-  const searchInput = group.querySelector('input');
-  searchInput.setAttribute('name', 'moveSearch');
-  searchInput.setAttribute('placeholder', 'Search moves...');
+    this.search.setAttribute('name', 'moveSearch');
+    this.search.setAttribute('placeholder', 'Search moves...');
+  }
 
-  return {
-    component: moveSearchRow,
-    update: function (matches) {
-      const ul = moveSearchRow.querySelector('ul');
-      while (ul.firstElementChild) ul.firstElementChild.remove();
-      matches.forEach((move) => {
-        const li = document.createElement('li');
-        li.classList = 'px-4 py-2';
-        li.setAttribute('data-move-url', `${move.url}`);
-        li.textContent = move.name;
-        ul.append(li);
-      });
-      ul.classList.remove('d-none');
-    },
-  };
-})();
+  get() {
+    return this.row;
+  }
+
+  getMatches(pattern) {
+    const matches = moveState.filter(pattern);
+    return matches;
+  }
+
+  suggestionLi(li, data) {
+    li.setAttribute('data-move-url', `${data.url}`);
+    li.textContent = data.name;
+  }
+}

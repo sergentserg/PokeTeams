@@ -1,9 +1,10 @@
 import { POKE_API_URL, MAX_MOVES } from 'src/shared/util/constants';
 import { capitalize } from 'src/shared/util/capitalize';
 
-class MovesState {
+class MoveState {
   constructor() {
     this.moves = [];
+    this.currentMove = null;
   }
 
   async init() {
@@ -22,11 +23,14 @@ class MovesState {
     );
   }
 
-  async getMove(moveUrl) {
+  async setMove(moveUrl) {
     const res = await fetch(moveUrl);
-    const move = await res.json();
-    return move;
+    this.currentMove = await res.json();
+  }
+
+  getMove() {
+    return this.currentMove;
   }
 }
 
-export const movesState = new MovesState();
+export const moveState = new MoveState();
