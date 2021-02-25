@@ -65,7 +65,7 @@ exports.verifyEmail = asyncHandler(async (req, res, next) => {
   user.emailVerifyExpire = undefined;
   await user.save();
 
-  sendTokenResponse(user, 200, res);
+  res.status(statusCode).json({ success: true });
 });
 
 // @desc    Login user

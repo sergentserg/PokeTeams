@@ -26,6 +26,7 @@ export class PokedexView {
     this.pagination = new Pagination();
     this.pagination
       .getComponent()
+      .querySelector('.pagination')
       .addEventListener('click', this.flipPage.bind(this));
 
     this.pokedexEntry = new PokedexEntry();

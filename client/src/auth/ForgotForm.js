@@ -19,6 +19,7 @@ export function ForgotForm(formContainer) {
       name: 'email',
       placeholder: 'myemail@domain.com',
       labelText: 'Email',
+      required: '',
     })
   );
 

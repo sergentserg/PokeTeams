@@ -26,6 +26,7 @@ export function RegisterForm(formContainer) {
       name: 'password',
       placeholder: 'Pokéteams Password',
       labelText: 'Password',
+      minlength: 8,
       required: '',
     },
     {
@@ -33,6 +34,7 @@ export function RegisterForm(formContainer) {
       name: 'password2',
       placeholder: 'Confirm Password',
       labelText: 'Password',
+      minlength: 8,
       required: '',
     },
   ];
@@ -56,7 +58,6 @@ export function RegisterForm(formContainer) {
 }
 
 function submitRegister(e) {
-  console.log('submitted');
   e.preventDefault();
   const form = e.target;
   const formContainer = e.target.parentElement;

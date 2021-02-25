@@ -72,13 +72,19 @@ document.querySelector('.side-nav .nav').addEventListener('click', (e) => {
   const newPageLink = e.target.closest('.nav-item');
   const newPage = newPageLink.getAttribute('data-view');
   const currentPage = sessionStorage.getItem('currentPage');
+  // Only access new page if still authenticated.
   if (newPage && currentPage !== newPage) {
-    sessionStorage.setItem('currentPage', newPage);
-    document
-      .querySelector(`[data-view="${currentPage}"]`)
-      .classList.remove('bg-dark');
-    newPageLink.classList.add('bg-dark');
-
-    loadPage(newPage);
+    authenticate().then((isLoggedIn) => {
+      if (!isLoggedIn) {
+        window.location = 'auth.html';
+      } else {
+        sessionStorage.setItem('currentPage', newPage);
+        document
+          .querySelector(`[data-view="${currentPage}"]`)
+          .classList.remove('bg-dark');
+        newPageLink.classList.add('bg-dark');
+        loadPage(newPage);
+      }
+    });
   }
 });
