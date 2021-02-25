@@ -12,9 +12,9 @@ class MoveState {
     const data = await res.json();
     // I *could* use a map call.
     this.moves = data.results;
-    this.moves.forEach(
-      (move) => (move.name = capitalize(move.name.replaceAll('-', ' ')))
-    );
+    this.moves.forEach((move) => {
+      move.name = capitalize(move.name.replaceAll('-', ' '));
+    });
   }
 
   filter(pattern) {
@@ -26,6 +26,9 @@ class MoveState {
   async setMove(moveUrl) {
     const res = await fetch(moveUrl);
     this.currentMove = await res.json();
+    this.currentMove.name = capitalize(
+      this.currentMove.name.replaceAll('-', ' ')
+    );
   }
 
   getMove() {

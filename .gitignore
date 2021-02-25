@@ -7,8 +7,4 @@ rest_api/_data
 rest_api/public/uploads/photo*
 rest_api/config/config.env
 poketeams.postman_collection.json
-<<<<<<< Updated upstream
-client/dist/
-=======
-./cliet/dist
->>>>>>> Stashed changes
+client/dist
