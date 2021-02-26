@@ -7,6 +7,7 @@ import {
   MAX_DEX_ID,
   POKE_PER_PAGE,
 } from 'src/shared/util/constants';
+import fetchLoad from '../../shared/util/fetchLoad';
 
 class PokedexState {
   constructor() {
@@ -18,7 +19,7 @@ class PokedexState {
   }
 
   async init() {
-    const res = await fetch(`${POKE_API_URL}/pokemon?limit=${MAX_DEX_ID}`);
+    const res = await fetchLoad(`${POKE_API_URL}/pokemon?limit=${MAX_DEX_ID}`);
     const data = await res.json();
     this.pokemons = data.results;
 
@@ -73,7 +74,7 @@ class PokedexState {
   }
 
   async setPokemon(dexID) {
-    const res = await fetch(`${POKE_API_URL}/pokemon/${parseInt(dexID)}`);
+    const res = await fetchLoad(`${POKE_API_URL}/pokemon/${parseInt(dexID)}`);
     this.currentPokemon = await res.json();
 
     // Parse moves.

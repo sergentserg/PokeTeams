@@ -6,7 +6,8 @@ $login-width: 360px;
   transform: translate(0, $navbar-height);
   height: 75vh;
   width: 100vw;
-  .auth-container {
+  .main {
+    position: relative;
     width: $login-width;
 
     small {

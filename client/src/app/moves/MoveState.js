@@ -1,5 +1,6 @@
 import { POKE_API_URL, MAX_MOVES } from 'src/shared/util/constants';
 import { capitalize } from 'src/shared/util/capitalize';
+import fetchLoad from '../../shared/util/fetchLoad';
 
 class MoveState {
   constructor() {
@@ -8,7 +9,7 @@ class MoveState {
   }
 
   async init() {
-    const res = await fetch(`${POKE_API_URL}/move?limit=${MAX_MOVES}`);
+    const res = await fetchLoad(`${POKE_API_URL}/move?limit=${MAX_MOVES}`);
     const data = await res.json();
     // I *could* use a map call.
     this.moves = data.results;
@@ -24,7 +25,7 @@ class MoveState {
   }
 
   async setMove(moveUrl) {
-    const res = await fetch(moveUrl);
+    const res = await fetchLoad(moveUrl);
     this.currentMove = await res.json();
     this.currentMove.name = capitalize(
       this.currentMove.name.replaceAll('-', ' ')

@@ -1,4 +1,5 @@
 import { POKE_API_URL } from 'src/shared/util/constants';
+import fetchLoad from '../../shared/util/fetchLoad';
 
 class ItemState {
   constructor() {
@@ -6,11 +7,11 @@ class ItemState {
   }
 
   async init() {
-    let res = await fetch(`${POKE_API_URL}/item-attribute/holdable-active`);
+    let res = await fetchLoad(`${POKE_API_URL}/item-attribute/holdable-active`);
     let data = await res.json();
     this.items = data.items;
 
-    res = await fetch(`${POKE_API_URL}/item-attribute/holdable`);
+    res = await fetchLoad(`${POKE_API_URL}/item-attribute/holdable`);
     data = await res.json();
     this.items.concat(data.items);
   }
@@ -20,7 +21,7 @@ class ItemState {
   }
 
   async getItem(name) {
-    const res = await fetch(`${POKE_API_URL}/item/${name}`);
+    const res = await fetchLoad(`${POKE_API_URL}/item/${name}`);
     const item = await res.json();
     return item;
   }

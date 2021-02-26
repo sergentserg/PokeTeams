@@ -82,6 +82,7 @@ body.no-body-scroll {
 }
 
 .main {
+  position: relative;
   overflow-y: scroll;
   // Container must have a height that it overflows.
   height: 95vh;

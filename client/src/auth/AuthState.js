@@ -1,4 +1,5 @@
 import { API_URL } from 'src/shared/util/constants';
+import fetchLoad from '../shared/util/fetchLoad';
 
 export class AuthState {
   constructor() {
@@ -23,7 +24,7 @@ export class AuthState {
 
   // Redirect to login page by default if cannot authenticate.
   async authenticate() {
-    const res = await fetch(`${API_URL}/auth/me`, {
+    const res = await fetchLoad(`${API_URL}/auth/me`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -39,7 +40,7 @@ export class AuthState {
   async uploadPhoto(photo) {
     const formData = new FormData();
     formData.append('file', photo);
-    const res = await fetch(`${API_URL}/auth/photoupload`, {
+    const res = await fetchLoad(`${API_URL}/auth/photoupload`, {
       method: 'PUT',
       credentials: 'include',
       body: formData,
@@ -52,7 +53,7 @@ export class AuthState {
   }
 
   async update(fields) {
-    const res = await fetch(`${API_URL}/auth/updateDetails`, {
+    const res = await fetchLoad(`${API_URL}/auth/updateDetails`, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',
@@ -67,7 +68,7 @@ export class AuthState {
 
   static async register(fields) {
     // Register the account.
-    const res = await fetch(`${API_URL}/auth/register`, {
+    const res = await fetchLoad(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',
@@ -81,7 +82,7 @@ export class AuthState {
 
   static async login(fields) {
     // Attempt to login.
-    const res = await fetch(`${API_URL}/auth/login`, {
+    const res = await fetchLoad(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',
@@ -93,7 +94,7 @@ export class AuthState {
 
   // Clear browser cookie and redirect.
   static async logout() {
-    const res = await fetch(`${API_URL}/auth/logout`, {
+    const res = await fetchLoad(`${API_URL}/auth/logout`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -103,7 +104,7 @@ export class AuthState {
   // Activate user account
   static async activate(emailtoken) {
     // Email verification.
-    const res = await fetch(`${API_URL}/auth/verify/${emailtoken}`, {
+    const res = await fetchLoad(`${API_URL}/auth/verify/${emailtoken}`, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',
@@ -113,7 +114,7 @@ export class AuthState {
   }
 
   static async forgotPassword(email) {
-    const res = await fetch(`${API_URL}/auth/forgotpassword`, {
+    const res = await fetchLoad(`${API_URL}/auth/forgotpassword`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',
@@ -124,7 +125,7 @@ export class AuthState {
   }
 
   static async resetPassword(password, resetToken) {
-    const res = await fetch(`${API_URL}/auth/resetpassword/${resetToken}`, {
+    const res = await fetchLoad(`${API_URL}/auth/resetpassword/${resetToken}`, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
       credentials: 'include',

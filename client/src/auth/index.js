@@ -33,6 +33,6 @@ async function activateAccount(emailtToken) {
   const success = await AuthState.activate(emailtToken);
   const alertMsg = success ? 'Account was verified' : 'Invalid Token';
   gAlert.update(success, alertMsg);
-  const main = document.querySelector('.auth-container');
+  const main = document.querySelector('.main');
   main.insertBefore(gAlert.get(), main.firstElementChild);
 }

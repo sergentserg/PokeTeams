@@ -7,7 +7,7 @@ import { gAlert } from '../shared/components/Alert';
 
 export default class AuthView {
   constructor() {
-    this.main = document.querySelector('.auth-container');
+    this.main = document.querySelector('.main');
     this.formHeader = document.createElement('h3');
     this.formHeader.classList = 'text-center';
     this.loginForm = new LoginForm();

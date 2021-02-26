@@ -1,4 +1,5 @@
 import { API_URL } from 'src/shared/util/constants';
+import fetchLoad from '../../shared/util/fetchLoad';
 
 class TeamState {
   constructor() {
@@ -8,7 +9,7 @@ class TeamState {
   }
 
   async init() {
-    const res = await fetch(`${API_URL}/teams`, {
+    const res = await fetchLoad(`${API_URL}/teams`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -41,7 +42,7 @@ class TeamState {
   }
 
   async createTeam(fields) {
-    const res = await fetch(`${API_URL}/teams`, {
+    const res = await fetchLoad(`${API_URL}/teams`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-type': 'application/json' },
@@ -56,7 +57,7 @@ class TeamState {
 
   async updateTeam(fields) {
     const teamID = this.currentTeam._id;
-    const res = await fetch(`${API_URL}/teams/${teamID}`, {
+    const res = await fetchLoad(`${API_URL}/teams/${teamID}`, {
       method: 'PUT',
       credentials: 'include',
       headers: { 'Content-type': 'application/json' },
@@ -73,7 +74,7 @@ class TeamState {
 
   async removeTeam() {
     const teamId = this.currentTeam._id;
-    const res = await fetch(`${API_URL}/teams/${teamId}`, {
+    const res = await fetchLoad(`${API_URL}/teams/${teamId}`, {
       method: 'DELETE',
       credentials: 'include',
     });
@@ -96,7 +97,7 @@ class TeamState {
   }
 
   async addMember(fields) {
-    const res = await fetch(
+    const res = await fetchLoad(
       `${API_URL}/teams/${this.currentTeam._id}/pokemons`,
       {
         method: 'POST',
@@ -117,7 +118,7 @@ class TeamState {
       (member) => member.dexID === fields.dexID
     );
     const memberId = this.currentTeam.pokemons[index]._id;
-    const res = await fetch(`${API_URL}/pokemons/${memberId}`, {
+    const res = await fetchLoad(`${API_URL}/pokemons/${memberId}`, {
       method: 'PUT',
       credentials: 'include',
       headers: { 'Content-type': 'application/json' },
@@ -131,7 +132,7 @@ class TeamState {
   }
 
   async removeMember(memberID) {
-    const res = await fetch(`${API_URL}/pokemons/${memberID}`, {
+    const res = await fetchLoad(`${API_URL}/pokemons/${memberID}`, {
       method: 'DELETE',
       credentials: 'include',
     });
