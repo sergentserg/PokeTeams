@@ -1,4 +1,4 @@
-export default class TeamAddForm {
+export default class TeamForm {
   constructor() {
     this.form = document.createElement('form');
     this.form.classList = 'form-inline';
@@ -30,7 +30,7 @@ export default class TeamAddForm {
     input.setAttribute('value', 'Submit');
   }
 
-  getComponent() {
+  get() {
     return this.form;
   }
 }

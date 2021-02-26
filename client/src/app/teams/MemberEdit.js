@@ -8,7 +8,7 @@ export default class MemberEdit {
     this.memberEdit.id = 'memberEdit';
 
     this.memberForm = new MemberForm();
-    this.memberEdit.append(this.memberForm.getComponent());
+    this.memberEdit.append(this.memberForm.get());
 
     this.dexEntry = new PokedexEntry();
     this.memberEdit.append(this.dexEntry.get());
@@ -18,12 +18,11 @@ export default class MemberEdit {
       .querySelector('#shownMoves')
       .addEventListener('click', this.chooseMove.bind(this));
   }
-  getComponent() {
+  get() {
     return this.memberEdit;
   }
 
   update() {
-    // Show the member form.
     this.memberForm.update();
     this.dexEntry.update();
     this.chooseMove();
@@ -45,7 +44,9 @@ export default class MemberEdit {
           span.classList.toggle('bg-warning');
         }
       });
-    } else {
+    }
+    // Select moves upon clicking move name.
+    else {
       const moveName =
         e.target.getAttribute('data-move') ||
         e.target.parentElement.getAttribute('data-move');

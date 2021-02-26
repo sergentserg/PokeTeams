@@ -14,7 +14,7 @@ export default class TeamSelect {
     this.select.append(option);
   }
 
-  getComponent() {
+  get() {
     return this.select;
   }
 

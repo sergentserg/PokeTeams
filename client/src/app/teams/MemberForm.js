@@ -28,7 +28,6 @@ export default class MemberForm {
 
     // Item Group: label and input.
     this.itemSearch = new ItemSearch();
-    this.itemSearch.ul.addEventListener('click', this.showItem.bind(this));
     this.form.append(this.itemSearch.get());
 
     this.itemDesc = document.createElement('div');
@@ -50,15 +49,15 @@ export default class MemberForm {
     this.moveInputs.id = 'chosenMoves';
     formGroup.append(this.moveInputs);
 
-    // <h4>Move Set <i class="fas fa-compact-disc"></i></h4>
+    this.itemSearch.ul.addEventListener('click', this.showItem.bind(this));
   }
 
-  getComponent() {
+  get() {
     return this.form;
   }
 
   update() {
-    // Populate form.
+    // Populate form upon loading it.
     const member = teamState.getMember();
     this.form.elements['nick'].value = member.nick || member.name;
     this.form.elements['itemName'].value = member.item || '';

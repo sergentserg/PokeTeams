@@ -5,7 +5,7 @@ export default class TeamMembers {
   constructor() {
     this.container = document.createElement('div');
 
-    // Team name
+    // Team name edit: wrap, name, and button.
     this.nameEdit = document.createElement('div');
     this.nameEdit.classList = 'd-flex justify-content-center m-2';
     this.container.append(this.nameEdit);
@@ -25,7 +25,7 @@ export default class TeamMembers {
     this.container.append(this.members);
   }
 
-  getComponent() {
+  get() {
     return this.container;
   }
 
