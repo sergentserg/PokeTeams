@@ -4,17 +4,21 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  // Production modes minifies our code.
+  mode: 'production',
   entry: {
     index: './src/home/index.js',
-    login: './src/auth/index.js',
+    auth: './src/auth/index.js',
     app: './src/app/index.js',
   },
   output: {
     filename: './js/[name].[contenthash].bundle.js',
+    // Webpack needs an absolute path to write our files.
     path: path.resolve(__dirname, 'dist'),
   },
-  devtool: 'inline-source-map',
+  // Allows trace stack error to point to correct error source file (avoid in production)
+  // devtool: 'inline-source-map',
+  // Allows the 'src' directory to be used as the top-level of an import statement.
   resolve: {
     alias: {
       src: path.resolve(__dirname, 'src'),
@@ -96,7 +100,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'auth.html',
       template: 'src/auth/index.html',
-      chunks: ['login'],
+      chunks: ['auth'],
     }),
     new HtmlWebpackPlugin({
       filename: 'app.html',
