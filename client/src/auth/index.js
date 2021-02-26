@@ -1,8 +1,7 @@
 import './login.scss';
 
 import { Navbar } from '../shared/components/Navbar';
-import { LoginForm } from './LoginForm';
-import { ResetForm } from './ResetForm';
+import AuthView from './AuthView';
 import { gAlert } from '../shared/components/Alert';
 
 import { getSearchParams } from '../shared/util/getSearchParams';
@@ -20,24 +19,20 @@ authState.authenticate().then((isLoggedIn) => {
       .classList.add('active');
     document.body.insertBefore(navbar, document.body.firstChild);
 
-    const formContainer = document.querySelector('.auth-container');
+    // Determine if verifying email or resetting password.
     const params = getSearchParams(window.location.href);
-
-    if (params.resettoken) {
-      ResetForm(formContainer, params.resettoken);
-    } else {
-      LoginForm(formContainer);
-      if (params.emailtoken) {
-        activateAccount(params.emailtoken, formContainer);
-      }
+    const authView = new AuthView();
+    authView.render(params.resettoken);
+    if (params.emailtoken) {
+      activateAccount(params.emailtoken);
     }
   }
 });
 
-function activateAccount(emailtToken, formContainer) {
-  AuthState.activate(emailtToken).then((success) => {
-    const alertMsg = success ? 'Account was verified' : 'Invalid Token';
-    gAlert.update(success, alertMsg);
-    formContainer.insertBefore(gAlert.get(), formContainer.firstElementChild);
-  });
+async function activateAccount(emailtToken) {
+  const success = await AuthState.activate(emailtToken);
+  const alertMsg = success ? 'Account was verified' : 'Invalid Token';
+  gAlert.update(success, alertMsg);
+  const main = document.querySelector('.auth-container');
+  main.insertBefore(gAlert.get(), main.firstElementChild);
 }
