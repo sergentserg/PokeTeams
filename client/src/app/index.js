@@ -1,4 +1,5 @@
 import './index.scss';
+import '../shared/assets/favicon.ico';
 
 import { authState, AuthState } from '../auth/AuthState';
 import { pokedexState } from './pokedex/PokedexState';

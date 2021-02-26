@@ -1,4 +1,5 @@
 import './index.scss';
+import '../shared/assets/favicon.ico';
 
 import { Navbar } from '../shared/components/Navbar';
 import { authState } from '../auth/AuthState';
