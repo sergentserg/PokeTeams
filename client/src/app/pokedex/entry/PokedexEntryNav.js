@@ -1,4 +1,4 @@
-import { pokedexState } from './PokedexState';
+import { pokedexState } from '../PokedexState';
 
 export default class PokedexEntryNav {
   constructor() {
@@ -11,8 +11,12 @@ export default class PokedexEntryNav {
     this.nav.append(this.pagination);
   }
 
-  getComponent() {
+  get() {
     return this.nav;
+  }
+
+  getLinks() {
+    return this.pagination;
   }
 
   update() {

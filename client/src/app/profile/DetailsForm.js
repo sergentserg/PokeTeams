@@ -35,7 +35,7 @@ export default class DetailsForm {
     this.form.append(input);
   }
 
-  getComponent() {
+  get() {
     return this.form;
   }
 }

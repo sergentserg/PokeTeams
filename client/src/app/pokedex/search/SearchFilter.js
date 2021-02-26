@@ -14,7 +14,7 @@ export default class SearchFilter {
     icon.classList = 'fas fa-times-circle fa-xs';
     this.filterBtn.append(icon);
   }
-  getComponent() {
+  get() {
     return this.searchFilter;
   }
 

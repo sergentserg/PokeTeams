@@ -1,37 +1,10 @@
+import PokedexEntryInfo from './PokedexEntryInfo';
 import { capitalize } from 'src/shared/util/capitalize';
-import { pokedexState } from './PokedexState';
+import { pokedexState } from '../PokedexState';
 
-export default class PokedexEntryMoves {
+export default class PokedexEntryMoves extends PokedexEntryInfo {
   constructor() {
-    // Save a private reference to moves.
-    this.card = document.createElement('div');
-    this.card.classList = 'card';
-
-    // Header.
-    const header = document.createElement('div');
-    this.card.append(header);
-    header.classList = 'card-header bg-danger text-white';
-    header.innerHTML = `
-      <h5>
-        <a
-          href="#movesAccord"
-          data-parent="#detailsAccordion"
-          data-toggle="collapse"
-        >
-          Moves
-        </a>
-      </h5>
-    `;
-
-    // Collapse and body.
-    this.collapse = document.createElement('div');
-    this.card.append(this.collapse);
-    this.collapse.classList = 'collapse';
-    this.collapse.id = 'movesAccord';
-
-    this.body = document.createElement('div');
-    this.body.classList = 'card-body';
-    this.collapse.append(this.body);
+    super('Moves', 'movesAccord');
 
     // Level Up Moves Button.
     const levelBtn = document.createElement('button');
@@ -43,7 +16,7 @@ export default class PokedexEntryMoves {
       <small class="text-muted">Lv. Up</small>
     </span>
   `;
-    this.body.append(levelBtn);
+    this.cardBody.append(levelBtn);
 
     // Egg Moves Button.
     const eggBtn = document.createElement('button');
@@ -55,7 +28,7 @@ export default class PokedexEntryMoves {
       <small class="text-muted">Egg</small>
     </span>
   `;
-    this.body.append(eggBtn);
+    this.cardBody.append(eggBtn);
 
     // Machine Moves Button.
     const machineBtn = document.createElement('button');
@@ -67,7 +40,7 @@ export default class PokedexEntryMoves {
       <small class="text-muted">Machine</small>
     </span>
   `;
-    this.body.append(machineBtn);
+    this.cardBody.append(machineBtn);
 
     // Moves for current Pokemon.
     this.moves = null;
@@ -80,7 +53,7 @@ export default class PokedexEntryMoves {
     this.shownMoves = document.createElement('div');
     this.shownMoves.id = 'shownMoves';
     this.shownMoves.classList = 'p-3 mt-2 border rounded';
-    this.body.append(this.shownMoves);
+    this.cardBody.append(this.shownMoves);
 
     this.moveDivs = {
       egg: document.createElement('div'),
@@ -93,7 +66,7 @@ export default class PokedexEntryMoves {
     }
   }
 
-  getComponent() {
+  get() {
     return this.card;
   }
 

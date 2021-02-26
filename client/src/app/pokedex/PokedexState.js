@@ -1,33 +1,71 @@
 import { capitalize } from 'src/shared/util/capitalize';
 
 import { dexNoFromId } from 'src/shared/util/dexNoFromId';
-import { POKE_API_URL, GAME_VERSION } from 'src/shared/util/constants';
+import {
+  POKE_API_URL,
+  GAME_VERSION,
+  MAX_DEX_ID,
+  POKE_PER_PAGE,
+} from 'src/shared/util/constants';
 
 class PokedexState {
   constructor() {
-    this.MAX_DEX_ID = 807;
-    this.POKE_PER_PAGE = 20;
     this.currentPage = 1;
-    this.totalPages = Math.ceil(this.MAX_DEX_ID / this.POKE_PER_PAGE);
+    this.totalPages = Math.ceil(MAX_DEX_ID / POKE_PER_PAGE);
     this.pokemons = [];
-    // Index array for this.pokemons.
     this.filtered = [];
     this.currentPokemon = null;
   }
 
-  // Meant to be called from constructor only.
   async init() {
-    const res = await fetch(`${POKE_API_URL}/pokemon?limit=${this.MAX_DEX_ID}`);
+    const res = await fetch(`${POKE_API_URL}/pokemon?limit=${MAX_DEX_ID}`);
     const data = await res.json();
     this.pokemons = data.results;
 
-    // Set Pokedex ID and capitalized name (lazy).
+    // Set Pokedex ID and capitalized name (eager).
     this.pokemons.forEach((pokemon) => {
       const id = parseInt(pokemon.url.match(/\/(\d+)\//)[1]);
       pokemon.dexID = dexNoFromId(id);
       pokemon.name = capitalize(pokemon.name);
     });
     this.filtered = this.pokemons;
+  }
+
+  getAllPokemon() {
+    return this.pokemons;
+  }
+
+  filter(searchQuery) {
+    this.filtered = this.pokemons.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(searchQuery)
+    );
+    this.totalPages = Math.ceil(this.filtered.length / POKE_PER_PAGE);
+    this.currentPage = 1;
+  }
+
+  clearFilter() {
+    this.filtered = this.pokemons;
+    this.totalPages = Math.ceil(MAX_DEX_ID / POKE_PER_PAGE);
+    this.currentPage = 1;
+  }
+
+  getPageNumber() {
+    return this.currentPage;
+  }
+
+  setPageNumber(pageNum) {
+    this.currentPage = pageNum;
+  }
+
+  getTotalPages() {
+    return this.totalPages;
+  }
+
+  getPage() {
+    const startIndex = (this.currentPage - 1) * POKE_PER_PAGE;
+    // This creates a shallow copy.
+    const page = this.filtered.slice(startIndex, startIndex + POKE_PER_PAGE);
+    return page;
   }
 
   getPokemon() {
@@ -64,54 +102,11 @@ class PokedexState {
 
     this.currentPokemon.name = capitalize(this.currentPokemon.name);
     this.currentPokemon.dexID = dexNoFromId(this.currentPokemon.id);
-    this.currentPokemon.height /= 10;
-    this.currentPokemon.weight /= 10;
+    this.currentPokemon.height = Math.floor(10 * this.currentPokemon.height);
+    this.currentPokemon.weight = Math.floor(100 * this.currentPokemon.weight);
     this.currentPokemon.next =
-      +dexID < this.MAX_DEX_ID ? dexNoFromId(+dexID + 1) : null;
+      +dexID < MAX_DEX_ID ? dexNoFromId(+dexID + 1) : null;
     this.currentPokemon.previous = +dexID > 1 ? dexNoFromId(+dexID - 1) : null;
-  }
-
-  setPageNumber(pageNum) {
-    this.currentPage = pageNum;
-  }
-
-  getPageNumber() {
-    return this.currentPage;
-  }
-
-  getTotalPages() {
-    return this.totalPages;
-  }
-
-  getPage() {
-    const startIndex = (this.currentPage - 1) * this.POKE_PER_PAGE;
-    // This creates a shallow copy.
-    const pokemonPage = this.filtered.slice(
-      startIndex,
-      startIndex + this.POKE_PER_PAGE
-    );
-    return pokemonPage;
-  }
-
-  getAllPokemon() {
-    return this.pokemons;
-  }
-
-  filterPokemons(searchQuery) {
-    sessionStorage.setItem('searchQuery', searchQuery);
-
-    this.filtered = this.pokemons.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(searchQuery)
-    );
-    this.totalPages = Math.ceil(this.filtered.length / this.POKE_PER_PAGE);
-    this.currentPage = 1;
-  }
-
-  clearFilter() {
-    sessionStorage.removeItem('searchQuery');
-    this.filtered = this.pokemons;
-    this.totalPages = Math.ceil(this.MAX_DEX_ID / this.POKE_PER_PAGE);
-    this.currentPage = 1;
   }
 }
 

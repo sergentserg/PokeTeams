@@ -1,4 +1,5 @@
 import { PAGINATION_LIMIT } from 'src/shared/util/constants';
+import { pokedexState } from '../PokedexState';
 
 export default class Pagination {
   constructor() {
@@ -27,11 +28,19 @@ export default class Pagination {
     this.nav.append(this.pagination);
   }
 
-  getComponent() {
+  get() {
     return this.nav;
   }
 
-  update(totalPages, newFirst = 1, newActive = 1) {
+  getLinks() {
+    return this.pagination;
+  }
+
+  update() {
+    const totalPages = pokedexState.getTotalPages();
+    const newActive = pokedexState.getPageNumber();
+    const newFirst =
+      PAGINATION_LIMIT * Math.floor((newActive - 1) / PAGINATION_LIMIT) + 1;
     if (totalPages <= 1) {
       this.nav.classList.remove('d-flex');
       this.nav.classList.add('d-none');

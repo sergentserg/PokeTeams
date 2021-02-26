@@ -64,10 +64,10 @@ export default class MemberForm {
     this.form.elements['itemName'].value = member.item || '';
     if (member.item) {
       this.showItemDescription(member.item);
+    } else {
+      this.itemDesc.classList.add('d-none');
+      this.itemSearch.search.value = '';
     }
-    // this.itemSearch.getComponent().querySelector('input').value =
-    //   member.item || '';
-    // Populate move inputs.
     Array.from(this.moveInputs.children).forEach((input) => input.remove());
     const moves = member.moves || [];
     moves.forEach((move) => this.toggleMove(move));
@@ -87,7 +87,6 @@ export default class MemberForm {
     itemInput.value = `${itemName}`;
 
     // Show item description bubble.
-    this.itemDesc.classList.add('d-none');
     const item = await itemState.getItem(itemName.toLowerCase());
     const effect = item.effect_entries.find(
       (entry) => entry.language.name === 'en'

@@ -30,7 +30,7 @@ export default class PhotoUpload {
     this.form.append(small);
   }
 
-  getComponent() {
+  get() {
     return this.form;
   }
 }

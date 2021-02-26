@@ -1,6 +1,6 @@
 import { POKE_SPRITE_URL } from 'src/shared/util/constants';
 import { capitalize } from 'src/shared/util/capitalize';
-import { pokedexState } from './PokedexState';
+import { pokedexState } from '../PokedexState';
 
 export default class PokedexEntrySummary {
   constructor() {
@@ -27,9 +27,13 @@ export default class PokedexEntrySummary {
     this.miscDetails = document.createElement('div');
     this.miscDetails.classList = 'text-center';
     this.summary.append(this.miscDetails);
+
+    this.dexID = this.makeSummaryRow('Pokédex No.');
+    this.height = this.makeSummaryRow('Height');
+    this.weight = this.makeSummaryRow('Weight');
   }
 
-  getComponent() {
+  get() {
     return this.summary;
   }
 
@@ -53,21 +57,24 @@ export default class PokedexEntrySummary {
     this.types.innerHTML = content;
 
     // Pokedex Number, height, and weight.
-    this.miscDetails.innerHTML = `
-    <div class="d-flex justify-content-around border-bottom">
-      <strong class="border-right w-100 flex-grow">
-        Pokédex No.
-      </strong>
-      <span class="w-100 flex-grow">${data.dexID}</span>
-    </div>
-    <div class="d-flex justify-content-around border-bottom">
-      <strong class="border-right w-100 flex-grow">Height</strong>
-      <span id="height" class="w-100 flex-grow">${10 * data.height} cm</span>
-    </div>
-    <div class="d-flex justify-content-around">
-      <strong class="border-right w-100 flex-grow">Weight</strong>
-      <span id="weight" class="w-100 flex-grow">${100 * data.weight} g</span>
-    </div>
-  `;
+    this.dexID.textContent = `${data.dexID}`;
+    this.height.textContent = `${data.height} cm`;
+    this.weight.textContent = `${data.weight} g`;
+  }
+
+  makeSummaryRow(title) {
+    const row = document.createElement('div');
+    row.classList = 'd-flex justify-content-around border-bottom';
+    this.miscDetails.append(row);
+
+    const header = document.createElement('strong');
+    header.classList = 'border-right w-100 flex-grow';
+    header.textContent = title;
+    row.append(header);
+
+    const span = document.createElement('span');
+    span.classList = 'w-100 flex-grow';
+    row.append(span);
+    return span;
   }
 }

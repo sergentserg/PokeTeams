@@ -1,36 +1,9 @@
-import { pokedexState } from './PokedexState';
+import PokedexEntryInfo from './PokedexEntryInfo';
+import { pokedexState } from '../PokedexState';
 
-export default class PokedexEntryStats {
+export default class PokedexEntryStats extends PokedexEntryInfo {
   constructor() {
-    this.card = document.createElement('div');
-    this.card.classList = 'card';
-
-    // Card Header.
-    const header = document.createElement('div');
-    this.card.append(header);
-    header.classList = 'card-header bg-danger text-white';
-    header.innerHTML = `
-    <h5>
-      <a
-        href="#stats"
-        data-parent="#detailsAccordion"
-        data-toggle="collapse"
-      >
-        Stats
-      </a>
-    </h5>
-  `;
-
-    // Card body.
-    const statsCollapse = document.createElement('div');
-    this.card.append(statsCollapse);
-    statsCollapse.classList = 'collapse';
-    statsCollapse.id = 'stats';
-
-    this.statsBody = document.createElement('div');
-    statsCollapse.append(this.statsBody);
-    this.statsBody.classList = 'card-body';
-
+    super('Stats', 'stats');
     // Options for stats bars.
     this.statsOpts = [
       { title: 'HP', class: 'stat-hp', icon: 'fa-heart' },
@@ -42,7 +15,7 @@ export default class PokedexEntryStats {
     ];
   }
 
-  getComponent() {
+  get() {
     return this.card;
   }
 
@@ -69,6 +42,6 @@ export default class PokedexEntryStats {
       </div>
     `;
     }
-    this.statsBody.innerHTML = content;
+    this.cardBody.innerHTML = content;
   }
 }

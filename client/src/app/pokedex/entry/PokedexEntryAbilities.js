@@ -1,45 +1,18 @@
+import PokedexEntryInfo from './PokedexEntryInfo';
 import { capitalize } from 'src/shared/util/capitalize';
-import { pokedexState } from './PokedexState';
+import { pokedexState } from '../PokedexState';
 
-export default class PokedexEntryAbilities {
+export default class PokedexEntryAbilities extends PokedexEntryInfo {
   constructor() {
-    this.card = document.createElement('div');
-    this.card.classList = 'card';
-
-    // Header
-    const header = document.createElement('div');
-    header.classList = 'card-header bg-danger text-white';
-    header.innerHTML = `
-    <h5>
-      <a
-        href="#abilities"
-        data-parent="#detailsAccordion"
-        data-toggle="collapse"
-      >
-        Abilities
-      </a>
-    </h5>
-  `;
-    this.card.append(header);
-
-    // Collapse.
-    const collapse = document.createElement('div');
-    collapse.classList = 'collapse';
-    collapse.id = 'abilities';
-    this.card.append(collapse);
-
-    // Body.
-    const body = document.createElement('div');
-    body.classList = 'body';
-    collapse.append(body);
+    super('Abilities', 'abilities');
 
     // Abiity list.
     this.list = document.createElement('ul');
     this.list.classList = 'list-group';
-    body.append(this.list);
+    this.cardBody.append(this.list);
   }
 
-  getComponent() {
+  get() {
     return this.card;
   }
 

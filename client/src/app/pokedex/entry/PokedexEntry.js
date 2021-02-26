@@ -20,22 +20,22 @@ export default class PokedexEntry {
 
     // Summary.
     this.entrySummary = new PokedexEntrySummary();
-    this.summaryCard.append(this.entrySummary.getComponent());
+    this.summaryCard.append(this.entrySummary.get());
 
     // Stats Accordion.
     this.entryStats = new PokedexEntryStats();
-    this.detailsAccordion.append(this.entryStats.getComponent());
+    this.detailsAccordion.append(this.entryStats.get());
 
     // Ability Accordion.
     this.entryAbilities = new PokedexEntryAbilities();
-    this.detailsAccordion.append(this.entryAbilities.getComponent());
+    this.detailsAccordion.append(this.entryAbilities.get());
 
     // Moves Accordion.
     this.entryMoves = new PokedexEntryMoves();
-    this.detailsAccordion.append(this.entryMoves.getComponent());
+    this.detailsAccordion.append(this.entryMoves.get());
   }
 
-  getComponent() {
+  get() {
     return this.entry;
   }
 

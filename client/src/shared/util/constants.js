@@ -5,6 +5,8 @@ export const POKE_API_URL = 'https://pokeapi.co/api/v2';
 export const POKE_SPRITE_URL = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail`;
 export const GAME_VERSION = 'ultra-sun-ultra-moon';
 
+export const MAX_DEX_ID = 807;
+export const POKE_PER_PAGE = 20;
 export const MOVE_PRIORITY_COUNT = 13;
 export const SLOWEST_MOVE = -7;
 export const MAX_MOVES = 813;

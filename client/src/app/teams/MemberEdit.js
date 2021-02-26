@@ -1,4 +1,4 @@
-import PokedexEntry from '../pokedex/PokedexEntry';
+import PokedexEntry from '../pokedex/entry/PokedexEntry';
 import MemberForm from './MemberForm';
 import { teamState } from './TeamState';
 
@@ -11,10 +11,10 @@ export default class MemberEdit {
     this.memberEdit.append(this.memberForm.getComponent());
 
     this.dexEntry = new PokedexEntry();
-    this.memberEdit.append(this.dexEntry.getComponent());
+    this.memberEdit.append(this.dexEntry.get());
 
     this.dexEntry
-      .getComponent()
+      .get()
       .querySelector('#shownMoves')
       .addEventListener('click', this.chooseMove.bind(this));
   }
@@ -33,7 +33,7 @@ export default class MemberEdit {
     // Select moves upon loading memberEdit (updating) element.
     if (!e) {
       const moves = teamState.getMember().moves;
-      const moveDivs = this.dexEntry.getComponent().querySelector('#shownMoves')
+      const moveDivs = this.dexEntry.get().querySelector('#shownMoves')
         .children;
       let moveList = [];
       for (let i = 0; i < moveDivs.length; i++) {

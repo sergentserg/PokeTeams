@@ -1,4 +1,5 @@
 import PokedexItem from './PokedexItem';
+import { pokedexState } from '../PokedexState';
 
 export default class PokedexItems {
   constructor() {
@@ -7,13 +8,15 @@ export default class PokedexItems {
     this.items.setAttribute('class', 'my-5');
   }
 
-  getComponent() {
+  get() {
     return this.items;
   }
 
-  update(data) {
+  update() {
     // Clear this.items.
     while (this.items.firstElementChild) this.items.firstElementChild.remove();
+
+    const data = pokedexState.getPage();
 
     // Populate with new data.
     data.forEach((pokemon) => {

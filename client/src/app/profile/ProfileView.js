@@ -23,15 +23,15 @@ export default class ProfileView {
 
     // Trainer name.
     this.detailsForm
-      .getComponent()
+      .get()
       .addEventListener('submit', this.updateName.bind(this));
-    this.main.append(this.detailsForm.getComponent());
+    this.main.append(this.detailsForm.get());
 
     // Photo
     this.photoUpload
-      .getComponent()
+      .get()
       .addEventListener('change', this.uploadPhoto.bind(this));
-    this.main.append(this.photoUpload.getComponent());
+    this.main.append(this.photoUpload.get());
   }
 
   async uploadPhoto(e) {
