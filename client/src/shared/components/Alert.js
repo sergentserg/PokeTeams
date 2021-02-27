@@ -13,7 +13,7 @@ class Alert {
       ? '<i class="fas fa-check-circle"></i>'
       : '<i class="fas fa-times-circle"></i>';
     const alertClass = success ? 'alert-success' : 'alert-danger';
-    this.alert.classList = `alert ${alertClass}`;
+    this.alert.classList = `alert ${alertClass} alert-dismissible`;
     this.alert.innerHTML = `${icon} ${message}`;
     setTimeout(() => this.alert.remove(), timer || 5000);
   }

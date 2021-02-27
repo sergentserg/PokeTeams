@@ -104,7 +104,9 @@ export default class AuthView {
         password: inputs['password'].value,
       };
       success = await AuthState.register(fields);
-      alertMsg = success ? 'Verify your email' : 'Unable to create account';
+      alertMsg = success
+        ? 'Verify your email (check spam)'
+        : 'Unable to create account';
       form.reset();
     }
     gAlert.update(success, alertMsg);
@@ -116,7 +118,9 @@ export default class AuthView {
     const form = e.target;
     const email = form.elements['email'].value;
     const success = await AuthState.forgotPassword(email);
-    const alertMsg = success ? 'Email sent' : 'An email was not sent';
+    const alertMsg = success
+      ? 'Email sent (check spam)'
+      : 'An email was not sent';
     form.reset();
     gAlert.update(success, alertMsg);
     this.main.insertBefore(gAlert.get(), this.main.firstElementChild);

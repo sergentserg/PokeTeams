@@ -4,8 +4,8 @@
   "description": "Simple application for making pokemon teams using the PokeAPI",
   "main": "server.js",
   "scripts": {
-    "start": "SET NODE_ENV=production & node rest_api/server",
-    "dev": "nodemon rest_api/server"
+    "start": "SET NODE_ENV=production & node server",
+    "dev": "nodemon server"
   },
   "repository": {
     "type": "git",
