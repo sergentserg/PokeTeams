@@ -41,8 +41,13 @@ export default class PokedexEntrySummary {
     const data = pokedexState.getPokemon();
 
     // Sprite
+    // this.sprite.innerHTML = `
+    //   <img src="${POKE_SPRITE_URL}/${data.dexID}.png" alt="${data.name}"/>
+    // `;
     this.sprite.innerHTML = `
-      <img src="${POKE_SPRITE_URL}/${data.dexID}.png" alt="${data.name}"/>
+      <img src="${POKE_SPRITE_URL}/${parseInt(data.dexID)}.png" alt="${
+      data.name
+    }"/>
     `;
 
     // Name

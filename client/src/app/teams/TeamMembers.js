@@ -44,7 +44,10 @@ export default class TeamMembers {
       memberWrap.classList = 'team-member';
 
       const imgWrap = document.createElement('div');
-      imgWrap.innerHTML = `<img src="${POKE_SPRITE_URL}/${member.dexID}.png" alt=$"${member.name}"/>`;
+      // imgWrap.innerHTML = `<img src="${POKE_SPRITE_URL}/${member.dexID}.png" alt=$"${member.name}"/>`;
+      imgWrap.innerHTML = `<img src="${POKE_SPRITE_URL}/${+member.dexID}.png" alt=$"${
+        member.name
+      }"/>`;
       memberWrap.append(imgWrap);
 
       // Pokemon Nickname.
