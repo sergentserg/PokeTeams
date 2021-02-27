@@ -6,9 +6,7 @@ Full Stack application which is live at https://poketeams.xyz that allows users 
 
 ## PokeTeams API
 
-The API for this website is located at https://poketeams.xyz/api/v1. It's a private API that I developed by folowing a tutorial on Udemy, but you can see the documentation there.
-
-If you wish to fork this, be sure to rename the `config.env.env` file to `config.env` and populate with the values of your choice.
+The PokeTeams API is one that I developed by following for allowing users to have their own accounts. If you wish to fork this, be sure to rename the `config.env.env` file to `config.env` and populate with the values of your choice.
 
 If you're running this in Linux, you must go into `package.json` and change the `start` script from
 
@@ -50,9 +48,22 @@ npm run start
 
 ## PokeTeams frontend
 
-Though this started as a simple app written with vanilla JS, I eventually switched to using babel and webpack to continue to develop this application. Should you decide to clone or fork, make note of the following command:
+Though this started as a simple app written with vanilla JS, I eventually switched to using babel and webpack to continue to develop this application. Should you decide to clone or fork, keep in mind the following:
 
 ```
+# webpack.config.js: change mode from "development" to production
+mode: "production"
+
+# comment out the following line
+// devtool: 'inline-source-map',
+```
+
+With that change, within the `client` directory, run the following:
+
+```
+# run in development mode
+npm run build
+
 # Outputs static files (bundles) to the client/dist folder.
 npm run build:prod
 ```
