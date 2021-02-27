@@ -70,7 +70,12 @@ export default class AuthView {
 
   showRegister() {
     this.clear();
+    // Form subtext (flavor text?).
+    const text = document.createElement('p');
+    text.classList = 'text-center text-muted';
+    text.textContent = 'Email is used only for login and password recovery.';
     this.formHeader.textContent = 'New Trainer Approaches';
+    this.main.insertBefore(text, this.form);
     this.main.append(this.registerForm.get());
   }
 
