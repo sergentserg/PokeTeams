@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   // Production modes minifies our code.
-  mode: 'development',
+  mode: 'production',
   entry: {
     index: './src/home/index.js',
     auth: './src/auth/index.js',
@@ -17,7 +17,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   // Allows trace stack error to point to correct error source file (avoid in production)
-  devtool: 'inline-source-map',
+//  devtool: 'inline-source-map',
   // Allows the 'src' directory to be used as the top-level of an import statement.
   resolve: {
     alias: {
